@@ -104,12 +104,20 @@ export default function GalleryEditor() {
   );
 }
 
-function EditorSection({ title, categories, type, onDragStart, onDrop }: any) {
+interface EditorSectionProps {
+  title: string;
+  categories: ImageCategory[];
+  type: "urban" | "premium";
+  onDragStart: (e: React.DragEvent, item: string, catIndex: number, type: "urban" | "premium") => void;
+  onDrop: (e: React.DragEvent, targetCatIndex: number, targetType: "urban" | "premium") => void;
+}
+
+function EditorSection({ title, categories, type, onDragStart, onDrop }: EditorSectionProps) {
   return (
     <div>
       <h2 className="text-3xl font-bold mb-8">{title}</h2>
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        {categories.map((cat: any, i: number) => (
+        {categories.map((cat, i) => (
           <div
             key={i}
             className="border-2 border-dashed border-border/60 bg-muted/20 rounded-xl p-6 min-h-[200px]"
@@ -118,7 +126,7 @@ function EditorSection({ title, categories, type, onDragStart, onDrop }: any) {
           >
             <h3 className="text-lg font-bold mb-4">{cat.title} <span className="text-sm font-normal text-muted-foreground ml-2">({cat.images.length} Bilder)</span></h3>
             <div className="flex gap-4 flex-wrap">
-              {cat.images.map((src: string, imgIdx: number) => (
+              {cat.images.map((src, imgIdx) => (
                 <div
                   key={src}
                   draggable

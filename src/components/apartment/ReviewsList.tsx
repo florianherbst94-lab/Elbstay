@@ -34,7 +34,7 @@ export function ReviewsList({ reviews, totalCount }: { reviews: Review[], totalC
               </div>
             </div>
             <p className="text-muted-foreground text-[15px] leading-relaxed line-clamp-3 italic">
-              "{r.text}"
+              &quot;{r.text}&quot;
             </p>
           </div>
         ))}
@@ -79,7 +79,7 @@ export function ReviewsList({ reviews, totalCount }: { reviews: Review[], totalC
                     {[1,2,3,4,5].map(s => <Star key={s} fill="currentColor" className="w-3 h-3 text-foreground" />)}
                   </div>
                   <p className="text-muted-foreground text-lg leading-relaxed italic">
-                    "{r.text}"
+                    &quot;{r.text}&quot;
                   </p>
                 </div>
               ))}

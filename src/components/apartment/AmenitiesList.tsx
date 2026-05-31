@@ -23,7 +23,7 @@ export function AmenitiesList({
   const totalAmenitiesCount = amenities.reduce((acc, cat) => acc + cat.items.length, 0);
 
   const renderIcon = (iconName: string, size = 24) => {
-    // @ts-ignore
+    // @ts-expect-error dynamic lucide icons
     const IconComponent = LucideIcons[iconName];
     if (IconComponent) {
       return <IconComponent size={size} strokeWidth={1.5} className="text-foreground" />;

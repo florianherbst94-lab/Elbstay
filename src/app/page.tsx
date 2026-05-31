@@ -324,8 +324,8 @@ export default function Home() {
               variants={fadeUpSlow}
               className="font-serif text-[2.75rem] md:text-7xl lg:text-[5.5rem] font-bold text-white mb-8 drop-shadow-lg leading-[1.06] tracking-tight text-balance"
             >
-              Aufwachen mit Elbblick.<br className="hidden sm:block" />
-              <span className="text-white/75">Ankommen in Dresden.</span>
+              Morgens Elbe. Abends Altstadt.<br className="hidden sm:block" />
+              <span className="text-white/75">Dazwischen: Ihr Zuhause.</span>
             </motion.h1>
 
             {/* Subheadline */}
@@ -333,8 +333,8 @@ export default function Home() {
               variants={fadeUp}
               className="text-lg md:text-xl text-white/80 mb-10 leading-relaxed max-w-2xl mx-auto text-balance"
             >
-              Design-Apartments direkt an der Elbe – für Paare, Städtereisende
-              und alle, die Dresden stilvoll erleben möchten. Ab 120€ / Nacht.
+              Design-Apartments an der Elbe, wenige Schritte zur Frauenkirche.
+              Für Paare und Entdecker, die mehr als ein Hotelzimmer suchen.
             </motion.p>
 
             {/* Trust Bullets */}
@@ -376,7 +376,7 @@ export default function Home() {
 
             {/* Micro-Trust */}
             <motion.p variants={fadeIn} className="text-white/35 text-xs tracking-widest uppercase">
-              Kostenlose Stornierung · Keine Plattform-Gebühren · Sofortige Bestätigung
+              Ab 120€ / Nacht · Kostenlose Stornierung · Sofortige Bestätigung
             </motion.p>
           </motion.div>
         </motion.div>
@@ -403,16 +403,16 @@ export default function Home() {
             variants={fadeUpSlow}
             className="font-serif text-3xl md:text-[3.25rem] font-bold text-foreground mb-10 leading-[1.15] text-balance"
           >
-            Ankommen. Kaffee kochen.
-            Auf die Elbe schauen.
+            Tür auf, Schuhe aus,
+            Dresden gehört Ihnen.
           </motion.h2>
           <motion.p
             variants={fadeUp}
             className="text-muted-foreground text-lg md:text-xl leading-[1.8] text-balance"
           >
-            Kein Hotelflur, kein Warteschlange am Frühstücksbuffet – stattdessen
-            Ihr eigener Rückzugsort mit allem, was Sie brauchen. Durchdachtes Design,
-            Ruhe und die schönste Stadt Sachsens direkt vor der Tür.
+            Keine Rezeption, kein Buffet-Gedränge – stattdessen Ihr eigener
+            Rückzugsort mit Nespresso, Netflix und Elbblick. So beginnt
+            ein guter Tag in Dresden.
           </motion.p>
         </motion.div>
       </section>
@@ -441,10 +441,10 @@ export default function Home() {
               variants={fadeUpSlow}
               className="font-serif text-3xl md:text-[3.25rem] font-bold text-foreground mb-6 text-balance"
             >
-              Alles, was Sie brauchen.
+              Einziehen und wohlfühlen.
             </motion.h2>
             <motion.p variants={fadeUp} className="text-muted-foreground text-lg max-w-xl mx-auto leading-relaxed">
-              Vollständig ausgestattet – damit Sie sich auf das Wesentliche konzentrieren können.
+              Boxspring-Betten, Nespresso, Netflix – jedes Detail ist durchdacht.
             </motion.p>
           </motion.div>
 
@@ -640,11 +640,11 @@ export default function Home() {
               <div>
                 <SectionLabel>Unsere Apartments</SectionLabel>
                 <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground tracking-tight text-balance">
-                  Finden Sie Ihr Zuhause auf Zeit
+                  Zwei Apartments. Ein Versprechen.
                 </h2>
               </div>
               <p className="text-muted-foreground text-lg max-w-md leading-relaxed pb-1">
-                Jedes Apartment ein Unikat – mit viel Liebe zum Detail eingerichtet.
+                Eingerichtet wie ein Zuhause. Ausgestattet wie ein Hotel.
               </p>
             </motion.div>
 
@@ -681,7 +681,7 @@ export default function Home() {
               variants={fadeUpSlow}
               className="font-serif text-3xl md:text-[3.25rem] font-bold text-foreground mb-8 text-balance"
             >
-              Was unsere Gäste sagen
+              50+ Gäste. Alle begeistert.
             </motion.h2>
             <motion.div variants={fadeIn} className="flex items-center justify-center gap-1.5">
               {[...Array(5)].map((_, i) => (
@@ -755,10 +755,10 @@ export default function Home() {
               variants={fadeUpSlow}
               className="font-serif text-3xl md:text-[3.25rem] font-bold text-foreground mb-6 text-balance"
             >
-              Dresden erleben
+              Elbflorenz vor der Tür
             </motion.h2>
             <motion.p variants={fadeUp} className="text-muted-foreground text-lg max-w-xl mx-auto leading-relaxed">
-              Barock, Kultur und Natur – direkt vor Ihrer Haustür.
+              Die schönsten Orte Dresdens – alle in wenigen Minuten erreichbar.
             </motion.p>
           </motion.div>
 
