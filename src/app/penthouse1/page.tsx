@@ -29,12 +29,12 @@ export default function Penthouse1CheckIn() {
       {/* --- Sticky Header --- */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/40">
         <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <div className="h-8 w-8 bg-black rounded-lg flex items-center justify-center">
               <span className="text-white font-serif font-bold text-lg">E</span>
             </div>
             <span className="font-semibold text-foreground tracking-tight">ElbStay</span>
-          </Link>
+          </div>
           <div className="flex gap-4">
             <button 
               onClick={() => scrollTo(instructionsRef)}
@@ -243,17 +243,6 @@ export default function Penthouse1CheckIn() {
           </div>
         </section>
 
-        {/* --- Footer --- */}
-        <footer className="pt-20 text-center space-y-6">
-          <div className="flex justify-center">
-             <div className="h-10 w-10 bg-black rounded-xl flex items-center justify-center">
-              <span className="text-white font-serif font-bold text-xl">E</span>
-            </div>
-          </div>
-          <p className="text-muted-foreground text-xs uppercase tracking-widest font-bold">
-            © 2026 ElbStay Dresden
-          </p>
-        </footer>
 
       </main>
     </div>
