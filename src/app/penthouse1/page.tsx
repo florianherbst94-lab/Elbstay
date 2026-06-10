@@ -52,28 +52,42 @@ export default function Penthouse1CheckIn() {
         </div>
       </header>
 
-      <main className="pt-24 pb-20 px-6 max-w-4xl mx-auto space-y-16">
+      <main className="pt-16 pb-20 max-w-4xl mx-auto space-y-16">
         
-        {/* --- Hero Section --- */}
-        <section className="space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease }}
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest mb-6">
-              <Sparkles className="h-3 w-3" />
-              Willkommen in Dresden
+        {/* --- Hero Section with Image --- */}
+        <section className="relative overflow-hidden rounded-b-[3rem] -mt-16 mb-12">
+          <div className="relative h-[60vh] w-full">
+            <Image 
+              src="/images/checkin/hero.png" 
+              alt="ElbStay Penthouse 1 Interior" 
+              fill 
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute bottom-12 left-8 right-8 text-white">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease }}
+              >
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest mb-4">
+                  <Sparkles className="h-3 w-3" />
+                  Willkommen in Dresden
+                </div>
+                <h1 className="font-serif text-4xl md:text-6xl font-bold leading-[1.1] mb-4">
+                  Ihr Check-in zum <br />
+                  <span className="text-primary-foreground opacity-90">{penthouse1Data.name}</span>
+                </h1>
+                <p className="text-white/80 text-lg leading-relaxed max-w-xl">
+                  Wir freuen uns auf Sie! Hier finden Sie alles für eine reibungslose Ankunft in Ihrem Penthouse über den Dächern Dresdens.
+                </p>
+              </motion.div>
             </div>
-            <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground leading-[1.1] mb-6">
-              Ihr Check-in zum <br />
-              <span className="text-primary">{penthouse1Data.name}</span>
-            </h1>
-            <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl">
-              Hier finden Sie alle Informationen für einen unkomplizierten Check-in sowie wichtige Details zu Ihrem Aufenthalt.
-            </p>
-          </motion.div>
+          </div>
+        </section>
 
+        <div className="px-6 space-y-16">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -112,138 +126,136 @@ export default function Penthouse1CheckIn() {
             >
               <HelpCircle className="h-6 w-6 mb-4 text-primary opacity-80" />
               <span className="block font-bold mb-1">Info</span>
-              <span className="text-muted-foreground text-xs">WiFi, Parken &amp; mehr</span>
+              <span className="text-muted-foreground text-xs">WiFi, Parken & mehr</span>
             </button>
           </div>
-        </section>
 
-        {/* --- Check-in Instructions --- */}
-        <section ref={instructionsRef} className="space-y-8 scroll-mt-24">
-          <div className="flex items-end justify-between border-b border-border/40 pb-6">
-            <div>
-              <h2 className="font-serif text-3xl font-bold text-foreground mb-2">Check-in Anweisungen</h2>
-              <p className="text-muted-foreground text-sm">Folgen Sie diesen Schritten, um Ihren Schlüssel zu erhalten.</p>
+          {/* --- Check-in Instructions --- */}
+          <section ref={instructionsRef} className="space-y-8 scroll-mt-24">
+            <div className="flex items-end justify-between border-b border-border/40 pb-6">
+              <div>
+                <h2 className="font-serif text-3xl font-bold text-foreground mb-2">Check-in Anweisungen</h2>
+                <p className="text-muted-foreground text-sm">Folgen Sie diesen Schritten, um Ihren Schlüssel zu erhalten.</p>
+              </div>
+              <div className="hidden md:flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-tight">
+                Anreise ab {penthouse1Data.checkInTime}
+              </div>
             </div>
-            <div className="hidden md:flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-tight">
-              Anreise ab {penthouse1Data.checkInTime}
+
+            <CheckInCarousel steps={penthouse1Data.steps} />
+
+            <div className="space-y-4">
+              {penthouse1Data.steps.map((step, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="flex gap-4 p-4 rounded-2xl hover:bg-muted/30 transition-colors border border-transparent hover:border-border/40"
+                >
+                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm shrink-0">
+                    {idx + 1}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-foreground text-sm mb-1">{step.title}</h4>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
-          </div>
+          </section>
 
-          <CheckInCarousel steps={penthouse1Data.steps} />
+          {/* --- General Information --- */}
+          <section ref={infoRef} className="space-y-8 scroll-mt-24">
+            <div className="border-b border-border/40 pb-6">
+              <h2 className="font-serif text-3xl font-bold text-foreground mb-2">Wichtige Informationen</h2>
+              <p className="text-muted-foreground text-sm">Alles Wissenswerte für Ihren Aufenthalt.</p>
+            </div>
 
-          <div className="space-y-4">
-            {penthouse1Data.steps.map((step, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="flex gap-4 p-4 rounded-2xl hover:bg-muted/30 transition-colors border border-transparent hover:border-border/40"
+            <div className="grid md:grid-cols-2 gap-6">
+              <InfoCard 
+                title="Highspeed WLAN" 
+                icon={Wifi} 
+                copyValue={penthouse1Data.wifi.password}
+                copyLabel="Passwort kopieren"
               >
-                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm shrink-0">
-                  {idx + 1}
+                <div className="space-y-1">
+                  <div className="flex justify-between">
+                    <span className="text-xs uppercase font-bold text-muted-foreground">Netzwerk</span>
+                    <span className="text-foreground font-semibold">{penthouse1Data.wifi.ssid}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-xs uppercase font-bold text-muted-foreground">Passwort</span>
+                    <span className="text-foreground font-semibold">{penthouse1Data.wifi.password}</span>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-bold text-foreground text-sm mb-1">{step.title}</h4>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
+              </InfoCard>
+
+              <InfoCard title="Parkplatz" icon={Car}>
+                <p className="text-sm">{penthouse1Data.parking}</p>
+              </InfoCard>
+
+              <InfoCard title="Hausregeln" icon={ShieldCheck}>
+                <ul className="space-y-2">
+                  {penthouse1Data.houseRules.map((rule, i) => (
+                    <li key={i} className="flex gap-2 text-sm">
+                      <div className="h-1.5 w-1.5 rounded-full bg-primary/40 mt-1.5 shrink-0" />
+                      {rule}
+                    </li>
+                  ))}
+                </ul>
+              </InfoCard>
+
+              <InfoCard title="Check-out & Zeiten" icon={Clock}>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center bg-muted/30 p-2 rounded-lg">
+                    <span className="text-xs font-bold uppercase text-muted-foreground">Check-in</span>
+                    <span className="text-foreground font-bold">{penthouse1Data.checkInTime}</span>
+                  </div>
+                  <div className="flex justify-between items-center bg-muted/30 p-2 rounded-lg">
+                    <span className="text-xs font-bold uppercase text-muted-foreground">Check-out</span>
+                    <span className="text-foreground font-bold">{penthouse1Data.checkOutTime}</span>
+                  </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* --- General Information --- */}
-        <section ref={infoRef} className="space-y-8 scroll-mt-24">
-          <div className="border-b border-border/40 pb-6">
-            <h2 className="font-serif text-3xl font-bold text-foreground mb-2">Wichtige Informationen</h2>
-            <p className="text-muted-foreground text-sm">Alles Wissenswerte für Ihren Aufenthalt.</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <InfoCard 
-              title="Highspeed WLAN" 
-              icon={Wifi} 
-              copyValue={penthouse1Data.wifi.password}
-              copyLabel="Passwort kopieren"
-            >
-              <div className="space-y-1">
-                <div className="flex justify-between">
-                  <span className="text-xs uppercase font-bold text-muted-foreground">Netzwerk</span>
-                  <span className="text-foreground font-semibold">{penthouse1Data.wifi.ssid}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-xs uppercase font-bold text-muted-foreground">Passwort</span>
-                  <span className="text-foreground font-semibold">{penthouse1Data.wifi.password}</span>
-                </div>
-              </div>
-            </InfoCard>
-
-            <InfoCard title="Parkplatz" icon={Car}>
-              <p className="text-sm">{penthouse1Data.parking}</p>
-            </InfoCard>
-
-            <InfoCard title="Hausregeln" icon={ShieldCheck}>
-              <ul className="space-y-2">
-                {penthouse1Data.houseRules.map((rule, i) => (
-                  <li key={i} className="flex gap-2 text-sm">
-                    <div className="h-1.5 w-1.5 rounded-full bg-primary/40 mt-1.5 shrink-0" />
-                    {rule}
-                  </li>
-                ))}
-              </ul>
-            </InfoCard>
-
-            <InfoCard title="Check-out & Zeiten" icon={Clock}>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center bg-muted/30 p-2 rounded-lg">
-                  <span className="text-xs font-bold uppercase text-muted-foreground">Check-in</span>
-                  <span className="text-foreground font-bold">{penthouse1Data.checkInTime}</span>
-                </div>
-                <div className="flex justify-between items-center bg-muted/30 p-2 rounded-lg">
-                  <span className="text-xs font-bold uppercase text-muted-foreground">Check-out</span>
-                  <span className="text-foreground font-bold">{penthouse1Data.checkOutTime}</span>
-                </div>
-              </div>
-            </InfoCard>
-          </div>
-        </section>
-
-        {/* --- Check-out Checklist --- */}
-        <section className="p-8 rounded-[2rem] bg-foreground text-background">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center text-white">
-              <LogOut className="h-6 w-6" />
+              </InfoCard>
             </div>
-            <div>
-              <h2 className="font-serif text-2xl font-bold">Check-out Checkliste</h2>
-              <p className="text-white/60 text-sm">Was vor der Abreise zu tun ist.</p>
-            </div>
-          </div>
+          </section>
 
-          <div className="space-y-4 mb-10">
-            {penthouse1Data.checkOutChecklist.map((item, i) => (
-              <div key={i} className="flex gap-4 items-start">
-                <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <p className="text-white/90 text-sm leading-relaxed">{item}</p>
+          {/* --- Check-out Checklist --- */}
+          <section className="p-8 rounded-[2rem] bg-foreground text-background">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center text-white">
+                <LogOut className="h-6 w-6" />
               </div>
-            ))}
-          </div>
+              <div>
+                <h2 className="font-serif text-2xl font-bold">Check-out Checkliste</h2>
+                <p className="text-white/60 text-sm">Was vor der Abreise zu tun ist.</p>
+              </div>
+            </div>
 
-          <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center">
-            <p className="text-white/80 text-sm mb-4">
-              Wir hoffen, Sie haben einen wundervollen Aufenthalt in Dresden!
-            </p>
-            <Link href="tel:+49123456789">
-              <Button variant="outline" className="w-full rounded-full border-white/20 text-white hover:bg-white hover:text-foreground">
-                <MessageCircle className="h-4 w-4 mr-2" />
-                Support kontaktieren
-              </Button>
-            </Link>
-          </div>
-        </section>
+            <div className="space-y-4 mb-10">
+              {penthouse1Data.checkOutChecklist.map((item, i) => (
+                <div key={i} className="flex gap-4 items-start">
+                  <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                  <p className="text-white/90 text-sm leading-relaxed">{item}</p>
+                </div>
+              ))}
+            </div>
 
-
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center">
+              <p className="text-white/80 text-sm mb-4">
+                Wir hoffen, Sie haben einen wundervollen Aufenthalt in Dresden!
+              </p>
+              <Link href="tel:+49123456789">
+                <Button variant="outline" className="w-full rounded-full border-white/20 text-white hover:bg-white hover:text-foreground">
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Support kontaktieren
+                </Button>
+              </Link>
+            </div>
+          </section>
+        </div>
       </main>
     </div>
   );
