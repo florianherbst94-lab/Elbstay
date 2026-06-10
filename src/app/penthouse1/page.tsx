@@ -19,6 +19,7 @@ const ease = [0.16, 1, 0.3, 1] as const;
 export default function Penthouse1CheckIn() {
   const instructionsRef = useRef<HTMLElement>(null);
   const infoRef = useRef<HTMLElement>(null);
+  const contactRef = useRef<HTMLElement>(null);
 
   const scrollTo = (ref: React.RefObject<HTMLElement | null>) => {
     ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -47,6 +48,12 @@ export default function Penthouse1CheckIn() {
               className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors"
             >
               Info
+            </button>
+            <button 
+              onClick={() => scrollTo(contactRef)}
+              className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors"
+            >
+              Kontakt
             </button>
           </div>
         </div>
@@ -227,37 +234,66 @@ export default function Penthouse1CheckIn() {
           </div>
         </section>
 
+        {/* --- Support / Host Section --- */}
+        <section ref={contactRef} className="p-8 rounded-[2rem] bg-foreground text-background scroll-mt-24">
+          <div className="flex flex-col md:flex-row gap-8 items-start md:items-center">
+            <div className="relative h-24 w-24 md:h-32 md:w-32 rounded-3xl overflow-hidden shrink-0 shadow-lg border-2 border-white/10">
+              <Image 
+                src={penthouse1Data.host.imageUrl}
+                alt={penthouse1Data.host.name}
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="space-y-4 flex-1">
+              <div>
+                <h2 className="font-serif text-2xl md:text-3xl font-bold mb-1">{penthouse1Data.host.name}</h2>
+                <p className="text-white/60 font-medium">{penthouse1Data.host.role}</p>
+              </div>
+              <p className="text-white/80 text-sm leading-relaxed max-w-md">
+                Haben Sie Fragen oder benötigen Sie Unterstützung? Ich bin gerne für Sie da, um Ihren Aufenthalt perfekt zu machen.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
+            <Link href={`tel:${penthouse1Data.host.phone}`}>
+              <Button className="w-full rounded-full h-14 bg-white text-foreground hover:bg-white/90 gap-2 font-bold transform active:scale-95 transition-all">
+                <MessageCircle className="h-5 w-5" />
+                Magdalena anrufen
+              </Button>
+            </Link>
+            <Link 
+              href={`https://wa.me/${penthouse1Data.host.phone.replace(/\+/g, "")}?text=${encodeURIComponent(penthouse1Data.host.whatsappMessage)}`}
+              target="_blank"
+            >
+              <Button variant="outline" className="w-full rounded-full h-14 border-white/20 text-white hover:bg-white/10 gap-2 font-bold transform active:scale-95 transition-all">
+                <MessageCircle className="h-5 w-5" />
+                WhatsApp Nachricht
+              </Button>
+            </Link>
+          </div>
+        </section>
+
         {/* --- Check-out Checklist --- */}
-        <section className="p-8 rounded-[2rem] bg-foreground text-background">
+        <section className="p-8 rounded-[2rem] bg-background border border-border/40 text-foreground">
           <div className="flex items-center gap-4 mb-8">
-            <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center text-white">
+            <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
               <LogOut className="h-6 w-6" />
             </div>
             <div>
               <h2 className="font-serif text-2xl font-bold">Check-out Checkliste</h2>
-              <p className="text-white/60 text-sm">Was vor der Abreise zu tun ist.</p>
+              <p className="text-muted-foreground text-sm">Was vor der Abreise zu tun ist.</p>
             </div>
           </div>
 
-          <div className="space-y-4 mb-10">
+          <div className="space-y-4">
             {penthouse1Data.checkOutChecklist.map((item, i) => (
               <div key={i} className="flex gap-4 items-start">
                 <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <p className="text-white/90 text-sm leading-relaxed">{item}</p>
+                <p className="text-foreground text-sm leading-relaxed">{item}</p>
               </div>
             ))}
-          </div>
-
-          <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center">
-            <p className="text-white/80 text-sm mb-4">
-              Wir hoffen, Sie haben einen wundervollen Aufenthalt in Dresden!
-            </p>
-            <Link href="tel:+49123456789">
-              <Button variant="outline" className="w-full rounded-full border-white/20 text-white hover:bg-white hover:text-foreground">
-                <MessageCircle className="h-4 w-4 mr-2" />
-                Support kontaktieren
-              </Button>
-            </Link>
           </div>
         </section>
 

@@ -19,6 +19,13 @@ export interface ApartmentData {
   checkOutTime: string;
   steps: CheckInStep[];
   checkOutChecklist: string[];
+  host: {
+    name: string;
+    role: string;
+    imageUrl: string;
+    phone: string;
+    whatsappMessage: string;
+  };
 }
 
 export const penthouse1Data: ApartmentData = {
@@ -72,4 +79,11 @@ export const penthouse1Data: ApartmentData = {
     "Geschirrspüler starten (falls benutzt).",
     "Schlüssel an die Garderobe im Flur hängen. NICHT im Apartment einschließen oder in die Außenbox legen.",
   ],
+  host: {
+    name: "Magdalena",
+    role: "Feel Good Manager & Gäste-Host",
+    imageUrl: "/images/checkin/magdalena.jpg",
+    phone: "+4917612345678", // Platzhalter
+    whatsappMessage: "Hallo Magdalena, ich bin gerade im Penthouse 1 angekommen und habe eine Frage:",
+  },
 };
