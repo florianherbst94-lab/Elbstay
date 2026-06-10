@@ -24,8 +24,8 @@ export interface ApartmentData {
 export const penthouse1Data: ApartmentData = {
   id: "penthouse1",
   name: "ElbStay Penthouse 1",
-  address: "Berliner Str. 51, 01067 Dresden",
-  mapUrl: "https://www.google.com/maps/search/?api=1&query=Berliner+Str.+51,+01067+Dresden",
+  address: "Löbtauer Straße 2, 01067 Dresden",
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=L%C3%B6btauer+Stra%C3%9Fe+2,+01067+Dresden",
   wifi: {
     ssid: "JINO Dresden",
     password: "Willkommen25!",
@@ -33,7 +33,7 @@ export const penthouse1Data: ApartmentData = {
   parking: "Reservierter Stellplatz WE10 im Innenhof. Einfahrt über die Berliner Straße (beim großen Wandgemälde).",
   houseRules: [
     "Ruhezeiten: 22:00 – 07:00 Uhr.",
-    "Keine Haustiere erlaubt.",
+    "Keine Parties erlaubt.",
     "Nichtraucher-Apartment.",
   ],
   checkInTime: "ab 15:00 Uhr",
