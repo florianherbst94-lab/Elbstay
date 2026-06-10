@@ -63,7 +63,7 @@ export default function Penthouse1CheckIn() {
             className="relative h-[400px] md:h-[500px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl"
           >
             <Image 
-              src="/images/checkin/penthouse-hero.jpg"
+              src="/images/checkin/hero.png"
               alt="Penthouse 1 Innenansicht"
               fill
               className="object-cover"
