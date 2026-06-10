@@ -83,7 +83,7 @@ export const penthouse1Data: ApartmentData = {
     name: "Magdalena",
     role: "Feel Good Manager & Gäste-Host",
     imageUrl: "/images/checkin/magdalena.jpg",
-    phone: "+4917612345678", // Platzhalter
+    phone: "+4915203350853",
     whatsappMessage: "Hallo Magdalena, ich bin gerade im Penthouse 1 angekommen und habe eine Frage:",
   },
 };
