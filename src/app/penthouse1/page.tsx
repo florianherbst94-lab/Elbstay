@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -10,6 +10,7 @@ import {
   Sparkles, Navigation, MessageCircle
 } from "lucide-react";
 import { penthouse1Data } from "@/lib/checkinData";
+import { t, type Lang } from "@/lib/penthouse1Translations";
 import { CheckInCarousel } from "@/components/checkin/CheckInCarousel";
 import { InfoCard } from "@/components/checkin/InfoCard";
 import { Button } from "@/components/ui/Button";
@@ -17,6 +18,9 @@ import { Button } from "@/components/ui/Button";
 const ease = [0.16, 1, 0.3, 1] as const;
 
 export default function Penthouse1CheckIn() {
+  const [lang, setLang] = useState<Lang>("de");
+  const tx = t[lang];
+
   const instructionsRef = useRef<HTMLElement>(null);
   const infoRef = useRef<HTMLElement>(null);
   const contactRef = useRef<HTMLElement>(null);
@@ -24,6 +28,13 @@ export default function Penthouse1CheckIn() {
   const scrollTo = (ref: React.RefObject<HTMLElement | null>) => {
     ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  // Build translated steps for carousel
+  const translatedSteps = penthouse1Data.steps.map((step, i) => ({
+    ...step,
+    title: tx.steps[i]?.title ?? step.title,
+    description: tx.steps[i]?.description ?? step.description,
+  }));
 
   return (
     <div className="flex flex-col min-h-screen bg-background font-sans">
@@ -36,25 +47,54 @@ export default function Penthouse1CheckIn() {
             </div>
             <span className="font-semibold text-foreground tracking-tight">ElbStay</span>
           </div>
-          <div className="flex gap-4">
+
+          <div className="flex items-center gap-4">
             <button 
               onClick={() => scrollTo(instructionsRef)}
-              className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors"
+              className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors hidden sm:block"
             >
-              Check-in
+              {tx.navCheckin}
             </button>
             <button 
               onClick={() => scrollTo(infoRef)}
-              className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors"
+              className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors hidden sm:block"
             >
-              Info
+              {tx.navInfo}
             </button>
             <button 
               onClick={() => scrollTo(contactRef)}
-              className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors"
+              className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors hidden sm:block"
             >
-              Kontakt
+              {tx.navContact}
             </button>
+
+            {/* Language Switcher */}
+            <div className="flex items-center gap-1 bg-muted/60 rounded-full p-1 border border-border/40">
+              <button
+                onClick={() => setLang("de")}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                  lang === "de"
+                    ? "bg-background shadow-sm text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+                aria-label="Deutsch"
+              >
+                <span className="text-base leading-none">🇩🇪</span>
+                <span className="hidden sm:inline">DE</span>
+              </button>
+              <button
+                onClick={() => setLang("en")}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                  lang === "en"
+                    ? "bg-background shadow-sm text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+                aria-label="English"
+              >
+                <span className="text-base leading-none">🇬🇧</span>
+                <span className="hidden sm:inline">EN</span>
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -79,11 +119,11 @@ export default function Penthouse1CheckIn() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-8 md:p-12">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest mb-4 w-fit">
                 <Sparkles className="h-3 w-3" />
-                Willkommen in Dresden
+                {tx.welcome}
               </div>
               <h1 className="font-serif text-3xl md:text-5xl font-bold text-white leading-[1.1]">
-                Ihr Check-in zum <br />
-                <span className="text-primary-foreground font-sans">Penthouse 1</span>
+                {tx.heroTitle} <br />
+                <span className="text-primary-foreground font-sans">{tx.heroSubtitle}</span>
               </h1>
             </div>
           </motion.div>
@@ -95,7 +135,7 @@ export default function Penthouse1CheckIn() {
             transition={{ duration: 0.6, delay: 0.2, ease }}
           >
             <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl">
-              Hier finden Sie alle Informationen für einen unkomplizierten Check-in sowie wichtige Details zu Ihrem Aufenthalt.
+              {tx.heroDesc}
             </p>
           </motion.div>
 
@@ -110,14 +150,14 @@ export default function Penthouse1CheckIn() {
                 <MapPin className="h-6 w-6" />
               </div>
               <div>
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider block mb-0.5">Adresse</span>
+                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider block mb-0.5">{tx.address}</span>
                 <span className="text-foreground font-semibold md:text-lg">{penthouse1Data.address}</span>
               </div>
             </div>
             <Link href={penthouse1Data.mapUrl} target="_blank">
               <Button className="rounded-full h-12 px-6 flex gap-2">
                 <Navigation className="h-4 w-4" />
-                In Google Maps öffnen
+                {tx.openMaps}
               </Button>
             </Link>
           </motion.div>
@@ -128,16 +168,16 @@ export default function Penthouse1CheckIn() {
               className="group p-6 rounded-3xl bg-primary text-white text-left transition-transform active:scale-95"
             >
               <Key className="h-6 w-6 mb-4 opacity-80" />
-              <span className="block font-bold mb-1">Check-in</span>
-              <span className="text-white/70 text-xs">Anweisungen ansehen</span>
+              <span className="block font-bold mb-1">{tx.checkinLabel}</span>
+              <span className="text-white/70 text-xs">{tx.checkinSub}</span>
             </button>
             <button 
               onClick={() => scrollTo(infoRef)}
               className="group p-6 rounded-3xl bg-background border border-border/60 text-left transition-transform active:scale-95"
             >
               <HelpCircle className="h-6 w-6 mb-4 text-primary opacity-80" />
-              <span className="block font-bold mb-1">Info</span>
-              <span className="text-muted-foreground text-xs">WiFi, Parken &amp; mehr</span>
+              <span className="block font-bold mb-1">{tx.infoLabel}</span>
+              <span className="text-muted-foreground text-xs">{tx.infoSub}</span>
             </button>
           </div>
         </section>
@@ -146,18 +186,18 @@ export default function Penthouse1CheckIn() {
         <section ref={instructionsRef} className="space-y-8 scroll-mt-24">
           <div className="flex items-end justify-between border-b border-border/40 pb-6">
             <div>
-              <h2 className="font-serif text-3xl font-bold text-foreground mb-2">Check-in Anweisungen</h2>
-              <p className="text-muted-foreground text-sm">Folgen Sie diesen Schritten, um Ihren Schlüssel zu erhalten.</p>
+              <h2 className="font-serif text-3xl font-bold text-foreground mb-2">{tx.checkinTitle}</h2>
+              <p className="text-muted-foreground text-sm">{tx.checkinDesc}</p>
             </div>
             <div className="hidden md:flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-tight">
-              Anreise ab {penthouse1Data.checkInTime}
+              {tx.arrivalFrom} {penthouse1Data.checkInTime}
             </div>
           </div>
 
-          <CheckInCarousel steps={penthouse1Data.steps} />
+          <CheckInCarousel steps={translatedSteps} />
 
           <div className="space-y-4">
-            {penthouse1Data.steps.map((step, idx) => (
+            {translatedSteps.map((step, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, x: -10 }}
@@ -181,36 +221,36 @@ export default function Penthouse1CheckIn() {
         {/* --- General Information --- */}
         <section ref={infoRef} className="space-y-8 scroll-mt-24">
           <div className="border-b border-border/40 pb-6">
-            <h2 className="font-serif text-3xl font-bold text-foreground mb-2">Wichtige Informationen</h2>
-            <p className="text-muted-foreground text-sm">Alles Wissenswerte für Ihren Aufenthalt.</p>
+            <h2 className="font-serif text-3xl font-bold text-foreground mb-2">{tx.infoTitle}</h2>
+            <p className="text-muted-foreground text-sm">{tx.infoDesc}</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
             <InfoCard 
-              title="Highspeed WLAN" 
+              title={tx.wifi} 
               icon={Wifi} 
               copyValue={penthouse1Data.wifi.password}
-              copyLabel="Passwort kopieren"
+              copyLabel={tx.wifiCopy}
             >
               <div className="space-y-1">
                 <div className="flex justify-between">
-                  <span className="text-xs uppercase font-bold text-muted-foreground">Netzwerk</span>
+                  <span className="text-xs uppercase font-bold text-muted-foreground">{tx.wifiNetwork}</span>
                   <span className="text-foreground font-semibold">{penthouse1Data.wifi.ssid}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-xs uppercase font-bold text-muted-foreground">Passwort</span>
+                  <span className="text-xs uppercase font-bold text-muted-foreground">{tx.wifiPassword}</span>
                   <span className="text-foreground font-semibold">{penthouse1Data.wifi.password}</span>
                 </div>
               </div>
             </InfoCard>
 
-            <InfoCard title="Parkplatz" icon={Car}>
-              <p className="text-sm">{penthouse1Data.parking}</p>
+            <InfoCard title={tx.parking} icon={Car}>
+              <p className="text-sm">{tx.parkingDesc}</p>
             </InfoCard>
 
-            <InfoCard title="Hausregeln" icon={ShieldCheck}>
+            <InfoCard title={tx.houseRules} icon={ShieldCheck}>
               <ul className="space-y-2">
-                {penthouse1Data.houseRules.map((rule, i) => (
+                {tx.houseRulesList.map((rule, i) => (
                   <li key={i} className="flex gap-2 text-sm">
                     <div className="h-1.5 w-1.5 rounded-full bg-primary/40 mt-1.5 shrink-0" />
                     {rule}
@@ -219,7 +259,7 @@ export default function Penthouse1CheckIn() {
               </ul>
             </InfoCard>
 
-            <InfoCard title="Check-out & Zeiten" icon={Clock}>
+            <InfoCard title={tx.times} icon={Clock}>
               <div className="space-y-3">
                 <div className="flex justify-between items-center bg-muted/30 p-2 rounded-lg">
                   <span className="text-xs font-bold uppercase text-muted-foreground">Check-in</span>
@@ -248,10 +288,10 @@ export default function Penthouse1CheckIn() {
             <div className="space-y-4 flex-1">
               <div>
                 <h2 className="font-serif text-2xl md:text-3xl font-bold mb-1">{penthouse1Data.host.name}</h2>
-                <p className="text-white/60 font-medium">{penthouse1Data.host.role}</p>
+                <p className="text-white/60 font-medium">{tx.hostRole}</p>
               </div>
               <p className="text-white/80 text-sm leading-relaxed max-w-md">
-                Haben Sie Fragen oder benötigen Sie Unterstützung? Ich bin gerne für Sie da, um Ihren Aufenthalt perfekt zu machen.
+                {tx.hostDesc}
               </p>
             </div>
           </div>
@@ -260,16 +300,16 @@ export default function Penthouse1CheckIn() {
             <Link href={`tel:${penthouse1Data.host.phone}`}>
               <Button className="w-full rounded-full h-14 bg-white text-foreground hover:bg-white/90 gap-2 font-bold transform active:scale-95 transition-all">
                 <MessageCircle className="h-5 w-5" />
-                Magdalena anrufen
+                {tx.callHost}
               </Button>
             </Link>
             <Link 
-              href={`https://wa.me/${penthouse1Data.host.phone.replace(/\+/g, "")}?text=${encodeURIComponent(penthouse1Data.host.whatsappMessage)}`}
+              href={`https://wa.me/${penthouse1Data.host.phone.replace(/\+/g, "")}?text=${encodeURIComponent(tx.whatsappMessage)}`}
               target="_blank"
             >
               <Button variant="outline" className="w-full rounded-full h-14 border-white/20 text-white hover:bg-white/10 gap-2 font-bold transform active:scale-95 transition-all">
                 <MessageCircle className="h-5 w-5" />
-                WhatsApp Nachricht
+                {tx.whatsapp}
               </Button>
             </Link>
           </div>
@@ -282,13 +322,13 @@ export default function Penthouse1CheckIn() {
               <LogOut className="h-6 w-6" />
             </div>
             <div>
-              <h2 className="font-serif text-2xl font-bold">Check-out Checkliste</h2>
-              <p className="text-muted-foreground text-sm">Was vor der Abreise zu tun ist.</p>
+              <h2 className="font-serif text-2xl font-bold">{tx.checkoutTitle}</h2>
+              <p className="text-muted-foreground text-sm">{tx.checkoutDesc}</p>
             </div>
           </div>
 
           <div className="space-y-4">
-            {penthouse1Data.checkOutChecklist.map((item, i) => (
+            {tx.checkoutList.map((item, i) => (
               <div key={i} className="flex gap-4 items-start">
                 <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <p className="text-foreground text-sm leading-relaxed">{item}</p>
@@ -296,7 +336,6 @@ export default function Penthouse1CheckIn() {
             ))}
           </div>
         </section>
-
 
       </main>
     </div>
