@@ -70,7 +70,7 @@ export default function Penthouse1CheckIn() {
             className="relative h-[400px] md:h-[500px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl"
           >
             <Image 
-              src="/images/checkin/hero.jpg"
+              src="/images/checkin/penthouse-interior.jpg"
               alt="Penthouse 1 Innenansicht"
               fill
               className="object-cover"
@@ -239,7 +239,7 @@ export default function Penthouse1CheckIn() {
           <div className="flex flex-col md:flex-row gap-8 items-start md:items-center">
             <div className="relative h-24 w-24 md:h-32 md:w-32 rounded-3xl overflow-hidden shrink-0 shadow-lg border-2 border-white/10">
               <Image 
-                src={penthouse1Data.host.imageUrl}
+                src="/images/checkin/host-magdalena.jpg"
                 alt={penthouse1Data.host.name}
                 fill
                 className="object-cover"
