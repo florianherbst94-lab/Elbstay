@@ -287,7 +287,14 @@ export default function Penthouse1CheckIn() {
             </div>
             <div className="space-y-4 flex-1">
               <div>
-                <h2 className="font-serif text-2xl md:text-3xl font-bold mb-1">{penthouse1Data.host.name}</h2>
+                <div className="flex items-center gap-3 mb-1">
+                  <h2 className="font-serif text-2xl md:text-3xl font-bold">{penthouse1Data.host.name}</h2>
+                  <div className="flex gap-1.5 px-2 py-0.5 rounded-full bg-white/10 border border-white/10">
+                    <span className="text-sm" title="Deutsch">🇩🇪</span>
+                    <span className="text-sm" title="English">🇬🇧</span>
+                    <span className="text-sm" title="Polski">🇵🇱</span>
+                  </div>
+                </div>
                 <p className="text-white/60 font-medium">{tx.hostRole}</p>
               </div>
               <p className="text-white/80 text-sm leading-relaxed max-w-md">

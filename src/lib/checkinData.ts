@@ -25,6 +25,7 @@ export interface ApartmentData {
     imageUrl: string;
     phone: string;
     whatsappMessage: string;
+    languages?: string[];
   };
 }
 
@@ -95,5 +96,6 @@ export const penthouse1Data: ApartmentData = {
     imageUrl: "/images/checkin/magdalena.jpg",
     phone: "+4915203350853",
     whatsappMessage: "Hallo Magdalena, ich bin gerade im Penthouse 1 angekommen und habe eine Frage:",
+    languages: ["de", "en", "pl"],
   },
 };
