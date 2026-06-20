@@ -48,8 +48,8 @@ export const t = {
         description: "Auf der rechten Seite das große Objekt, dort finden Sie den Eingang mit den Briefkästen.",
       },
       {
-        title: "Briefkasten lokalisieren",
-        description: "Gehen Sie zu dem Briefkasten neben dem Eingang, finden Sie den Kasten mit dem Schild WE 10. Dafür nutzen Sie den Code 825.",
+        title: "Briefkasten & Schlüsselkasten",
+        description: "Finden Sie den Briefkasten 'WE 10' neben dem Eingang. Öffnen Sie diesen mit dem Code 825. Darin befindet sich ein Schlüsselkasten, den Sie mit dem Code 2412 öffnen, um den Schlüssel zu entnehmen. Bitte danach den Briefkasten wieder schließen und den Code verstellen.",
       },
       {
         title: "Fahrstuhl & Etage",
@@ -149,8 +149,8 @@ export const t = {
         description: "The large building on the right is the entrance. You will find the mailboxes there.",
       },
       {
-        title: "Locate the Mailbox",
-        description: "Go to the mailbox next to the entrance and find the box labelled 'WE 10'. Use code 825.",
+        title: "Mailbox & Key Box",
+        description: "Locate mailbox 'WE 10' next to the entrance. Open it with code 825. Inside is a key box – open this with code 2412 to retrieve your key. Please close the mailbox and scramble the code afterwards.",
       },
       {
         title: "Elevator & Floor",

@@ -67,8 +67,8 @@ export const penthouse1Data: ApartmentData = {
       imageUrl: "/images/checkin/step4.png",
     },
     {
-      title: "Briefkasten lokalisieren",
-      description: "Gehen Sie zu dem Briefkasten neben dem Eingang, finden Sie den Kasten mit dem Schild WE 10. Dafür nutzen Sie den Code 825.",
+      title: "Briefkasten & Schlüsselkasten",
+      description: "Öffnen Sie den Briefkasten 'WE 10' mit dem Code 825. Darin befindet sich ein Schlüsselkasten – diesen öffnen Sie mit dem Code 2412. Bitte danach alles wieder verschließen.",
       imageUrl: "/images/checkin/step5.png",
     },
     {
