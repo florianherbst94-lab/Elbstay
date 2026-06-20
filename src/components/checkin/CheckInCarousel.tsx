@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -44,8 +44,18 @@ export function CheckInCarousel({ steps }: CheckInCarouselProps) {
     }
   };
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") paginate(-1);
+      if (e.key === "ArrowRight") paginate(1);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentIndex, steps.length]);
+
   return (
-    <div className="relative w-full aspect-[4/3] md:aspect-video rounded-3xl overflow-hidden bg-muted flex flex-col group">
+    <div className="relative w-full aspect-[4/3] md:aspect-video rounded-3xl overflow-hidden bg-muted flex flex-col group shadow-xl">
       {/* Slides */}
       <div className="relative flex-1 overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
@@ -82,15 +92,15 @@ export function CheckInCarousel({ steps }: CheckInCarouselProps) {
               priority
             />
             {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             
             {/* Content Overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-6 text-white md:p-8">
-              <span className="inline-block px-3 py-1 bg-primary/90 text-white rounded-full text-xs font-bold mb-3">
-                Schritt {currentIndex + 1} von {steps.length}
+              <span className="inline-block px-3 py-1 bg-primary text-white rounded-full text-[10px] font-black uppercase tracking-wider mb-4">
+                {currentIndex + 1} / {steps.length}
               </span>
               <h3 className="text-xl md:text-2xl font-bold mb-2">{steps[currentIndex].title}</h3>
-              <p className="text-white/80 text-sm md:text-base leading-relaxed">
+              <p className="text-white/90 text-sm md:text-base leading-relaxed max-w-xl font-medium">
                 {steps[currentIndex].description}
               </p>
             </div>
@@ -99,34 +109,36 @@ export function CheckInCarousel({ steps }: CheckInCarouselProps) {
       </div>
 
       {/* Controls */}
-      <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-4 pointer-events-none">
+      <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-4 z-20">
         <button
           onClick={() => paginate(-1)}
           disabled={currentIndex === 0}
-          className={`h-12 w-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/20 transition-all pointer-events-auto ${
-            currentIndex === 0 ? "opacity-0 scale-90" : "hover:bg-white/30 cursor-pointer"
+          className={`h-12 w-12 rounded-full bg-black/40 backdrop-blur-xl flex items-center justify-center text-white border border-white/20 transition-all shadow-lg active:scale-90 ${
+            currentIndex === 0 ? "opacity-20 cursor-not-allowed" : "hover:bg-black/60 cursor-pointer"
           }`}
+          aria-label="Previous step"
         >
           <ChevronLeft className="h-6 w-6" />
         </button>
         <button
           onClick={() => paginate(1)}
           disabled={currentIndex === steps.length - 1}
-          className={`h-12 w-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/20 transition-all pointer-events-auto ${
-            currentIndex === steps.length - 1 ? "opacity-0 scale-90" : "hover:bg-white/30 cursor-pointer"
+          className={`h-12 w-12 rounded-full bg-black/40 backdrop-blur-xl flex items-center justify-center text-white border border-white/20 transition-all shadow-lg active:scale-90 ${
+            currentIndex === steps.length - 1 ? "opacity-20 cursor-not-allowed" : "hover:bg-black/60 cursor-pointer"
           }`}
+          aria-label="Next step"
         >
           <ChevronRight className="h-6 w-6" />
         </button>
       </div>
 
       {/* Dots */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+      <div className="absolute top-6 right-6 flex gap-1.5 z-10">
         {steps.map((_, idx) => (
           <div
             key={idx}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              idx === currentIndex ? "w-6 bg-white" : "w-1.5 bg-white/40"
+            className={`h-1.5 rounded-full transition-all duration-500 ${
+              idx === currentIndex ? "w-8 bg-primary" : "w-1.5 bg-white/40"
             }`}
           />
         ))}

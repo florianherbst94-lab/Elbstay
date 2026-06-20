@@ -48,28 +48,38 @@ export const penthouse1Data: ApartmentData = {
   steps: [
     {
       title: "Anfahrt zum Innenhof",
-      description: "Biegen Sie in die Einfahrt Berliner Straße ein. Sie erkennen diese am markanten Wandgemälde auf der linken Seite.",
-      imageUrl: "/images/checkin/entrance-mural.png",
+      description: "Biegen Sie in die Einfahrt Berliner Straße ein. Diese erkennen Sie mit dem Wandgemälde auf der linken Seite.",
+      imageUrl: "/images/checkin/step1.png",
     },
     {
       title: "Parkplatz finden",
-      description: "Parken Sie auf dem für Sie reservierten Stellplatz mit der Nummer WE10 im Innenhof.",
-      imageUrl: "/images/checkin/courtyard.png",
+      description: "Biegen Sie rechts ab und suchen Sie sich den Parkplatz mit der Stellnummer WE 10 im Innenhof.",
+      imageUrl: "/images/checkin/step2.png",
     },
     {
-      title: "Stellplatz-Schild",
-      description: "Suchen Sie das Schild mit der Aufschrift 'P WE 10' an der Umzäunung.",
-      imageUrl: "/images/checkin/parking-sign.png",
+      title: "Stellplatz Schild",
+      description: "Suchen Sie das Schild mit der Aufschrift P WE 10 an der Umzäunung.",
+      imageUrl: "/images/checkin/step3.png",
+    },
+    {
+      title: "Eingang finden",
+      description: "Auf der rechten Seite das große Objekt, dort finden Sie den Eingang mit den Briefkästen.",
+      imageUrl: "/images/checkin/step4.png",
     },
     {
       title: "Briefkasten lokalisieren",
-      description: "Gehen Sie zu den Briefkästen neben der gefliesten Eingangswand. Finden Sie den Kasten 'WE 10'.",
-      imageUrl: "/images/checkin/mailboxes.png",
+      description: "Gehen Sie zu dem Briefkasten neben dem Eingang, finden Sie den Kasten mit dem Schild WE 10. Dafür nutzen Sie den Code 825.",
+      imageUrl: "/images/checkin/step5.png",
     },
     {
-      title: "Schlüssel entnehmen",
-      description: "Geben Sie den PIN 825 am Briefkasten ein, um den Schlüssel zu entnehmen. Die Wohnung finden Sie im 5. Stock.",
-      imageUrl: "/images/checkin/spiral-stairs.png",
+      title: "Fahrstuhl & Etage",
+      description: "Fahren Sie mit dem Fahrstuhl in den fünften Stock. Gehen Sie aus der Tür raus, den Gang entlang rechts. Am Ende des Flurs befindet sich der Eingang zur Wohnung.",
+      imageUrl: "/images/checkin/step6.png",
+    },
+    {
+      title: "Aufgang zur Dachterrasse",
+      description: "Nutzen Sie die Wendeltreppe, um zur Dachterrasse zu gelangen. Respektieren Sie bitte die Privatsphäre der Anwohner.",
+      imageUrl: "/images/checkin/step7.png",
     },
   ],
   checkOutChecklist: [

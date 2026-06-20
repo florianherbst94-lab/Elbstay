@@ -33,28 +33,31 @@ export const t = {
     steps: [
       {
         title: "Anfahrt zum Innenhof",
-        description:
-          "Biegen Sie in die Einfahrt Berliner Straße ein. Sie erkennen diese am markanten Wandgemälde auf der linken Seite.",
+        description: "Biegen Sie in die Einfahrt Berliner Straße ein. Diese erkennen Sie mit dem Wandgemälde auf der linken Seite.",
       },
       {
         title: "Parkplatz finden",
-        description:
-          "Parken Sie auf dem für Sie reservierten Stellplatz mit der Nummer WE10 im Innenhof.",
+        description: "Biegen Sie rechts ab und suchen Sie sich den Parkplatz mit der Stellnummer WE 10 im Innenhof.",
       },
       {
-        title: "Stellplatz-Schild",
-        description:
-          "Suchen Sie das Schild mit der Aufschrift 'P WE 10' an der Umzäunung.",
+        title: "Stellplatz Schild",
+        description: "Suchen Sie das Schild mit der Aufschrift P WE 10 an der Umzäunung.",
+      },
+      {
+        title: "Eingang finden",
+        description: "Auf der rechten Seite das große Objekt, dort finden Sie den Eingang mit den Briefkästen.",
       },
       {
         title: "Briefkasten lokalisieren",
-        description:
-          "Gehen Sie zu den Briefkästen neben der gefliesten Eingangswand. Finden Sie den Kasten 'WE 10'.",
+        description: "Gehen Sie zu dem Briefkasten neben dem Eingang, finden Sie den Kasten mit dem Schild WE 10. Dafür nutzen Sie den Code 825.",
       },
       {
-        title: "Schlüssel entnehmen",
-        description:
-          "Geben Sie den PIN 825 am Briefkasten ein, um den Schlüssel zu entnehmen. Die Wohnung finden Sie im 5. Stock.",
+        title: "Fahrstuhl & Etage",
+        description: "Fahren Sie mit dem Fahrstuhl in den fünften Stock. Gehen Sie aus der Tür raus, den Gang entlang rechts. Am Ende des Flurs befindet sich der Eingang zur Wohnung.",
+      },
+      {
+        title: "Aufgang zur Dachterrasse",
+        description: "Nutzen Sie die Wendeltreppe, um zur Dachterrasse zu gelangen. Sie öffnen das Schloss mit dem Wohnungsschlüssel. Bitte respektieren Sie die Privatsphäre der Anwohner.",
       },
     ],
 
@@ -131,28 +134,31 @@ export const t = {
     steps: [
       {
         title: "Drive to the Courtyard",
-        description:
-          "Turn into the driveway on Berliner Straße. You will recognize it by the prominent mural on the left side.",
+        description: "Turn into the Berliner Straße driveway. You will recognize it by the mural on the left side.",
       },
       {
         title: "Find Your Parking Spot",
-        description:
-          "Park in your reserved parking spot number WE10 in the courtyard.",
+        description: "Turn right and find parking spot WE 10 in the courtyard.",
       },
       {
         title: "Parking Sign",
-        description:
-          "Look for the sign reading 'P WE 10' on the fence.",
+        description: "Look for the sign reading 'P WE 10' on the fence.",
+      },
+      {
+        title: "Find the Entrance",
+        description: "The large building on the right is the entrance. You will find the mailboxes there.",
       },
       {
         title: "Locate the Mailbox",
-        description:
-          "Go to the mailboxes next to the tiled entrance wall and find the box labelled 'WE 10'.",
+        description: "Go to the mailbox next to the entrance and find the box labelled 'WE 10'. Use code 825.",
       },
       {
-        title: "Retrieve Your Key",
-        description:
-          "Enter PIN 825 at the mailbox to retrieve your key. Your apartment is on the 5th floor.",
+        title: "Elevator & Floor",
+        description: "Take the elevator to the 5th floor. Exit the door, go down the hallway to the right. The entrance is at the end.",
+      },
+      {
+        title: "Roof Terrace Access",
+        description: "Use the spiral staircase to access the roof terrace. Open the lock with your apartment key. Please respect the privacy of neighbors.",
       },
     ],
 
