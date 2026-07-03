@@ -41,11 +41,17 @@ export default function Wbadd2703CheckIn() {
       {/* --- Sticky Header --- */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/40">
         <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 bg-black rounded-lg flex items-center justify-center">
-              <span className="text-white font-serif font-bold text-lg">E</span>
-            </div>
-            <span className="font-semibold text-foreground tracking-tight">ElbStay</span>
+          <div className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-2">
+              <Image 
+                src="/images/elbstay-logo-official.png" 
+                alt="ElbStay Logo" 
+                width={32} 
+                height={32} 
+                className="w-8 h-8 object-contain"
+              />
+              <span className="font-semibold text-foreground tracking-tight hidden sm:block">ElbStay Boutique-Apartments</span>
+            </Link>
           </div>
 
           <div className="flex items-center gap-4">
