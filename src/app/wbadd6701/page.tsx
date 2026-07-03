@@ -46,11 +46,10 @@ export default function Penthouse1CheckIn() {
               <Image 
                 src="/images/elbstay-logo-official.png" 
                 alt="ElbStay Logo" 
-                width={32} 
-                height={32} 
-                className="w-8 h-8 object-contain"
+                width={56} 
+                height={56} 
+                className="w-12 h-12 sm:w-14 sm:h-14 object-contain"
               />
-              <span className="font-semibold text-foreground tracking-tight hidden sm:block">ElbStay Boutique-Apartments</span>
             </Link>
           </div>
 
