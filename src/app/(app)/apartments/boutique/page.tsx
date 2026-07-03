@@ -29,7 +29,7 @@ export default function BoutiqueApartment() {
             <span>·</span>
             <span className="flex items-center gap-1.5"><Home className="w-4 h-4" /> 48 m²</span>
             <span className="hidden sm:inline">·</span>
-            <span className="hidden sm:flex items-center gap-1.5"><Bed className="w-4 h-4" /> 1 Bett, 1 Couch</span>
+            <span className="hidden sm:flex items-center gap-1.5"><Bed className="w-4 h-4" /> 1 Bett + 1 Schlafcouch</span>
             <span className="hidden sm:inline">·</span>
             <span className="hidden sm:flex items-center gap-1.5"><Bath className="w-4 h-4" /> 1 Badezimmer</span>
           </div>
