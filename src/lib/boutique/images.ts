@@ -1,4 +1,4 @@
-import { ApartmentCategory } from "@/types/apartment";
+import { ApartmentCategory } from "@/lib/images";
 
 export const boutiqueGallery: ApartmentCategory[] = [
   {

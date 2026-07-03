@@ -1,4 +1,4 @@
-import { AmenityCategory } from "@/types/apartment";
+import { AmenityCategory } from "@/lib/amenities";
 
 export const boutiqueAmenities: AmenityCategory[] = [
   {

@@ -1,4 +1,4 @@
-import { Review } from "@/types/apartment";
+import { Review } from "@/lib/reviews";
 
 export const boutiqueReviews: Review[] = [
   {
