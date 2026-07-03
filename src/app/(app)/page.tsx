@@ -365,24 +365,10 @@ export default function Home() {
               ))}
             </motion.div>
 
-            {/* CTA */}
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-              <Link href="#book" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full text-base h-16 px-12 rounded-full shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 font-semibold text-[15px]">
-                  <CalendarCheck className="mr-2.5 h-5 w-5" />
-                  Verfügbarkeit prüfen
-                </Button>
-              </Link>
-              <Link href="#apartments" className="w-full sm:w-auto">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="w-full text-base h-16 px-10 rounded-full glass text-white border-white/20 hover:bg-white hover:text-foreground hover:border-white transition-all duration-400 shadow-xl font-semibold"
-                >
-                  Apartments ansehen
-                  <ArrowRight className="ml-2.5 h-5 w-5" />
-                </Button>
-              </Link>
+            {/* CTA - Hospitable Search Widget */}
+            <motion.div variants={fadeUp} className="w-full max-w-4xl mx-auto mb-8 bg-white/5 backdrop-blur-md rounded-2xl p-4 md:p-6 border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]">
+              {/* @ts-ignore - Custom Element */}
+              <hospitable-direct-mps identifier="5eab93c7-948b-4261-a43a-721213c3c647" type="custom" results-url="/search"></hospitable-direct-mps>
             </motion.div>
 
             {/* Micro-Trust */}
@@ -396,15 +382,7 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-[2]" />
       </section>
 
-      {/* ═══════════════════════════════════════════
-          1.5 HOSPITABLE SEARCH WIDGET
-      ═══════════════════════════════════════════ */}
-      <section className="relative z-20 -mt-16 mb-12">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          {/* @ts-ignore - Custom Element */}
-          <hospitable-direct-mps identifier="5eab93c7-948b-4261-a43a-721213c3c647" type="custom" results-url="/search"></hospitable-direct-mps>
-        </div>
-      </section>
+
 
       {/* ═══════════════════════════════════════════
           2. EMOTIONALER INTRO-TEXT
