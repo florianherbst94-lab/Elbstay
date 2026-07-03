@@ -289,9 +289,10 @@ export default function Home() {
       {/* ═══════════════════════════════════════════
           1. HERO – Full-Viewport Parallax
       ═══════════════════════════════════════════ */}
-      <section ref={heroRef} className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
-        {/* Parallax Background */}
-        <motion.div className="absolute inset-0 z-0" style={{ y: heroY }}>
+      <section ref={heroRef} className="relative min-h-[100vh] flex items-center justify-center">
+        {/* Parallax Background with its own overflow hidden */}
+        <div className="absolute inset-0 overflow-hidden z-0">
+          <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
             src="/images/dresden_hero_user_final.jpg"
             alt="Dresden Skyline bei Sonnenuntergang"
@@ -305,6 +306,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/25" />
         </motion.div>
+        </div>
 
         {/* Dresden Silhouette */}
         <div className="absolute bottom-0 left-0 right-0 z-[1] text-white/[0.04] pointer-events-none">
