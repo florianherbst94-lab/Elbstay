@@ -119,9 +119,29 @@ export const wbadd2703Data: ApartmentData = {
   checkOutTime: "bis 10:00 Uhr",
   steps: [
     {
-      title: "Ankunft",
-      description: "Willkommen im Boutique-Apartment. (Bitte Check-in Schritte anpassen)",
-      imageUrl: "/images/placeholder.jpg",
+      title: "Hauseingang",
+      description: "Suche den Hauseingang auf der Leipziger Straße 138.",
+      imageUrl: "/images/checkin/wbadd2703-step1.jpg",
+    },
+    {
+      title: "Briefkasten ElbStay",
+      description: "Dort befindet sich der Briefkasten mit dem Namen ElbStay. Gebe in den Zahlencode dreimal die 0 ein (000).",
+      imageUrl: "/images/checkin/wbadd2703-step2.jpg",
+    },
+    {
+      title: "Schlüsselkasten",
+      description: "In dem Briefkasten befindet sich ein Schlüsselkasten mit dem Zahlencode 3784. Dort erhältst du den Schlüssel und Zugang zur Wohnung.",
+      imageUrl: "/images/checkin/wbadd2703-step3.jpg",
+    },
+    {
+      title: "Treppenhaus",
+      description: "Gehe die Treppe nach oben, die erste Tür links ist der Zugang zur Wohnung.",
+      imageUrl: "/images/checkin/wbadd2703-step4.jpg",
+    },
+    {
+      title: "Wohnungstür",
+      description: "Der Zugang zur Wohnung. Wir wünschen dir einen wundervollen Aufenthalt.",
+      imageUrl: "/images/checkin/wbadd2703-step5.jpg",
     }
   ],
   checkOutChecklist: [

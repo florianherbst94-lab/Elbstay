@@ -32,32 +32,24 @@ export const t = {
     // Step titles and descriptions
     steps: [
       {
-        title: "Anfahrt zum Innenhof",
-        description: "Biegen Sie in die Einfahrt Berliner Straße ein. Diese erkennen Sie mit dem Wandgemälde auf der linken Seite.",
+        title: "Hauseingang",
+        description: "Suche den Hauseingang auf der Leipziger Straße 138.",
       },
       {
-        title: "Parkplatz finden",
-        description: "Biegen Sie rechts ab und suchen Sie sich den Parkplatz mit der Stellnummer WE 10 im Innenhof.",
+        title: "Briefkasten ElbStay",
+        description: "Dort befindet sich der Briefkasten mit dem Namen ElbStay. Gebe in den Zahlencode dreimal die 0 ein (000).",
       },
       {
-        title: "Stellplatz Schild",
-        description: "Suchen Sie das Schild mit der Aufschrift P WE 10 an der Umzäunung.",
+        title: "Schlüsselkasten",
+        description: "In dem Briefkasten befindet sich ein Schlüsselkasten mit dem Zahlencode 3784. Dort erhältst du den Schlüssel und Zugang zur Wohnung.",
       },
       {
-        title: "Eingang finden",
-        description: "Auf der rechten Seite das große Objekt, dort finden Sie den Eingang mit den Briefkästen.",
+        title: "Treppenhaus",
+        description: "Gehe die Treppe nach oben, die erste Tür links ist der Zugang zur Wohnung.",
       },
       {
-        title: "Briefkasten & Schlüsselkasten",
-        description: "Finden Sie den Briefkasten 'WE 10' neben dem Eingang. Öffnen Sie diesen mit dem Code 825. Darin befindet sich ein Schlüsselkasten, den Sie mit dem Code 2412 öffnen, um den Schlüssel zu entnehmen. Bitte danach den Briefkasten wieder schließen und den Code verstellen.",
-      },
-      {
-        title: "Fahrstuhl & Etage",
-        description: "Fahren Sie mit dem Fahrstuhl in den fünften Stock. Gehen Sie aus der Tür raus, den Gang entlang rechts. Am Ende des Flurs befindet sich der Eingang zur Wohnung.",
-      },
-      {
-        title: "Aufgang zur Dachterrasse",
-        description: "Nutzen Sie die Wendeltreppe, um zur Dachterrasse zu gelangen. Sie öffnen das Schloss mit dem Wohnungsschlüssel. Bitte respektieren Sie die Privatsphäre der Anwohner.",
+        title: "Wohnungstür",
+        description: "Der Zugang zur Wohnung. Wir wünschen dir einen wundervollen Aufenthalt.",
       },
     ],
 
@@ -133,32 +125,24 @@ export const t = {
     // Step titles and descriptions
     steps: [
       {
-        title: "Drive to the Courtyard",
-        description: "Turn into the Berliner Straße driveway. You will recognize it by the mural on the left side.",
+        title: "Building Entrance",
+        description: "Find the building entrance at Leipziger Straße 138.",
       },
       {
-        title: "Find Your Parking Spot",
-        description: "Turn right and find parking spot WE 10 in the courtyard.",
+        title: "ElbStay Mailbox",
+        description: "There you will find the mailbox labeled ElbStay. Enter the number 0 three times (000) for the code.",
       },
       {
-        title: "Parking Sign",
-        description: "Look for the sign reading 'P WE 10' on the fence.",
+        title: "Key Box",
+        description: "Inside the mailbox is a key box with the code 3784. There you will get the key and access to the apartment.",
       },
       {
-        title: "Find the Entrance",
-        description: "The large building on the right is the entrance. You will find the mailboxes there.",
+        title: "Staircase",
+        description: "Go up the stairs, the first door on the left is the entrance to the apartment.",
       },
       {
-        title: "Mailbox & Key Box",
-        description: "Locate mailbox 'WE 10' next to the entrance. Open it with code 825. Inside is a key box – open this with code 2412 to retrieve your key. Please close the mailbox and scramble the code afterwards.",
-      },
-      {
-        title: "Elevator & Floor",
-        description: "Take the elevator to the 5th floor. Exit the door, go down the hallway to the right. The entrance is at the end.",
-      },
-      {
-        title: "Roof Terrace Access",
-        description: "Use the spiral staircase to access the roof terrace. Open the lock with your apartment key. Please respect the privacy of neighbors.",
+        title: "Apartment Door",
+        description: "The entrance to the apartment. We wish you a wonderful stay.",
       },
     ],
 
