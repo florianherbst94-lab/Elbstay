@@ -4,21 +4,10 @@ export const boutiqueGallery: ImageCategory[] = [
   {
     title: "Wohnbereich",
     images: [
-      "/images/checkin/wbadd2703-header.jpg",
-      "/images/checkin/wbadd2703-step4.jpg",
-      "/images/checkin/wbadd2703-step5.jpg"
-    ]
-  },
-  {
-    title: "Schlafzimmer",
-    images: [
-      "/images/checkin/wbadd2703-header.jpg"
-    ]
-  },
-  {
-    title: "Bad",
-    images: [
-      "/images/checkin/wbadd2703-header.jpg"
+      "/images/boutique/living-room-4.jpg",
+      "/images/boutique/living-room-3.jpg",
+      "/images/boutique/living-room-2.jpg",
+      "/images/boutique/living-room-1.jpg"
     ]
   }
 ];
