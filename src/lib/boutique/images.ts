@@ -1,24 +1,24 @@
-import { ApartmentCategory } from "@/lib/images";
+import { ImageCategory } from "@/lib/images";
 
-export const boutiqueGallery: ApartmentCategory[] = [
+export const boutiqueGallery: ImageCategory[] = [
   {
-    category: "Wohnbereich",
+    title: "Wohnbereich",
     images: [
-      { url: "/images/checkin/wbadd2703-header.jpg", alt: "Wohnzimmer Boutique-Apartment" },
-      { url: "/images/checkin/wbadd2703-step4.jpg", alt: "Flur Boutique-Apartment" },
-      { url: "/images/checkin/wbadd2703-step5.jpg", alt: "Wohnungstür Boutique-Apartment" },
+      "/images/checkin/wbadd2703-header.jpg",
+      "/images/checkin/wbadd2703-step4.jpg",
+      "/images/checkin/wbadd2703-step5.jpg"
     ]
   },
   {
-    category: "Schlafzimmer",
+    title: "Schlafzimmer",
     images: [
-      { url: "/images/checkin/wbadd2703-header.jpg", alt: "Schlafzimmer Boutique-Apartment" },
+      "/images/checkin/wbadd2703-header.jpg"
     ]
   },
   {
-    category: "Bad",
+    title: "Bad",
     images: [
-      { url: "/images/checkin/wbadd2703-header.jpg", alt: "Badezimmer Boutique-Apartment" },
+      "/images/checkin/wbadd2703-header.jpg"
     ]
   }
 ];

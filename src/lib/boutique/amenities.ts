@@ -2,37 +2,41 @@ import { AmenityCategory } from "@/lib/amenities";
 
 export const boutiqueAmenities: AmenityCategory[] = [
   {
-    category: "Wohnbereich & Unterhaltung",
+    title: "Wohnbereich & Unterhaltung",
+    icon: "Tv",
     items: [
-      { name: "WLAN", available: true, icon: "Wifi" },
-      { name: "TV", available: true, icon: "Tv" },
-      { name: "Arbeitsplatz", available: true, icon: "Laptop" }
+      "High-Speed WLAN",
+      "Smart-TV",
+      "Arbeitsplatz"
     ]
   },
   {
-    category: "Küche & Esszimmer",
+    title: "Küche & Esszimmer",
+    icon: "ChefHat",
     items: [
-      { name: "Küche", available: true, icon: "ChefHat" },
-      { name: "Kühlschrank", available: true, icon: "Refrigerator" },
-      { name: "Mikrowelle", available: true, icon: "Microwave" },
-      { name: "Kaffeemaschine", available: true, icon: "Coffee" }
+      "Voll ausgestattete Küche",
+      "Kühlschrank",
+      "Mikrowelle",
+      "Kaffeemaschine"
     ]
   },
   {
-    category: "Schlafzimmer & Bad",
+    title: "Schlafzimmer & Bad",
+    icon: "Bed",
     items: [
-      { name: "Waschmaschine", available: true, icon: "WashingMachine" },
-      { name: "Föhn", available: true, icon: "Wind" },
-      { name: "Handtücher", available: true, icon: "Bath" },
-      { name: "Bettwäsche", available: true, icon: "Bed" }
+      "Waschmaschine",
+      "Föhn",
+      "Handtücher",
+      "Bettwäsche"
     ]
   },
   {
-    category: "Parken & Sonstiges",
+    title: "Parken & Sonstiges",
+    icon: "Car",
     items: [
-      { name: "Parkplatz an der Straße", available: true, icon: "Car" },
-      { name: "Eigenständiger Check-in", available: true, icon: "Key" },
-      { name: "Langzeitaufenthalte", available: true, icon: "CalendarCheck" }
+      "Parkplatz an der Straße",
+      "Eigenständiger Check-in",
+      "Langzeitaufenthalte erlaubt"
     ]
   }
 ];
