@@ -110,8 +110,8 @@ export default function Wbadd2703CheckIn() {
             className="relative h-[400px] md:h-[500px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl"
           >
             <Image 
-              src="/images/checkin/penthouse-interior.jpg"
-              alt="Penthouse 1 Innenansicht"
+              src="/images/checkin/wbadd2703-header.jpg"
+              alt="Boutique-Apartment Innenansicht"
               fill
               className="object-cover"
               priority

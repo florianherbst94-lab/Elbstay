@@ -103,13 +103,13 @@ export const penthouse1Data: ApartmentData = {
 export const wbadd2703Data: ApartmentData = {
   id: "wbadd2703",
   name: "ElbStay Boutique-Apartment",
-  address: "Dresden-Pieschen (Bitte Adresse anpassen)",
-  mapUrl: "https://www.google.com/maps/search/?api=1&query=Dresden+Pieschen",
+  address: "Leipziger Straße 138, 01127 Dresden",
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=Leipziger+Stra%C3%9Fe+138,+01127+Dresden",
   wifi: {
-    ssid: "ElbStay WiFi",
-    password: "Bitte anpassen",
+    ssid: "ElbStay",
+    password: "elbstay.de/wbadd2703",
   },
-  parking: "Bitte Parkplatzinformationen hier eintragen.",
+  parking: "Es gibt keinen eigenen Parkplatz, aber in unmittelbarer Umgebung gibt es Parkplätze in den Straßen.",
   houseRules: [
     "Ruhezeiten: 22:00 – 07:00 Uhr.",
     "Keine Parties erlaubt.",
