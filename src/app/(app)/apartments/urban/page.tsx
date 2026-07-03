@@ -11,6 +11,7 @@ import { ReviewsList } from "@/components/apartment/ReviewsList";
 import { ApartmentDescription } from "@/components/apartment/ApartmentDescription";
 import { ApartmentHeaderGallery } from "@/components/apartment/ApartmentHeaderGallery";
 import { urbanReviews } from "@/lib/reviews";
+import { HospitableIframeSync } from "@/components/booking/HospitableIframeSync";
 
 export default function UrbanApartment() {
   const allImages = urbanGallery.flatMap(cat => cat.images).filter(Boolean);
@@ -130,6 +131,9 @@ export default function UrbanApartment() {
         <hr className="border-border/60 my-16" />
         <ApartmentGallery categories={urbanGallery} />
       </div>
+
+      {/* Script to sync search URL parameters to the iframe */}
+      <HospitableIframeSync />
     </div>
   );
 }

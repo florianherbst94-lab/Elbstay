@@ -11,6 +11,7 @@ import { ReviewsList } from "@/components/apartment/ReviewsList";
 import { ApartmentDescription } from "@/components/apartment/ApartmentDescription";
 import { ApartmentHeaderGallery } from "@/components/apartment/ApartmentHeaderGallery";
 import { boutiqueReviews } from "@/lib/boutique/reviews";
+import { HospitableIframeSync } from "@/components/booking/HospitableIframeSync";
 
 export default function BoutiqueApartment() {
   const allImages = boutiqueGallery.flatMap(cat => cat.images).filter(Boolean);
@@ -132,6 +133,9 @@ export default function BoutiqueApartment() {
         <hr className="border-border/60 my-16" />
         <ApartmentGallery categories={boutiqueGallery} />
       </div>
+      
+      {/* Script to sync search URL parameters to the iframe */}
+      <HospitableIframeSync />
     </div>
   );
 }

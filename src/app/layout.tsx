@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import Script from "next/script";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -31,6 +32,10 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-sans text-foreground bg-background">
         {children}
+        <Script 
+          src="https://hospitable.b-cdn.net/direct-property-search-widget/hospitable-search-widget.prod.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

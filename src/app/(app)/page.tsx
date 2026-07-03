@@ -397,6 +397,17 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════════════
+          1.5 HOSPITABLE SEARCH WIDGET
+      ═══════════════════════════════════════════ */}
+      <section className="relative z-20 -mt-16 mb-12">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
+          <div className="bg-background/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-border/60 p-4 md:p-6 overflow-hidden">
+            <hospitable-direct-mps identifier="5eab93c7-948b-4261-a43a-721213c3c647" type="custom" results-url="/search"></hospitable-direct-mps>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════
           2. EMOTIONALER INTRO-TEXT
       ═══════════════════════════════════════════ */}
       <section className="py-28 md:py-40 bg-background relative">
