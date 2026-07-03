@@ -107,9 +107,9 @@ export const wbadd2703Data: ApartmentData = {
   mapUrl: "https://www.google.com/maps/search/?api=1&query=Leipziger+Stra%C3%9Fe+138,+01127+Dresden",
   wifi: {
     ssid: "ElbStay",
-    password: "elbstay.de/wbadd2703",
+    password: "Elbstay.de",
   },
-  parking: "Es gibt keinen eigenen Parkplatz, aber in unmittelbarer Umgebung gibt es Parkplätze in den Straßen.",
+  parking: "Es ist kein direkter Parkplatz für die Wohnung vorgesehen. Parkplätze sind in unmittelbarer Umgebung in den Nebenstraßen vorhanden.",
   houseRules: [
     "Ruhezeiten: 22:00 – 07:00 Uhr.",
     "Keine Parties erlaubt.",
