@@ -26,8 +26,8 @@ export function ApartmentHeaderGallery({ images }: HeaderGalleryProps) {
 
   return (
     <section className="mb-8 lg:mb-12">
-      {/* GLOBAL SLIDESHOW (Mobile & Desktop) */}
-      <div className="relative w-full h-[400px] md:h-[600px] rounded-3xl overflow-hidden group">
+      {/* MOBILE SLIDESHOW (< md) */}
+      <div className="md:hidden relative w-full h-[400px] rounded-2xl overflow-hidden group">
         <img 
           src={images[currentIndex]} 
           alt={`Gallery Image ${currentIndex + 1}`} 
@@ -35,7 +35,7 @@ export function ApartmentHeaderGallery({ images }: HeaderGalleryProps) {
         />
         
         {/* Navigation Counter */}
-        <div className="absolute bottom-4 right-4 bg-black/60 text-white px-3 py-1.5 rounded-lg text-sm font-medium backdrop-blur-sm z-10 flex items-center gap-1.5 cursor-pointer hover:bg-black/80 transition-colors" onClick={scrollToGallery}>
+        <div className="absolute bottom-4 right-4 bg-black/60 text-white px-3 py-1.5 rounded-lg text-sm font-medium backdrop-blur-sm z-10 flex items-center gap-1.5">
           <LayoutGrid className="w-4 h-4" />
           {currentIndex + 1} / {images.length}
         </div>
@@ -43,16 +43,51 @@ export function ApartmentHeaderGallery({ images }: HeaderGalleryProps) {
         {/* Slide Controls */}
         <button 
           onClick={prevSlide} 
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center bg-white/80 text-black rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity shadow-lg z-10 hover:bg-white hover:scale-105"
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/80 text-black rounded-full backdrop-blur-sm opacity-100 transition shadow-lg z-10"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button 
           onClick={nextSlide} 
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center bg-white/80 text-black rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity shadow-lg z-10 hover:bg-white hover:scale-105"
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/80 text-black rounded-full backdrop-blur-sm opacity-100 transition shadow-lg z-10"
         >
           <ChevronRight className="w-6 h-6" />
         </button>
+      </div>
+
+      {/* DESKTOP 5-IMAGE GRID (>= md) Airbnb style */}
+      <div className="hidden md:grid grid-cols-2 gap-2 h-[450px] lg:h-[600px] rounded-3xl overflow-hidden group">
+        {/* Main large image */}
+        <div className="relative overflow-hidden cursor-pointer h-full" onClick={scrollToGallery}>
+          {desktopImages[0] && (
+            <img 
+              src={desktopImages[0]} 
+              alt="Main View" 
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 hover:brightness-110" 
+            />
+          )}
+        </div>
+        
+        {/* 4 smaller images */}
+        <div className="grid grid-cols-2 gap-2 h-full relative">
+          {desktopImages.slice(1, 5).map((img, idx) => (
+            <div key={idx} className="relative overflow-hidden cursor-pointer h-full" onClick={scrollToGallery}>
+              <img 
+                src={img} 
+                alt={`View ${idx + 2}`} 
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 hover:brightness-110" 
+              />
+            </div>
+          ))}
+          
+          <button 
+            onClick={scrollToGallery}
+            className="absolute bottom-6 right-6 bg-background/95 backdrop-blur-md text-foreground px-5 py-2.5 rounded-lg font-semibold border-border border shadow-xl hover:bg-muted transition flex items-center gap-2 z-10 hover:scale-105 active:scale-95"
+          >
+            <LayoutGrid className="w-5 h-5" />
+            Alle Fotos anzeigen
+          </button>
+        </div>
       </div>
     </section>
   );
