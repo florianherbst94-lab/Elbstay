@@ -15,7 +15,9 @@ export default function SearchPage() {
             identifier="5eab93c7-948b-4261-a43a-721213c3c647" 
             type="custom" 
             results-url="/search"
-          ></hospitable-direct-mps>
+          >
+          {/* @ts-ignore - Custom Element */}
+          </hospitable-direct-mps>
         </div>
       </div>
     </div>
