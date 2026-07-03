@@ -22,6 +22,17 @@ const APARTMENTS = [
     size: 120,
     imageUrl: "/images/premium/floairbnb_-77.jpg",
     priceFrom: 280,
+  },
+  {
+    id: "boutique",
+    name: "ElbStay Boutique",
+    type: "Boutique" as const,
+    description: "Stilvolles Boutique-Apartment in Dresden-Pieschen. Die hochwertig eingerichtete 2-Raum-Wohnung verbindet Altbaucharme, warmes Interior und modernen Komfort.",
+    guests: 4,
+    beds: "1 Bett + 1 Schlafcouch",
+    size: 60,
+    imageUrl: "/images/checkin/wbadd2703-header.jpg",
+    priceFrom: 140,
   }
 ];
 

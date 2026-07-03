@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 interface ApartmentCardProps {
   id: string;
   name: string;
-  type: "Urban" | "Premium";
+  type: "Urban" | "Premium" | "Boutique";
   description: string;
   guests: number;
   beds: string;
