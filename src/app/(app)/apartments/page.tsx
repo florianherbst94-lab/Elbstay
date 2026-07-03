@@ -10,7 +10,7 @@ const APARTMENTS = [
     beds: "1 Bett + 1 Schlafcouch",
     size: 55,
     imageUrl: "/images/urban/airbnb-flo-5.jpg",
-    priceFrom: 120,
+    priceFrom: 70,
   },
   {
     id: "premium-1",
@@ -21,7 +21,7 @@ const APARTMENTS = [
     beds: "2 Betten + 1 Schlafcouch",
     size: 120,
     imageUrl: "/images/premium/floairbnb_-77.jpg",
-    priceFrom: 280,
+    priceFrom: 110,
   },
   {
     id: "boutique",
@@ -32,7 +32,7 @@ const APARTMENTS = [
     beds: "1 Bett + 1 Schlafcouch",
     size: 48,
     imageUrl: "/images/boutique/living-room-1.jpg",
-    priceFrom: 140,
+    priceFrom: 85,
   }
 ];
 
