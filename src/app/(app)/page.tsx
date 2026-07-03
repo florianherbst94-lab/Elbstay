@@ -366,9 +366,19 @@ export default function Home() {
             </motion.div>
 
             {/* CTA - Hospitable Search Widget */}
-            <motion.div variants={fadeUp} className="w-full max-w-4xl mx-auto mb-8 bg-white/5 backdrop-blur-md rounded-2xl p-4 md:p-6 border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]">
+            <motion.div variants={fadeUp} className="w-full max-w-4xl mx-auto mb-10 bg-white/5 backdrop-blur-md rounded-2xl p-4 md:p-6 border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] min-h-[100px] flex items-center justify-center">
               {/* @ts-ignore - Custom Element */}
               <hospitable-direct-mps identifier="5eab93c7-948b-4261-a43a-721213c3c647" type="custom" results-url="/search"></hospitable-direct-mps>
+            </motion.div>
+
+            {/* Fallback/Secondary CTA Buttons */}
+            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+              <Link href="#apartments" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full text-base h-16 px-12 rounded-full shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 font-semibold text-[15px]">
+                  <ArrowRight className="mr-2.5 h-5 w-5" />
+                  Alle Apartments ansehen
+                </Button>
+              </Link>
             </motion.div>
 
             {/* Micro-Trust */}
