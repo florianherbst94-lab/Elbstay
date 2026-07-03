@@ -47,7 +47,7 @@ const APARTMENTS = [
     description: "Stilvolles Boutique-Apartment in Dresden-Pieschen. Die hochwertig eingerichtete 2-Raum-Wohnung verbindet Altbaucharme, warmes Interior und modernen Komfort.",
     guests: 4,
     beds: "1 Bett + 1 Schlafcouch",
-    size: 60,
+    size: 48,
     imageUrl: "/images/boutique/living-room-1.jpg",
     priceFrom: 140,
   }
