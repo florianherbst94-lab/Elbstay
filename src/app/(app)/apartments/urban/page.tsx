@@ -112,7 +112,7 @@ export default function UrbanApartment() {
 
           {/* Right Sidebar - Hospitable Booking Widget */}
           <div className="lg:w-1/3 relative mt-8 lg:mt-0">
-            <div className="h-fit">
+            <div className="sticky top-32 z-20 h-fit">
               <iframe 
                 id="booking-iframe" 
                 sandbox="allow-top-navigation allow-scripts allow-same-origin" 
