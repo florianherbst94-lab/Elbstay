@@ -19,13 +19,20 @@ export function HospitableIframeSync() {
       const children = getQueryParams("children");
       const infants = getQueryParams("infants");
       const pets = getQueryParams("pets");
-
-      // Only update if we actually have query params from a search
-      if (!checkin && !checkout && !adults) return;
+      
+      // If we don't have checkin/checkout dates, don't do anything to the iframe
+      if (!checkin || !checkout) return;
 
       let newSrc = iframe.src;
-      newSrc += newSrc.includes("?") ? "&" : "?";
       
+      // Clean up existing query params if they exist to avoid duplicates
+      if (newSrc.includes("?")) {
+        newSrc = newSrc.split("?")[0];
+      }
+      
+      newSrc += "?";
+      
+      // Only append parameters that have values
       const params = new URLSearchParams();
       if (checkin) params.append("checkin", checkin);
       if (checkout) params.append("checkout", checkout);
@@ -33,13 +40,17 @@ export function HospitableIframeSync() {
       if (children) params.append("children", children);
       if (infants) params.append("infants", infants);
       if (pets) params.append("pets", pets);
+      
+      // Hospitable expects the widget language to be 'de' for german? Let's try adding it just in case it works for the booking widget iframe
+      params.append("lang", "de");
+      params.append("locale", "de");
 
       iframe.src = newSrc + params.toString();
     }
 
-    // Try to update immediately, but also wait a bit in case the iframe takes a moment to render
-    updateIframeSrc();
-    setTimeout(updateIframeSrc, 500);
+    // Delay slightly to ensure iframe is mounted
+    const timer = setTimeout(updateIframeSrc, 100);
+    return () => clearTimeout(timer);
   }, []);
 
   return null;
