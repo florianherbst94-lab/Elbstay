@@ -119,11 +119,11 @@ const FAQS = [
   },
   {
     q: "Gibt es Parkmöglichkeiten?",
-    a: "Ja. Mehrere Parkplätze und Parkhäuser befinden sich in direkter Nähe. Gerne reservieren wir auf Anfrage einen festen Stellplatz für Sie.",
+    a: "Einige Apartments verfügen über einen direkten Parkplatz. Bei den Wohnungen ohne eigenen Stellplatz ist es möglich, kostenfrei in der direkten Umgebung zu parken.",
   },
   {
     q: "Sind Haustiere erlaubt?",
-    a: "Leider nein – um allen Gästen ein sauberes, allergenfreies Umfeld zu garantieren, nehmen wir keine Haustiere auf.",
+    a: "Ja, in den Wohnungen ElbStay Urban und ElbStay Boutique sind Haustiere erlaubt. Im Premium Penthouse sind leider keine Haustiere gestattet.",
   },
   {
     q: "Wie ist die Stornierungsregelung?",
@@ -134,12 +134,12 @@ const FAQS = [
     a: "Per Bahn: Hauptbahnhof in 15 Min. Per Auto: A4/A17 direkt nach Dresden. Per Flugzeug: Flughafen Dresden in 20 Min. Die Straßenbahn bringt Sie direkt zu uns.",
   },
   {
-    q: "Wie weit ist es zur Dresdner Altstadt?",
-    a: "Die Frauenkirche erreichen Sie in 10 Minuten zu Fuß, den Zwinger und die Semperoper in etwa 15 Minuten. Die Straßenbahn-Haltestelle ist 150m entfernt.",
+    q: "Wie weit ist es zu der Altstadt?",
+    a: "Alle Apartments sind entweder zentral oder zentrumsnah gelegen. Mit den öffentlichen Verkehrsmitteln erreichen Sie die Altstadt in der Regel in wenigen Minuten. Vom ElbStay Premium am Bahnhof Mitte ist die Altstadt sogar in nur 10 Minuten fußläufig erreichbar.",
   },
   {
     q: "Für wen sind die Apartments geeignet?",
-    a: "Für alle, die Wert auf Stil und Ruhe legen: Paare, Städtereisende, Business-Gäste und kleine Familien. Das ElbStay Urban ist perfekt für 1–2 Personen, das Premium für bis zu 6 Gäste.",
+    a: "Für Paare, Städtereisende, Business-Gäste und Familien oder kleinere Gruppen.",
   },
   {
     q: "Warum direkt buchen statt über Airbnb?",
