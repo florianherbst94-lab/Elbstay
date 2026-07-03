@@ -64,7 +64,7 @@ export const t = {
     wifiCopy: "Passwort kopieren",
     parking: "Parkplatz",
     parkingDesc:
-      "Reservierter Stellplatz WE10 im Innenhof. Einfahrt über die Berliner Straße (beim großen Wandgemälde).",
+      "Es ist kein direkter Parkplatz für die Wohnung vorgesehen. Parkplätze sind in unmittelbarer Umgebung in den Nebenstraßen vorhanden.",
     houseRules: "Hausregeln",
     houseRulesList: [
       "Ruhezeiten: 22:00 – 07:00 Uhr.",
@@ -157,7 +157,7 @@ export const t = {
     wifiCopy: "Copy Password",
     parking: "Parking",
     parkingDesc:
-      "Reserved parking spot WE10 in the courtyard. Enter via Berliner Straße (look for the large mural).",
+      "There is no dedicated parking spot for the apartment. Parking is available in the immediate vicinity on the side streets.",
     houseRules: "House Rules",
     houseRulesList: [
       "Quiet hours: 10:00 PM – 7:00 AM.",
