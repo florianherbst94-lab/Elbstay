@@ -884,10 +884,10 @@ export default function Home() {
           </motion.p>
 
           <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <Link href="/apartments/urban#book" className="w-full sm:w-auto">
+            <Link href="#apartments" className="w-full sm:w-auto">
               <Button size="lg" className="w-full text-base h-16 px-12 rounded-full shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 bg-white text-[#1e1e1e] hover:bg-white/90 font-semibold">
                 <CalendarCheck className="mr-2.5 h-5 w-5" />
-                Verfügbarkeit prüfen
+                Apartment auswählen
               </Button>
             </Link>
             <Link href="#apartments" className="w-full sm:w-auto">
