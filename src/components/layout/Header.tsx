@@ -59,10 +59,10 @@ export function Header() {
             </Link>
           ))}
           <Link
-            href="/#book"
+            href="/#apartments"
             className="px-5 py-2.5 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-all shadow-sm hover:shadow"
           >
-            Jetzt buchen
+            Zu den Apartments
           </Link>
         </nav>
 
@@ -95,11 +95,11 @@ export function Header() {
                 </Link>
               ))}
               <Link
-                href="/#book"
+                href="/#apartments"
                 className="px-5 py-3 w-full text-center bg-primary text-primary-foreground font-medium rounded-md"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Jetzt buchen
+                Zu den Apartments
               </Link>
             </motion.div>
           )}

@@ -1,13 +1,13 @@
 
 import { MapPin, Users, Home, Bed, Bath } from "lucide-react";
-import { BookingWidget } from "@/components/booking/BookingWidget";
+
 import { ApartmentGallery } from "@/components/apartment/ApartmentGallery";
 import { MapWidget } from "@/components/apartment/MapWidget";
 import { boutiqueGallery } from "@/lib/boutique/images";
 import { AmenitiesList } from "@/components/apartment/AmenitiesList";
 import { boutiqueAmenities } from "@/lib/boutique/amenities";
 import { ReviewsList } from "@/components/apartment/ReviewsList";
-import { AvailabilityCalendar } from "@/components/apartment/AvailabilityCalendar";
+
 import { ApartmentDescription } from "@/components/apartment/ApartmentDescription";
 import { ApartmentHeaderGallery } from "@/components/apartment/ApartmentHeaderGallery";
 import { boutiqueReviews } from "@/lib/boutique/reviews";
@@ -104,9 +104,7 @@ export default function BoutiqueApartment() {
             ]}
           />
 
-          <hr className="border-border/60 my-10" />
-
-          <AvailabilityCalendar />
+          {/* Calendar replaced by Hospitable widget in sidebar */}
 
           <MapWidget 
             query="51.0772, 13.7225+(Dresden Pieschen)"
@@ -114,10 +112,16 @@ export default function BoutiqueApartment() {
           />
         </div>
 
-          {/* Right Sidebar - Sticky Booking Widget */}
-          <div className="lg:w-1/3 relative">
-            <div className="sticky top-32 z-20 h-fit">
-              <BookingWidget propertyId="wbadd2703" defaultPrice={140} />
+          {/* Right Sidebar - Hospitable Booking Widget */}
+          <div className="lg:w-1/3 relative mt-8 lg:mt-0">
+            <div className="h-fit">
+              <iframe 
+                id="booking-iframe" 
+                sandbox="allow-top-navigation allow-scripts allow-same-origin" 
+                style={{ width: "100%", height: "900px" }} 
+                frameBorder="0" 
+                src="https://booking.hospitable.com/widget/a20a137a-0c7e-42ba-8aa6-9c47accca90f/2329032"
+              ></iframe>
             </div>
           </div>
         </div>
