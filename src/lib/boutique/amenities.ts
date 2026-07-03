@@ -1,87 +1,96 @@
-import { AmenityCategory } from "@/types/apartment";
+import { AmenityCategory } from "@/lib/amenities";
 
 export const boutiqueAmenities: AmenityCategory[] = [
   {
-    category: "Badezimmer",
+    title: "Badezimmer",
+    icon: "Bath",
     items: [
-      { name: "Badewanne", available: true, icon: "Bath" },
-      { name: "Warmwasser", available: true, icon: "Droplets" },
-      { name: "Föhn", available: true, icon: "Wind" },
-      { name: "Shampoo & Duschgel", available: true, icon: "Droplet" },
-      { name: "Reinigungsprodukte", available: true, icon: "SprayCan" }
+      "Badewanne",
+      "Warmwasser",
+      "Föhn",
+      "Shampoo & Duschgel",
+      "Reinigungsprodukte"
     ]
   },
   {
-    category: "Schlafzimmer & Wäsche",
+    title: "Schlafzimmer & Wäsche",
+    icon: "Bed",
     items: [
-      { name: "Waschmaschine", available: true, icon: "WashingMachine" },
-      { name: "Trockner (kostenlos)", available: true, icon: "Shirt" },
-      { name: "Bettwäsche (Baumwolle)", available: true, icon: "Bed" },
-      { name: "Handtücher & Grundausstattung", available: true, icon: "Square" },
-      { name: "Fensterverdunklung", available: true, icon: "Moon" },
-      { name: "Kleiderschrank & Kommode", available: true, icon: "DoorOpen" },
-      { name: "Bügeleisen", available: true, icon: "Iron" }
+      "Waschmaschine",
+      "Trockner (kostenlos)",
+      "Bettwäsche (Baumwolle)",
+      "Handtücher & Grundausstattung",
+      "Fensterverdunklung",
+      "Kleiderschrank & Kommode",
+      "Bügeleisen"
     ]
   },
   {
-    category: "Unterhaltung",
+    title: "Unterhaltung",
+    icon: "Tv",
     items: [
-      { name: "Fernseher", available: true, icon: "Tv" },
-      { name: "Bücher & Lesematerial", available: true, icon: "BookOpen" },
-      { name: "Brettspiele", available: true, icon: "Gamepad2" }
+      "Fernseher",
+      "Bücher & Lesematerial",
+      "Brettspiele"
     ]
   },
   {
-    category: "Küche & Esszimmer",
+    title: "Küche & Esszimmer",
+    icon: "UtensilsCrossed",
     items: [
-      { name: "Voll ausgestattete Küche", available: true, icon: "UtensilsCrossed" },
-      { name: "Kühlschrank & Gefrierschrank", available: true, icon: "Refrigerator" },
-      { name: "Geschirrspüler", available: true, icon: "Waves" },
-      { name: "Herd & Edelstahl-Backofen", available: true, icon: "ChefHat" },
-      { name: "Kaffeemaschine (French-Press)", available: true, icon: "Coffee" },
-      { name: "Wasserkocher & Toaster", available: true, icon: "CupSoda" },
-      { name: "Geschirr, Besteck & Weingläser", available: true, icon: "Wine" },
-      { name: "Grundausstattung (Öl, Salz, etc.)", available: true, icon: "SaltPepper" },
-      { name: "Esstisch", available: true, icon: "Table" }
+      "Voll ausgestattete Küche",
+      "Kühlschrank & Gefrierschrank",
+      "Geschirrspüler",
+      "Herd & Edelstahl-Backofen",
+      "Kaffeemaschine (French-Press)",
+      "Wasserkocher & Toaster",
+      "Geschirr, Besteck & Weingläser",
+      "Grundausstattung (Öl, Salz, etc.)",
+      "Esstisch"
     ]
   },
   {
-    category: "Für Familien",
+    title: "Für Familien",
+    icon: "Baby",
     items: [
-      { name: "Babybett (auf Anfrage)", available: true, icon: "Baby" },
-      { name: "Reisebett für Kinder", available: true, icon: "Bed" },
-      { name: "Freistehender Hochstuhl", available: true, icon: "Armchair" },
-      { name: "Kinderbücher & Spielzeug", available: true, icon: "Puzzle" }
+      "Babybett (auf Anfrage)",
+      "Reisebett für Kinder",
+      "Freistehender Hochstuhl",
+      "Kinderbücher & Spielzeug"
     ]
   },
   {
-    category: "Internet & Büro",
+    title: "Internet & Büro",
+    icon: "Wifi",
     items: [
-      { name: "Highspeed-WLAN", available: true, icon: "Wifi" }
+      "Highspeed-WLAN"
     ]
   },
   {
-    category: "Heizung & Klima",
+    title: "Heizung & Klima",
+    icon: "Thermometer",
     items: [
-      { name: "Zentralheizung", available: true, icon: "Thermometer" }
+      "Zentralheizung"
     ]
   },
   {
-    category: "Sicherheit",
+    title: "Sicherheit",
+    icon: "ShieldAlert",
     items: [
-      { name: "Rauchmelder", available: true, icon: "ShieldAlert" },
-      { name: "Feuerlöscher", available: true, icon: "Flame" },
-      { name: "Erste-Hilfe-Set", available: true, icon: "Cross" }
+      "Rauchmelder",
+      "Feuerlöscher",
+      "Erste-Hilfe-Set"
     ]
   },
   {
-    category: "Services & Parken",
+    title: "Services & Parken",
+    icon: "Car",
     items: [
-      { name: "Eigenständiger Check-in (Schlüsselbox)", available: true, icon: "Key" },
-      { name: "Privater Eingang", available: true, icon: "DoorOpen" },
-      { name: "Kostenfreie Parkplätze auf der Straße", available: true, icon: "Car" },
-      { name: "Haustiere & Assistenztiere erlaubt", available: true, icon: "Dog" },
-      { name: "Haushaltshilfe (gegen Aufpreis)", available: true, icon: "UserCircle" }
+      "Eigenständiger Check-in (Schlüsselbox)",
+      "Privater Eingang",
+      "Kostenfreie Parkplätze auf der Straße",
+      "Haustiere & Assistenztiere erlaubt",
+      "Haushaltshilfe (gegen Aufpreis)"
     ]
   }
 ];
