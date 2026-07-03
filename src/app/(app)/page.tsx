@@ -651,7 +651,7 @@ export default function Home() {
               <div>
                 <SectionLabel>Unsere Apartments</SectionLabel>
                 <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground tracking-tight text-balance">
-                  Zwei Apartments. Ein Versprechen.
+                  Drei Apartments. Ein Versprechen.
                 </h2>
               </div>
               <p className="text-muted-foreground text-lg max-w-md leading-relaxed pb-1">
@@ -661,7 +661,7 @@ export default function Home() {
 
             <motion.div
               variants={stagger}
-              className="grid md:grid-cols-2 gap-8 lg:gap-12"
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12"
             >
               {APARTMENTS.map((apt) => (
                 <motion.div key={apt.id} variants={scaleIn} className="h-full">
