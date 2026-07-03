@@ -88,7 +88,7 @@ export function CheckInCarousel({ steps }: CheckInCarouselProps) {
               src={steps[currentIndex].imageUrl}
               alt={steps[currentIndex].title}
               fill
-              className={`object-cover ${currentIndex === 2 ? "object-top" : "object-center"}`}
+              className="object-contain bg-black/90"
               priority
             />
             {/* Overlay Gradient */}

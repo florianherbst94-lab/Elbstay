@@ -121,17 +121,17 @@ export const wbadd2703Data: ApartmentData = {
     {
       title: "Hauseingang",
       description: "Suche den Hauseingang auf der Leipziger Straße 138.",
-      imageUrl: "/images/checkin/wbadd2703-step1.jpg",
+      imageUrl: "/images/checkin/wbadd2703-step2.jpg",
     },
     {
       title: "Briefkasten ElbStay",
       description: "Dort befindet sich der Briefkasten mit dem Namen ElbStay. Gebe in den Zahlencode dreimal die 0 ein (000).",
-      imageUrl: "/images/checkin/wbadd2703-step2.jpg",
+      imageUrl: "/images/checkin/wbadd2703-step3.jpg",
     },
     {
       title: "Schlüsselkasten",
       description: "In dem Briefkasten befindet sich ein Schlüsselkasten mit dem Zahlencode 3784. Dort erhältst du den Schlüssel und Zugang zur Wohnung.",
-      imageUrl: "/images/checkin/wbadd2703-step3.jpg",
+      imageUrl: "/images/checkin/wbadd2703-step1.jpg",
     },
     {
       title: "Treppenhaus",
