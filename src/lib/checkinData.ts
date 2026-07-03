@@ -99,3 +99,43 @@ export const penthouse1Data: ApartmentData = {
     languages: ["de", "en", "pl"],
   },
 };
+
+export const wbadd2703Data: ApartmentData = {
+  id: "wbadd2703",
+  name: "ElbStay Boutique-Apartment",
+  address: "Dresden-Pieschen (Bitte Adresse anpassen)",
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=Dresden+Pieschen",
+  wifi: {
+    ssid: "ElbStay WiFi",
+    password: "Bitte anpassen",
+  },
+  parking: "Bitte Parkplatzinformationen hier eintragen.",
+  houseRules: [
+    "Ruhezeiten: 22:00 – 07:00 Uhr.",
+    "Keine Parties erlaubt.",
+    "Nichtraucher-Apartment.",
+  ],
+  checkInTime: "ab 15:00 Uhr",
+  checkOutTime: "bis 10:00 Uhr",
+  steps: [
+    {
+      title: "Ankunft",
+      description: "Willkommen im Boutique-Apartment. (Bitte Check-in Schritte anpassen)",
+      imageUrl: "/images/placeholder.jpg",
+    }
+  ],
+  checkOutChecklist: [
+    "Alle Fenster schließen.",
+    "Heizung auf Stern (*) stellen.",
+    "Müll entsorgen.",
+    "Schlüssel am vorgesehenen Ort hinterlassen.",
+  ],
+  host: {
+    name: "Magdalena",
+    role: "Feel Good Manager & Gäste-Host",
+    imageUrl: "/images/checkin/host-magdalena.jpg",
+    phone: "+4915203350853",
+    whatsappMessage: "Hallo Magdalena, ich bin gerade im Boutique-Apartment angekommen und habe eine Frage:",
+    languages: ["de", "en", "pl"],
+  },
+};
