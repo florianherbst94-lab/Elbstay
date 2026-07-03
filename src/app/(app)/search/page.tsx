@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 export default function SearchPage() {
   return (
     <div className="bg-background pt-32 pb-24 min-h-screen">
@@ -14,10 +12,7 @@ export default function SearchPage() {
           <hospitable-direct-mps 
             identifier="5eab93c7-948b-4261-a43a-721213c3c647" 
             type="custom" 
-            results-url="/search"
-          >
-          {/* @ts-ignore - Custom Element */}
-          </hospitable-direct-mps>
+          ></hospitable-direct-mps>
         </div>
       </div>
     </div>
