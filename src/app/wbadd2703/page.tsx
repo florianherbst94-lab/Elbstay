@@ -46,9 +46,9 @@ export default function Wbadd2703CheckIn() {
               <Image 
                 src="/images/elbstay-logo-official.png" 
                 alt="ElbStay Logo" 
-                width={56} 
-                height={56} 
-                className="w-12 h-12 sm:w-14 sm:h-14 object-contain"
+                width={150} 
+                height={50} 
+                className="w-32 sm:w-40 h-auto object-contain"
               />
             </Link>
           </div>
