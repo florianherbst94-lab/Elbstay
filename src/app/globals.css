@@ -166,3 +166,35 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--muted-foreground);
 }
+
+/* ── Hospitable Search Widget Overrides ── */
+
+hospitable-direct-mps {
+  --hospitable-brand-color: #526343 !important;
+  --hospitable-brand-color-hover: #435136 !important;
+  --hospitable-font-family: var(--font-inter), sans-serif !important;
+  --hospitable-border-radius: 12px !important;
+  --hospitable-input-border-color: #e8e5e1 !important;
+  --hospitable-input-border-radius: 8px !important;
+  --hospitable-input-bg: #ffffff !important;
+  --hospitable-text-color: #2d2d2d !important;
+  --hospitable-button-border-radius: 9999px !important;
+  width: 100%;
+  display: block;
+}
+
+/* Fallback/Forced styling via CSS shadow parts if the widget supports it */
+hospitable-direct-mps::part(container) {
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+hospitable-direct-mps::part(button) {
+  border-radius: 9999px !important;
+}
+
+hospitable-direct-mps::part(input) {
+  border-radius: 8px !important;
+}
