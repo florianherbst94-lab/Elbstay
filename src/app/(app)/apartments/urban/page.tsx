@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { MapPin, Users, Home, Bed, Bath, Check, Wifi, Coffee, Tv } from "lucide-react";
-import { BookingWidget } from "@/components/booking/BookingWidget";
+
 import { ApartmentGallery } from "@/components/apartment/ApartmentGallery";
 import { MapWidget } from "@/components/apartment/MapWidget";
 import { urbanGallery } from "@/lib/images";
 import { AmenitiesList } from "@/components/apartment/AmenitiesList";
 import { urbanAmenities } from "@/lib/amenities";
 import { ReviewsList } from "@/components/apartment/ReviewsList";
-import { AvailabilityCalendar } from "@/components/apartment/AvailabilityCalendar";
+
 import { ApartmentDescription } from "@/components/apartment/ApartmentDescription";
 import { ApartmentHeaderGallery } from "@/components/apartment/ApartmentHeaderGallery";
 import { urbanReviews } from "@/lib/reviews";
@@ -102,9 +102,7 @@ export default function UrbanApartment() {
               ]}
             />
 
-            <hr className="border-border/60 my-10" />
-
-            <AvailabilityCalendar />
+            {/* Calendar replaced by Hospitable widget in sidebar */}
 
             <MapWidget 
               query="Hermsdorfer Str., Dresden, Germany"
@@ -112,10 +110,16 @@ export default function UrbanApartment() {
             />
           </div>
 
-          {/* Right Sidebar - Sticky Booking Widget */}
-          <div className="lg:w-1/3 relative">
-            <div className="sticky top-32 z-20 h-fit">
-              <BookingWidget propertyId="urban-01" defaultPrice={125} />
+          {/* Right Sidebar - Hospitable Booking Widget */}
+          <div className="lg:w-1/3 relative mt-8 lg:mt-0">
+            <div className="h-fit">
+              <iframe 
+                id="booking-iframe" 
+                sandbox="allow-top-navigation allow-scripts allow-same-origin" 
+                style={{ width: "100%", height: "900px" }} 
+                frameBorder="0" 
+                src="https://booking.hospitable.com/widget/a20a137a-0c7e-42ba-8aa6-9c47accca90f/2302773"
+              ></iframe>
             </div>
           </div>
         </div>
