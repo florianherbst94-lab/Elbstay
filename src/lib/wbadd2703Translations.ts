@@ -88,9 +88,9 @@ export const t = {
     checkoutList: [
       "Alle Fenster schließen.",
       "Heizung auf Stern (*) stellen.",
-      "Müll in den Tonnen im Außenbereich entsorgen.",
+      "Müll in den Tonnen im Hinterhof entsorgen.",
       "Geschirrspüler starten (falls benutzt).",
-      "Schlüssel an die Garderobe im Flur hängen. NICHT im Apartment einschließen oder in die Außenbox legen.",
+      "Den Schlüssel in die Garderobe im Flur hängen.",
     ],
   },
 
@@ -181,9 +181,9 @@ export const t = {
     checkoutList: [
       "Close all windows.",
       "Set the thermostat to the star (*) setting.",
-      "Dispose of trash in the bins outside.",
+      "Dispose of trash in the bins in the backyard.",
       "Start the dishwasher (if used).",
-      "Hang the key on the coat rack in the hallway. Do NOT lock it inside or leave it in the outdoor box.",
+      "Hang the key on the coat rack in the hallway.",
     ],
   },
 } as const;
