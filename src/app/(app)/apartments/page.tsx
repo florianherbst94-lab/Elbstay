@@ -31,7 +31,7 @@ const APARTMENTS = [
     guests: 4,
     beds: "1 Bett + 1 Schlafcouch",
     size: 60,
-    imageUrl: "/images/checkin/wbadd2703-header.jpg",
+    imageUrl: "/images/boutique/living-room-1.jpg",
     priceFrom: 140,
   }
 ];
