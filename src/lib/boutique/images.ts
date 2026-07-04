@@ -2,8 +2,9 @@ import { ImageCategory } from "@/lib/images";
 
 export const boutiqueGallery: ImageCategory[] = [
   {
-    title: "Wohnbereich",
+    title: "Highlights",
     images: [
+      "/images/boutique/04_schlafbereich_weit_airbnb_style_HIGHRES_8-10MB.jpg",
       "/images/boutique/01_wohnbereich_sofa_kunst_airbnb_style_HIGHRES.jpg",
       "/images/boutique/02_wohnzimmer_essbereich_weit_airbnb_edit_10mb.jpg",
       "/images/boutique/03_wohnzimmer_sofa_detail_airbnb_edit_10mb.jpg"
@@ -31,7 +32,6 @@ export const boutiqueGallery: ImageCategory[] = [
   {
     title: "Schlafbereich",
     images: [
-      "/images/boutique/04_schlafbereich_weit_airbnb_style_HIGHRES_8-10MB.jpg",
       "/images/boutique/05_schlafbereich_detail_airbnb_style_HIGHRES_8-10MB.jpg",
       "/images/boutique/06_schlafbereich_front_airbnb_style_HIGHRES_8-10MB.jpg",
       "/images/boutique/07_schlafbereich_portrait_airbnb_style_HIGHRES_8-10MB.jpg",
