@@ -16,8 +16,49 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "ElbStay | Stilvoll wohnen in Dresden",
-  description: "Erleben Sie Boutique-Apartments in Dresden mit ElbStay Urban und ElbStay Premium. Buchen Sie direkt für den besten Preis.",
+  metadataBase: new URL("https://elbstay.de"),
+  title: {
+    default: "ElbStay | Stilvoll wohnen in Dresden",
+    template: "%s | ElbStay Dresden",
+  },
+  description: "Erleben Sie Boutique-Apartments in Dresden. Zentrumsnahe Ferienwohnungen an der Frauenkirche für Paare, Familien und Business-Gäste. Buchen Sie direkt für den besten Preis.",
+  keywords: [
+    "Ferienwohnung Dresden", 
+    "Unterkunft Dresden", 
+    "Boutique Apartment", 
+    "ElbStay", 
+    "Apartment an der Frauenkirche", 
+    "Business Apartment Dresden",
+    "Design Ferienwohnung",
+    "Dresden Urlaub"
+  ],
+  authors: [{ name: "ElbStay" }],
+  creator: "ElbStay",
+  openGraph: {
+    type: "website",
+    locale: "de_DE",
+    url: "https://elbstay.de",
+    title: "ElbStay | Stilvoll wohnen in Dresden",
+    description: "Zentrumsnahe Boutique-Apartments in Dresden an der Elbe. Entdecken Sie ElbStay Urban, Premium und Boutique. Jetzt direkt buchen.",
+    siteName: "ElbStay Boutique Apartments",
+    images: [
+      {
+        url: "/images/dresden_hero_user_final.jpg", // We use the beautiful hero image as the fallback sharing image
+        width: 1200,
+        height: 630,
+        alt: "Dresden Skyline bei Sonnenuntergang",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ElbStay | Stilvoll wohnen in Dresden",
+    description: "Zentrumsnahe Boutique-Apartments in Dresden an der Elbe. Entdecken Sie ElbStay Urban, Premium und Boutique. Jetzt direkt buchen.",
+    images: ["/images/dresden_hero_user_final.jpg"],
+  },
+  alternates: {
+    canonical: "https://elbstay.de",
+  },
 };
 
 export default function RootLayout({

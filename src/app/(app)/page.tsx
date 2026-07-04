@@ -283,8 +283,36 @@ export default function Home() {
   });
   const locY = useTransform(locProgress, [0, 1], ["-8%", "8%"]);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    name: "ElbStay Boutique Apartments",
+    description: "Zentrumsnahe Boutique-Apartments in Dresden an der Elbe. Entdecken Sie ElbStay Urban, Premium und Boutique. Jetzt direkt buchen.",
+    url: "https://elbstay.de",
+    telephone: "", // Add if known
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Dresden",
+      addressRegion: "Sachsen",
+      postalCode: "01127", // Example for Pieschen, adjust if needed
+      addressCountry: "DE"
+    },
+    image: [
+      "https://elbstay.de/images/dresden_hero_user_final.jpg"
+    ],
+    priceRange: "€€",
+    starRating: {
+      "@type": "Rating",
+      ratingValue: "4.9"
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       {/* ═══════════════════════════════════════════
           1. HERO – Full-Viewport Parallax

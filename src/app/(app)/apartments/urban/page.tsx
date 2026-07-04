@@ -16,8 +16,51 @@ import { HospitableIframeSync } from "@/components/booking/HospitableIframeSync"
 export default function UrbanApartment() {
   const allImages = urbanGallery.flatMap(cat => cat.images).filter(Boolean);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "VacationRental",
+    name: "ElbStay Urban Apartment",
+    description: "Klare Linien, warme Materialien und ein durchdachtes Raumgefühl – für alle, die Design und Ruhe lieben.",
+    image: [
+      "https://elbstay.de" + allImages[0]
+    ],
+    url: "https://elbstay.de/apartments/urban",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Dresden",
+      addressRegion: "Sachsen",
+      addressCountry: "DE"
+    },
+    numberOfRooms: 2,
+    occupancy: {
+      "@type": "QuantitativeValue",
+      maxValue: 4
+    },
+    floorSize: {
+      "@type": "QuantitativeValue",
+      value: 55,
+      unitCode: "MTK"
+    },
+    amenityFeature: [
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "WLAN",
+        value: true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Küche",
+        value: true
+      }
+    ]
+  };
+
   return (
     <div className="bg-background pb-24 pt-24 md:pt-32">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* Title & Stats (Above Gallery like Airbnb) */}
