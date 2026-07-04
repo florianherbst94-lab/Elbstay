@@ -28,10 +28,49 @@ export default function AboutPage() {
             Wir glauben, dass ein Aufenthalt mehr sein sollte als nur eine Übernachtung. Es geht um das Gefühl, an einem neuen Ort sofort zuhause zu sein. Vom handverlesenen Design der Möbel über hochwertige Matratzen bis hin zur eigens zusammengestellten Kaffee-Auswahl – wir überlassen nichts dem Zufall.
           </p>
           
-          <h2 className="text-2xl font-semibold text-foreground mt-12 mb-6 font-serif">Ihr Host Team</h2>
-          <p>
-            Hinter ElbStay steht ein kleines, passioniertes Team aus Dresdner Locals. Wir kennen die versteckten Cafés der Neustadt genauso wie die besten Plätze an den Elbwiesen. Und wir teilen dieses Wissen gerne mit Ihnen. Wenn Sie direkt über unsere Website buchen, haben Sie uns immer als direkte Ansprechpartner. Keine Hotline, sondern persönliche Betreuung.
-          </p>
+          <h2 className="text-3xl font-semibold text-foreground mt-16 mb-8 font-serif text-center">Lernen Sie uns kennen</h2>
+          
+          <div className="grid md:grid-cols-2 gap-12 items-start mt-8">
+            {/* Magdalena */}
+            <div className="flex flex-col items-center text-center">
+              <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden mb-6 shadow-xl border-4 border-background">
+                <Image 
+                  src="/images/team/magdalena.jpg" 
+                  alt="Magdalena - Gäste-Host & Feelgood Managerin" 
+                  fill 
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="text-2xl font-serif font-bold text-foreground mb-1">Magdalena</h3>
+              <p className="text-primary font-medium text-sm tracking-wide uppercase mb-4">Gäste-Host & Feelgood Managerin</p>
+              <p className="text-muted-foreground leading-relaxed">
+                Magdalena ist die gute Seele von ElbStay. Sie sorgt dafür, dass jedes Apartment bis ins kleinste Detail perfekt vorbereitet ist und steht Ihnen bei allen Fragen rund um Ihren Aufenthalt mit einem Lächeln zur Seite.
+              </p>
+            </div>
+
+            {/* Florian */}
+            <div className="flex flex-col items-center text-center">
+              <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden mb-6 shadow-xl border-4 border-background">
+                <Image 
+                  src="/images/team/florian.jpg" 
+                  alt="Florian - Eigentümer" 
+                  fill 
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="text-2xl font-serif font-bold text-foreground mb-1">Florian</h3>
+              <p className="text-primary font-medium text-sm tracking-wide uppercase mb-4">Eigentümer & Gründer</p>
+              <p className="text-muted-foreground leading-relaxed">
+                Als echter Dresdner Local kennt Florian die versteckten Ecken der Stadt. Er hat ElbStay mit dem Anspruch gegründet, Gästen mehr als nur ein Bett zu bieten – nämlich ein echtes, stilvolles Zuhause auf Zeit.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-16 text-center bg-primary/5 p-8 rounded-2xl border border-primary/10">
+            <p className="text-foreground font-medium mb-0">
+              Wenn Sie direkt über unsere Website buchen, haben Sie uns immer als direkte Ansprechpartner. Keine anonyme Hotline, sondern persönliche Betreuung von echten Gastgebern.
+            </p>
+          </div>
         </div>
       </div>
     </div>
