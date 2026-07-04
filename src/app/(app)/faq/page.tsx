@@ -18,8 +18,25 @@ export default function FAQPage() {
     }
   ];
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.a
+      }
+    }))
+  };
+
   return (
     <div className="bg-background pt-16 pb-24 min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-3xl mx-auto px-4 md:px-6">
         <span className="text-primary font-semibold tracking-wider uppercase text-sm mb-3 block">Informationen</span>
         <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4">

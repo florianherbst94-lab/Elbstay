@@ -10,6 +10,7 @@ import Image from "next/image";
 const NAV_LINKS = [
   { name: "Urban", href: "/apartments/urban" },
   { name: "Premium", href: "/apartments/premium" },
+  { name: "Dresden Guide", href: "/dresden-guide" },
   { name: "Über uns", href: "/about" },
 ];
 
