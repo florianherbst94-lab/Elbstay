@@ -167,11 +167,3 @@ body {
   background: var(--muted-foreground);
 }
 
-/* Force Hospitable direct booking widgets to take up full height in search pages */
-hospitable-direct-mps {
-  min-height: 100% !important;
-  height: 100% !important;
-}
-hospitable-direct-mps::part(container) {
-  min-height: 100% !important;
-}
