@@ -62,8 +62,8 @@ export function DirectBookingBanner() {
               </div>
               <div className="pr-4">
                 <h4 className="font-semibold text-lg mb-1 leading-tight">Direkt buchen & sparen</h4>
-                <p className="text-sm text-background/80 mb-4 leading-relaxed">
-                  Sparen Sie die hohen Gebühren von Airbnb und Booking.com. Auf unserer Website buchen Sie garantiert zum besten Preis.
+                <p className="text-sm text-background/80 mb-3 leading-relaxed">
+                  Nutzen Sie den Code <strong className="bg-primary/20 text-primary px-2 py-0.5 rounded font-mono mx-1">DIREKT5</strong> für weitere 5% Rabatt auf den ohnehin schon günstigsten Preis!
                 </p>
                 <Link 
                   href="/search"
