@@ -91,9 +91,37 @@ export default function DresdenGuidePage() {
                     Ein Spaziergang durch den Innenhof des Zwingers ist kostenlos und gehört zum Pflichtprogramm. 
                   </div>
                 </li>
+                <li className="flex gap-4 items-start">
+                  <Landmark className="w-5 h-5 text-primary shrink-0 mt-1" />
+                  <div>
+                    <strong className="text-foreground block mb-1">Residenzschloss & Grünes Gewölbe</strong>
+                    Das historische Schloss beherbergt eine der reichsten Schatzkammern Europas. Ein perfekter Tipp für Tage, an denen das Wetter mal nicht mitspielt.
+                  </div>
+                </li>
+                <li className="flex gap-4 items-start">
+                  <Camera className="w-5 h-5 text-primary shrink-0 mt-1" />
+                  <div>
+                    <strong className="text-foreground block mb-1">Brühlsche Terrasse</strong>
+                    Bekannt als der "Balkon Europas". Schlendern Sie hier entlang und genießen Sie den herrlichen Blick über die Elbe.
+                  </div>
+                </li>
               </ul>
+              
+              <div className="bg-muted p-4 rounded-xl mt-6 border-l-4 border-primary">
+                <strong>Insider-Tipp:</strong> Von unseren ElbStay Urban und Boutique Apartments (in Pieschen) fahren Sie am besten einfach mit der Straßenbahnlinie 4 oder 9 direkt und ohne Umsteigen in die Altstadt (Fahrtzeit ca. 12 Minuten). Alternativ bietet sich der wunderschöne Elbradweg an!
+              </div>
             </div>
           </section>
+
+          {/* Image Break 1 */}
+          <div className="relative h-[300px] rounded-3xl overflow-hidden shadow-lg my-12">
+            <Image
+              src="/images/skyline_sunset.png"
+              alt="Dresden Skyline bei Sonnenuntergang"
+              fill
+              className="object-cover"
+            />
+          </div>
 
           {/* Section 2 */}
           <section>
@@ -112,12 +140,36 @@ export default function DresdenGuidePage() {
                   <Coffee className="w-5 h-5 text-primary shrink-0 mt-1" />
                   <div>
                     <strong className="text-foreground block mb-1">Kunsthofpassage</strong>
-                    Ein faszinierendes Labyrinth aus bunt gestalteten Höfen. Perfekt für einen Nachmittags-Bummel.
+                    Ein faszinierendes Labyrinth aus bunt gestalteten Höfen. Perfekt für einen Nachmittags-Bummel durch kleine Boutiquen.
+                  </div>
+                </li>
+                <li className="flex gap-4 items-start">
+                  <Utensils className="w-5 h-5 text-primary shrink-0 mt-1" />
+                  <div>
+                    <strong className="text-foreground block mb-1">Essen & Trinken</strong>
+                    Für ein besonderes Abendessen empfehlen wir das <strong>Raskolnikoff</strong> (uriges Ambiente und ein toller Innenhof) oder die <strong>Lila Soße</strong> (moderne deutsche Küche in Tapas-Form, direkt in der Kunsthofpassage).
+                  </div>
+                </li>
+                <li className="flex gap-4 items-start">
+                  <Music className="w-5 h-5 text-primary shrink-0 mt-1" />
+                  <div>
+                    <strong className="text-foreground block mb-1">Abendgestaltung</strong>
+                    Schlendern Sie über die Alaunstraße und Louisenstraße. Für einen entspannten Abend empfehlen wir einen Besuch im <strong>Thalia Kino</strong> – einem kleinen Programmkino mit angeschlossener, gemütlicher Bar.
                   </div>
                 </li>
               </ul>
             </div>
           </section>
+
+          {/* Image Break 2 */}
+          <div className="relative h-[300px] rounded-3xl overflow-hidden shadow-lg my-12">
+            <Image
+              src="/images/dresden_premium_skyline.png"
+              alt="Blick auf die Frauenkirche"
+              fill
+              className="object-cover"
+            />
+          </div>
 
           {/* Section 3 */}
           <section>
@@ -133,10 +185,55 @@ export default function DresdenGuidePage() {
               </p>
               <ul className="space-y-4 mt-6 list-none pl-0">
                 <li className="flex gap-4 items-start">
+                  <MapPin className="w-5 h-5 text-primary shrink-0 mt-1" />
+                  <div>
+                    <strong className="text-foreground block mb-1">Pieschener Hafen & Elbradweg</strong>
+                    Holen Sie sich ein Eis oder einen Kaffee und setzen Sie sich ans Wasser. Der Elbradweg eignet sich zudem perfekt für eine entspannte Joggingrunde am Morgen.
+                  </div>
+                </li>
+                <li className="flex gap-4 items-start">
                   <Utensils className="w-5 h-5 text-primary shrink-0 mt-1" />
                   <div>
-                    <strong className="text-foreground block mb-1">Pieschener Hafen</strong>
-                    Holen Sie sich ein Eis oder einen Kaffee und setzen Sie sich ans Wasser. Ein wunderbarer Ort für den Sonnenuntergang.
+                    <strong className="text-foreground block mb-1">Ballhaus Watzke</strong>
+                    Ein traditionelles Brauhaus direkt an der Elbe mit grandiosem Blick auf die Altstadt-Silhouette (den berühmten "Canaletto-Blick"). Von den Apartments in Pieschen in ca. 15 Minuten bei einem wunderschönen Spaziergang am Wasser zu erreichen. Ein absolutes Muss!
+                  </div>
+                </li>
+                <li className="flex gap-4 items-start">
+                  <Utensils className="w-5 h-5 text-primary shrink-0 mt-1" />
+                  <div>
+                    <strong className="text-foreground block mb-1">Restaurants um die Ecke</strong>
+                    Wenn Sie abends nicht mehr weit laufen möchten, probieren Sie das <strong>Savoir Vivre</strong> oder die <strong>Pfalzstube</strong> – gemütliche Lokale mit hervorragendem Wein und Essen, direkt bei uns im Viertel.
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          {/* Section 4 */}
+          <section>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary">
+                <MapPin className="w-6 h-6" />
+              </div>
+              <h2 className="text-3xl font-serif font-bold">Praktische Tipps für Dresden</h2>
+            </div>
+            <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground">
+              <p>
+                Damit Ihr Aufenthalt von der ersten Minute an reibungslos verläuft, hier noch ein paar praktische Hinweise für die Navigation durch unsere Stadt:
+              </p>
+              <ul className="space-y-4 mt-6 list-none pl-0">
+                <li className="flex gap-4 items-start">
+                  <Landmark className="w-5 h-5 text-primary shrink-0 mt-1" />
+                  <div>
+                    <strong className="text-foreground block mb-1">Nahverkehr (DVB)</strong>
+                    Dresden hat ein hervorragendes Straßenbahn-Netz. Ein eigenes Auto benötigen Sie im Zentrum absolut nicht. Nutzen Sie am besten die DVB-App für aktuelle Verbindungen. Die Haltestellen sind von all unseren Apartments in wenigen Minuten zu Fuß erreichbar.
+                  </div>
+                </li>
+                <li className="flex gap-4 items-start">
+                  <Camera className="w-5 h-5 text-primary shrink-0 mt-1" />
+                  <div>
+                    <strong className="text-foreground block mb-1">Beste Reisezeit</strong>
+                    Während der Sommer ideal für laue Abende an der Elbe ist, hat Dresden auch im Winter einen ganz besonderen Zauber: Der Striezelmarkt ist einer der ältesten und schönsten Weihnachtsmärkte Deutschlands.
                   </div>
                 </li>
               </ul>
