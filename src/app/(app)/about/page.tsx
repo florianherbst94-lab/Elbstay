@@ -10,7 +10,7 @@ export default function AboutPage() {
         
         <div className="relative h-[60vh] min-h-[400px] w-full mb-16 rounded-2xl overflow-hidden shadow-2xl">
           <Image 
-            src="https://images.unsplash.com/photo-1574643031023-e4070a2fe895?q=80&w=2600&auto=format&fit=crop" 
+            src="/images/dresden_hero_ultra_wide.jpg" 
             alt="Dresden Architecture / ElbStay Detail" 
             fill 
             className="object-cover"
