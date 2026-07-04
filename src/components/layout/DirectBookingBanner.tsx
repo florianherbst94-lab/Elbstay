@@ -50,7 +50,7 @@ export function DirectBookingBanner() {
             
             <button 
               onClick={handleClose}
-              className="absolute top-3 right-3 text-background/50 hover:text-background transition-colors p-1"
+              className="absolute top-3 right-3 z-20 text-background/50 hover:text-background transition-colors p-1"
               aria-label="Schließen"
             >
               <X className="w-4 h-4" />
