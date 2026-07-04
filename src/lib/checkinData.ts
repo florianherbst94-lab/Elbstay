@@ -130,7 +130,7 @@ export const wbadd2703Data: ApartmentData = {
     },
     {
       title: "Schlüsselkasten",
-      description: "In dem Briefkasten befindet sich ein Schlüsselkasten mit dem Zahlencode 3795. Dort erhältst du den Schlüssel und Zugang zur Wohnung.",
+      description: "In dem Briefkasten befindet sich ein Schlüsselkasten mit dem Zahlencode 7395. Dort erhältst du den Schlüssel und Zugang zur Wohnung.",
       imageUrl: "/images/checkin/wbadd2703-step1.jpg",
     },
     {

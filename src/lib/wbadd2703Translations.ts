@@ -41,7 +41,7 @@ export const t = {
       },
       {
         title: "Schlüsselkasten",
-        description: "In dem Briefkasten befindet sich ein Schlüsselkasten mit dem Zahlencode 3795. Dort erhältst du den Schlüssel und Zugang zur Wohnung.",
+        description: "In dem Briefkasten befindet sich ein Schlüsselkasten mit dem Zahlencode 7395. Dort erhältst du den Schlüssel und Zugang zur Wohnung.",
       },
       {
         title: "Treppenhaus",
@@ -134,7 +134,7 @@ export const t = {
       },
       {
         title: "Key Box",
-        description: "Inside the mailbox is a key box with the code 3795. There you will get the key and access to the apartment.",
+        description: "Inside the mailbox is a key box with the code 7395. There you will get the key and access to the apartment.",
       },
       {
         title: "Staircase",
