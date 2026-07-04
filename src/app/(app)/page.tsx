@@ -36,7 +36,7 @@ const APARTMENTS = [
     description: "Dachterrasse mit Elbblick, großzügige Räume und Premium-Ausstattung – Ihr privates Penthouse über Dresden.",
     guests: 6,
     beds: "2 Betten + 1 Schlafcouch",
-    size: 120,
+    size: 85,
     imageUrl: "/images/premium/floairbnb_-77.jpg",
     priceFrom: 110,
   },

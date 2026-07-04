@@ -76,7 +76,7 @@ export default function PremiumApartment() {
             <span>·</span>
             <span className="flex items-center gap-1.5"><Users className="w-4 h-4" /> 6 Gäste</span>
             <span>·</span>
-            <span className="flex items-center gap-1.5"><Home className="w-4 h-4" /> 120 m²</span>
+            <span className="flex items-center gap-1.5"><Home className="w-4 h-4" /> 85 m²</span>
             <span className="hidden sm:inline">·</span>
             <span className="hidden sm:flex items-center gap-1.5"><Bed className="w-4 h-4" /> 3 Betten</span>
             <span className="hidden sm:inline">·</span>
