@@ -11,9 +11,9 @@ export function DirectBookingBanner() {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Only show the banner if we are NOT on the search/booking page
+    // Only show the banner if we are NOT on the search/booking page or check-in pages
     // and wait a few seconds before showing it so it's not too aggressive
-    if (pathname === "/search") {
+    if (pathname === "/search" || pathname.startsWith("/wbadd")) {
       setIsVisible(false);
       return;
     }
