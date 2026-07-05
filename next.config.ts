@@ -9,10 +9,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    outputFileTracingExcludes: {
-      "/api/admin/**/*": ["./public/images/**/*", "./src/lib/**/*"],
-    },
+  outputFileTracingExcludes: {
+    "/api/admin/**/*": ["./public/images/**/*", "./src/lib/**/*"],
   },
 };
 
