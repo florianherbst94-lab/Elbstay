@@ -33,16 +33,12 @@ export const t = {
     steps: [
       {
         title: "Hauseingang",
-        description: "Suche den Hauseingang auf der Ostra-Allee 9.",
+        description: "Die Unterkunft befindet auf der Hermsdorfer Str. 11, 01159 Dresden. Gehe durch das Eingangstor – auf der linken Seite im Hof findest du die Eingangstür. Die Ferienwohnung liegt im Erdgeschoss in der Mitte.",
       },
       {
-        title: "Schlüsselkasten",
-        description: "Am Eingang befindet sich ein Schlüsselkasten. Dort erhältst du den Schlüssel und Zugang zur Wohnung.",
-      },
-      {
-        title: "Wohnungstür",
-        description: "Der Zugang zur Wohnung. Wir wünschen dir einen wundervollen Aufenthalt.",
-      },
+        title: "Briefkasten & Schlüssel",
+        description: "Dein Schlüssel ist in einer Box im Briefkasten von Herbst, unten rechts, aufbewahrt. Der Briefkasten ist mit einem dreistelligen Zahlenschloss gesichert. Der Code lautet: 0 2 9. Es befinden sich 2 Schlüssel darin.",
+      }
     ],
 
     // Info section
@@ -118,16 +114,12 @@ export const t = {
     steps: [
       {
         title: "Building Entrance",
-        description: "Find the building entrance at Ostra-Allee 9.",
+        description: "The accommodation is located at Hermsdorfer Str. 11, 01159 Dresden. Go through the entrance gate – you will find the entrance door on the left side of the courtyard. The apartment is on the ground floor in the middle.",
       },
       {
-        title: "Key Box",
-        description: "There is a key box at the entrance. There you will get the key and access to the apartment.",
-      },
-      {
-        title: "Apartment Door",
-        description: "The entrance to the apartment. We wish you a wonderful stay.",
-      },
+        title: "Mailbox & Keys",
+        description: "Your key is kept in a box in the Herbst mailbox on the bottom right. The mailbox is secured with a three-digit combination lock. The code is: 0 2 9. There are 2 keys inside.",
+      }
     ],
 
     // Info section
