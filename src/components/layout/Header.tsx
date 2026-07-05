@@ -8,10 +8,9 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 const NAV_LINKS = [
-  { name: "Urban", href: "/apartments/urban" },
-  { name: "Premium", href: "/apartments/premium" },
-  { name: "Dresden Guide", href: "/dresden-guide" },
+  { name: "Apartments", href: "/apartments" },
   { name: "Über uns", href: "/about" },
+  { name: "Dresden Guide", href: "/dresden-guide" },
 ];
 
 export function Header() {

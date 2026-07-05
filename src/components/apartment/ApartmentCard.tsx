@@ -27,7 +27,7 @@ export function ApartmentCard({
   priceFrom,
 }: ApartmentCardProps) {
   return (
-    <div className="group flex flex-col rounded-xl overflow-hidden border border-border/80 bg-background hover:shadow-xl transition-all duration-300">
+    <Link href={`/apartments/${type.toLowerCase()}`} className="group flex flex-col rounded-xl overflow-hidden border border-border/80 bg-background hover:shadow-xl transition-all duration-300 relative block h-full">
       <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-muted">
         <Image
           src={imageUrl}
@@ -70,20 +70,22 @@ export function ApartmentCard({
           </div>
         </div>
         
-        <div className="flex items-center gap-3">
-          <Link href={`/apartments/${type.toLowerCase()}`} className="flex-1">
-            <Button variant="outline" className="w-full bg-transparent">
+        <div className="flex items-center gap-3 relative z-10">
+          <div className="flex-1">
+            <Button variant="outline" className="w-full bg-background pointer-events-none">
               Details
             </Button>
-          </Link>
-          <Link href={`/apartments/${type.toLowerCase()}#book`} className="flex-1">
-            <Button className="w-full group/btn">
-              Buchen
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-            </Button>
-          </Link>
+          </div>
+          <object className="flex-1">
+            <Link href={`/apartments/${type.toLowerCase()}#book`} className="block w-full">
+              <Button className="w-full group/btn pointer-events-auto">
+                Buchen
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+              </Button>
+            </Link>
+          </object>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
