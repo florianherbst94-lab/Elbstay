@@ -5,6 +5,10 @@ export interface ImageCategory {
 
 export const urbanGallery: ImageCategory[] = [
   {
+    "title": "Highlights",
+    "images": []
+  },
+  {
     "title": "Wohnbereich",
     "images": [
       "/images/urban/airbnb-flo-5.jpg",
@@ -57,6 +61,10 @@ export const urbanGallery: ImageCategory[] = [
 ];
 
 export const premiumGallery: ImageCategory[] = [
+  {
+    "title": "Highlights",
+    "images": []
+  },
   {
     "title": "Wohnbereich & Terrasse",
     "images": [
