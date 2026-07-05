@@ -49,18 +49,13 @@ export const wbadd5902Data: ApartmentData = {
   steps: [
     {
       title: "Hauseingang",
-      description: "Suche den Hauseingang auf der Ostra-Allee 9.",
-      imageUrl: "/images/urban/airbnb-flo-5.jpg", // Placeholder until images are provided
+      description: "Die Unterkunft befindet auf der Hermsdorfer Str. 11, 01159 Dresden. Gehe durch das Eingangstor – auf der linken Seite im Hof findest du die Eingangstür. Die Ferienwohnung liegt im Erdgeschoss in der Mitte.",
+      imageUrl: "/images/checkin/urban/hauseingang.jpg",
     },
     {
-      title: "Schlüsselkasten",
-      description: "Am Eingang befindet sich ein Schlüsselkasten. Dort erhältst du den Schlüssel und Zugang zur Wohnung.",
-      imageUrl: "/images/urban/airbnb-flo-5.jpg",
-    },
-    {
-      title: "Wohnungstür",
-      description: "Der Zugang zur Wohnung. Wir wünschen dir einen wundervollen Aufenthalt.",
-      imageUrl: "/images/urban/airbnb-flo-5.jpg",
+      title: "Briefkasten & Schlüssel",
+      description: "Dein Schlüssel ist in einer Box im Briefkasten von Herbst, unten rechts, aufbewahrt. Der Briefkasten ist mit einem dreistelligen Zahlenschloss gesichert. Der Code lautet: 0 2 9. Es befinden sich 2 Schlüssel darin.",
+      imageUrl: "/images/checkin/urban/schluessel_briefkasten.jpg",
     }
   ],
   checkOutChecklist: [
