@@ -151,7 +151,7 @@ export default function BoutiqueApartment() {
           {/* Calendar replaced by Hospitable widget in sidebar */}
 
           <MapWidget 
-            query="51.0772, 13.7225+(Dresden Pieschen)"
+            query="Leipziger Str., Dresden, Germany"
             description="Das Boutique-Apartment liegt im beliebten Viertel Dresden-Pieschen auf der Leipziger Straße. Die Elbe und das Stadtzentrum sind schnell erreichbar."
           />
         </div>
