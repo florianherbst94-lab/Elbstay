@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Save, Loader2, GripVertical } from "lucide-react";
+import { Save, Loader2, GripVertical, UploadCloud } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 interface ImageCategory {
@@ -66,6 +66,29 @@ export default function GalleryEditor() {
     setter(state);
   };
 
+  const handleUploadComplete = (targetType: "urban" | "premium" | "boutique", url: string) => {
+    let state: ImageCategory[];
+    let setter: React.Dispatch<React.SetStateAction<ImageCategory[]>>;
+    
+    if (targetType === "urban") {
+      state = [...urbanGallery];
+      setter = setUrbanGallery;
+    } else if (targetType === "premium") {
+      state = [...premiumGallery];
+      setter = setPremiumGallery;
+    } else {
+      state = [...boutiqueGallery];
+      setter = setBoutiqueGallery;
+    }
+
+    // Add to the first category (which should be "Highlights")
+    if (state.length > 0) {
+      state[0].images.unshift(url);
+    }
+    
+    setter(state);
+  };
+
   const saveChanges = async () => {
     setSaving(true);
     try {
@@ -73,10 +96,18 @@ export default function GalleryEditor() {
         method: "POST",
         body: JSON.stringify({ urbanGallery, premiumGallery, boutiqueGallery }),
       });
-      if (res.ok) alert("Galerie erfolgreich direkt in die Code-Datei gespeichert!");
-      else alert("Fehler beim Speichern!");
+      const data = await res.json();
+      if (res.ok) {
+        if (data.warning) {
+          alert(`Galerie gespeichert, aber: ${data.warning}`);
+        } else {
+          alert("Galerie erfolgreich gespeichert und live geschaltet!");
+        }
+      } else {
+        alert(`Fehler beim Speichern: ${data.error || "Unbekannter Fehler"}`);
+      }
     } catch (e) {
-      alert("Fehler!");
+      alert("Fehler bei der Anfrage!");
     }
     setSaving(false);
   };
@@ -88,11 +119,11 @@ export default function GalleryEditor() {
       <div className="flex justify-between items-center mb-10">
         <div>
           <h1 className="text-4xl font-serif font-bold text-foreground mb-2">Galerie Drag & Drop</h1>
-          <p className="text-muted-foreground">Verschieben Sie Bilder, um die Galerien auf der Website anzupassen.</p>
+          <p className="text-muted-foreground">Laden Sie Bilder hoch und verschieben Sie diese, um die Galerien anzupassen.</p>
         </div>
-        <Button onClick={saveChanges} disabled={saving} size="lg" className="gap-2">
+        <Button onClick={saveChanges} disabled={saving} size="lg" className="gap-2 bg-green-600 hover:bg-green-700 text-white">
           {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-          {saving ? "Speichert..." : "Änderungen speichern"}
+          {saving ? "Speichert & Pusht..." : "Speichern & Live schalten"}
         </Button>
       </div>
 
@@ -103,6 +134,7 @@ export default function GalleryEditor() {
           type="urban" 
           onDragStart={handleDragStart} 
           onDrop={handleDrop} 
+          onUploadComplete={(url) => handleUploadComplete("urban", url)}
         />
         <hr className="border-border" />
         <EditorSection 
@@ -111,6 +143,7 @@ export default function GalleryEditor() {
           type="premium" 
           onDragStart={handleDragStart} 
           onDrop={handleDrop} 
+          onUploadComplete={(url) => handleUploadComplete("premium", url)}
         />
         <hr className="border-border" />
         <EditorSection 
@@ -119,6 +152,7 @@ export default function GalleryEditor() {
           type="boutique" 
           onDragStart={handleDragStart} 
           onDrop={handleDrop} 
+          onUploadComplete={(url) => handleUploadComplete("boutique", url)}
         />
       </div>
     </div>
@@ -131,12 +165,67 @@ interface EditorSectionProps {
   type: "urban" | "premium" | "boutique";
   onDragStart: (e: React.DragEvent, item: string, catIndex: number, type: "urban" | "premium" | "boutique") => void;
   onDrop: (e: React.DragEvent, targetCatIndex: number, targetType: "urban" | "premium" | "boutique") => void;
+  onUploadComplete: (url: string) => void;
 }
 
-function EditorSection({ title, categories, type, onDragStart, onDrop }: EditorSectionProps) {
+function EditorSection({ title, categories, type, onDragStart, onDrop, onUploadComplete }: EditorSectionProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("type", type);
+
+    try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      
+      if (res.ok && data.url) {
+        onUploadComplete(data.url);
+      } else {
+        alert(`Fehler beim Upload: ${data.error || 'Unbekannt'}`);
+      }
+    } catch (err) {
+      alert("Fehler beim Hochladen.");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
   return (
     <div>
-      <h2 className="text-3xl font-bold mb-8">{title}</h2>
+      <div className="flex items-center justify-between mb-8">
+        <h2 className="text-3xl font-bold">{title}</h2>
+        <div>
+          <input 
+            type="file" 
+            ref={fileInputRef} 
+            onChange={handleFileChange} 
+            className="hidden" 
+            accept="image/jpeg, image/png, image/webp" 
+          />
+          <Button 
+            variant="outline" 
+            onClick={() => fileInputRef.current?.click()} 
+            disabled={uploading}
+            className="gap-2"
+          >
+            {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
+            {uploading ? "Lädt..." : "Bild hochladen"}
+          </Button>
+        </div>
+      </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
         {categories.map((cat, i) => (
           <div

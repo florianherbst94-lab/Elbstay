@@ -1,8 +1,12 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { exec } from 'child_process';
+import util from 'util';
 import { urbanGallery, premiumGallery } from '@/lib/images';
 import { boutiqueGallery } from '@/lib/boutique/images';
+
+const execAsync = util.promisify(exec);
 
 export async function GET() {
   return NextResponse.json({ urbanGallery, premiumGallery, boutiqueGallery });
@@ -27,6 +31,17 @@ export async function POST(req: Request) {
       let boutiqueContent = `import { ImageCategory } from "@/lib/images";\n\n`;
       boutiqueContent += `export const boutiqueGallery: ImageCategory[] = ${JSON.stringify(data.boutiqueGallery, null, 2)};\n`;
       fs.writeFileSync(boutiquePath, boutiqueContent, 'utf8');
+    }
+    
+    // Auto-commit and push changes
+    try {
+      console.log("Committing and pushing gallery updates...");
+      await execAsync('git add src/lib/images.ts src/lib/boutique/images.ts public/images && git commit -m "chore(gallery): Update images via admin interface" && git push origin main');
+      console.log("Push successful");
+    } catch (gitErr) {
+      console.error("Git push failed:", gitErr);
+      // We still return success since the files were written, but maybe warn the user
+      return NextResponse.json({ success: true, warning: "Files saved locally but Git push failed. Please push manually." });
     }
     
     return NextResponse.json({ success: true });
