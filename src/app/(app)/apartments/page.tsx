@@ -2,15 +2,15 @@ import { ApartmentCard } from "@/components/apartment/ApartmentCard";
 
 const APARTMENTS = [
   {
-    id: "urban-1",
-    name: "ElbStay Urban",
-    type: "Urban" as const,
-    description: "Modernes Design-Apartment im Herzen von Dresden. Perfekt für Paare und Business-Reisende, die Wert auf Stil und Komfort legen.",
+    id: "boutique",
+    name: "ElbStay Boutique",
+    type: "Boutique" as const,
+    description: "Stilvolles Boutique-Apartment in Dresden-Pieschen. Die hochwertig eingerichtete 2-Raum-Wohnung verbindet Altbaucharme, warmes Interior und modernen Komfort.",
     guests: 4,
     beds: "1 Bett + 1 Schlafcouch",
-    size: 55,
-    imageUrl: "/images/urban/airbnb-flo-5.jpg",
-    priceFrom: 70,
+    size: 48,
+    imageUrl: "/images/boutique/living-room-1.jpg",
+    priceFrom: 85,
   },
   {
     id: "premium-1",
@@ -24,15 +24,15 @@ const APARTMENTS = [
     priceFrom: 110,
   },
   {
-    id: "boutique",
-    name: "ElbStay Boutique",
-    type: "Boutique" as const,
-    description: "Stilvolles Boutique-Apartment in Dresden-Pieschen. Die hochwertig eingerichtete 2-Raum-Wohnung verbindet Altbaucharme, warmes Interior und modernen Komfort.",
+    id: "urban-1",
+    name: "ElbStay Urban",
+    type: "Urban" as const,
+    description: "Modernes Design-Apartment im Herzen von Dresden. Perfekt für Paare und Business-Reisende, die Wert auf Stil und Komfort legen.",
     guests: 4,
     beds: "1 Bett + 1 Schlafcouch",
-    size: 48,
-    imageUrl: "/images/boutique/living-room-1.jpg",
-    priceFrom: 85,
+    size: 55,
+    imageUrl: "/images/urban/airbnb-flo-5.jpg",
+    priceFrom: 70,
   }
 ];
 
