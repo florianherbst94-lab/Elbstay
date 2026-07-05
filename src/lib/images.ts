@@ -6,23 +6,25 @@ export interface ImageCategory {
 export const urbanGallery: ImageCategory[] = [
   {
     "title": "Highlights",
-    "images": []
+    "images": [
+      "/images/urban/airbnb-flo-29.jpg",
+      "/images/urban/airbnb-flo-5.jpg",
+      "/images/urban/airbnb-flo-13.jpg"
+    ]
   },
   {
     "title": "Wohnbereich",
     "images": [
-      "/images/urban/airbnb-flo-5.jpg",
-      "/images/urban/airbnb-flo-14.jpg",
-      "/images/urban/airbnb-flo-17.jpg",
       "/images/urban/airbnb-flo-3.jpg",
+      "/images/urban/airbnb-flo-14.jpg",
+      "/images/urban/airbnb-flo-12.jpg",
       "/images/urban/airbnb-flo-47.jpg",
-      "/images/urban/airbnb-flo-12.jpg"
+      "/images/urban/airbnb-flo-17.jpg"
     ]
   },
   {
     "title": "Schlafzimmer",
     "images": [
-      "/images/urban/airbnb-flo-29.jpg",
       "/images/urban/airbnb-flo-25.jpg",
       "/images/urban/airbnb-flo-19.jpg"
     ]
@@ -52,7 +54,6 @@ export const urbanGallery: ImageCategory[] = [
   {
     "title": "Weitere Eindrücke",
     "images": [
-      "/images/urban/airbnb-flo-13.jpg",
       "/images/urban/airbnb-flo-59.jpg",
       "/images/urban/airbnb-flo-6.jpg",
       "/images/urban/airbnb-flo-9.jpg"
@@ -63,22 +64,23 @@ export const urbanGallery: ImageCategory[] = [
 export const premiumGallery: ImageCategory[] = [
   {
     "title": "Highlights",
-    "images": []
+    "images": [
+      "/images/premium/floairbnb_-77.jpg",
+      "/images/premium/floairbnb_-16.jpg",
+      "/images/premium/floairbnb_-100.jpg"
+    ]
   },
   {
     "title": "Wohnbereich & Terrasse",
     "images": [
-      "/images/premium/floairbnb_-77.jpg",
-      "/images/premium/floairbnb_-57.jpg",
-      "/images/premium/floairbnb_-98.jpg",
-      "/images/premium/floairbnb_-100.jpg",
-      "/images/premium/floairbnb_-13.jpg",
-      "/images/premium/floairbnb_-16.jpg",
       "/images/premium/floairbnb_-29.jpg",
-      "/images/premium/floairbnb_-48.jpg",
+      "/images/premium/floairbnb_-13.jpg",
       "/images/premium/floairbnb_-7.jpg",
+      "/images/premium/floairbnb_-55.jpg",
+      "/images/premium/floairbnb_-98.jpg",
       "/images/premium/floairbnb_-4.jpg",
-      "/images/premium/floairbnb_-55.jpg"
+      "/images/premium/floairbnb_-48.jpg",
+      "/images/premium/floairbnb_-57.jpg"
     ]
   },
   {
