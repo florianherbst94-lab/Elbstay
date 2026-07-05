@@ -1,4 +1,7 @@
+"use client";
+
 import { ApartmentCard } from "@/components/apartment/ApartmentCard";
+import { useEffect } from "react";
 
 const APARTMENTS = [
   {
@@ -37,6 +40,10 @@ const APARTMENTS = [
 ];
 
 export default function ApartmentsPage() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="flex-1 bg-background pt-16 pb-24">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
