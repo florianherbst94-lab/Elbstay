@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Save, Loader2, GripVertical, UploadCloud } from "lucide-react";
+import { Save, Loader2, GripVertical, UploadCloud, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 interface ImageCategory {
@@ -89,6 +89,27 @@ export default function GalleryEditor() {
     setter(state);
   };
 
+  const handleDelete = (targetType: "urban" | "premium" | "boutique", catIndex: number, imgUrl: string) => {
+    if (!confirm("Soll dieses Bild wirklich aus der Galerie entfernt werden?")) return;
+
+    let state: ImageCategory[];
+    let setter: React.Dispatch<React.SetStateAction<ImageCategory[]>>;
+    
+    if (targetType === "urban") {
+      state = [...urbanGallery];
+      setter = setUrbanGallery;
+    } else if (targetType === "premium") {
+      state = [...premiumGallery];
+      setter = setPremiumGallery;
+    } else {
+      state = [...boutiqueGallery];
+      setter = setBoutiqueGallery;
+    }
+
+    state[catIndex].images = state[catIndex].images.filter((img) => img !== imgUrl);
+    setter(state);
+  };
+
   const saveChanges = async () => {
     setSaving(true);
     try {
@@ -135,6 +156,7 @@ export default function GalleryEditor() {
           onDragStart={handleDragStart} 
           onDrop={handleDrop} 
           onUploadComplete={(url) => handleUploadComplete("urban", url)}
+          onDelete={(catIndex, url) => handleDelete("urban", catIndex, url)}
         />
         <hr className="border-border" />
         <EditorSection 
@@ -144,6 +166,7 @@ export default function GalleryEditor() {
           onDragStart={handleDragStart} 
           onDrop={handleDrop} 
           onUploadComplete={(url) => handleUploadComplete("premium", url)}
+          onDelete={(catIndex, url) => handleDelete("premium", catIndex, url)}
         />
         <hr className="border-border" />
         <EditorSection 
@@ -153,6 +176,7 @@ export default function GalleryEditor() {
           onDragStart={handleDragStart} 
           onDrop={handleDrop} 
           onUploadComplete={(url) => handleUploadComplete("boutique", url)}
+          onDelete={(catIndex, url) => handleDelete("boutique", catIndex, url)}
         />
       </div>
     </div>
@@ -166,9 +190,10 @@ interface EditorSectionProps {
   onDragStart: (e: React.DragEvent, item: string, catIndex: number, type: "urban" | "premium" | "boutique") => void;
   onDrop: (e: React.DragEvent, targetCatIndex: number, targetType: "urban" | "premium" | "boutique") => void;
   onUploadComplete: (url: string) => void;
+  onDelete: (catIndex: number, url: string) => void;
 }
 
-function EditorSection({ title, categories, type, onDragStart, onDrop, onUploadComplete }: EditorSectionProps) {
+function EditorSection({ title, categories, type, onDragStart, onDrop, onUploadComplete, onDelete }: EditorSectionProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -247,6 +272,13 @@ function EditorSection({ title, categories, type, onDragStart, onDrop, onUploadC
                   <div className="absolute inset-x-0 bottom-0 bg-black/50 p-1 hidden group-hover:flex justify-center">
                     <GripVertical className="w-4 h-4 text-white" />
                   </div>
+                  <button 
+                    onClick={() => onDelete(i, src)}
+                    className="absolute top-1 right-1 bg-destructive/90 text-destructive-foreground p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive"
+                    title="Bild entfernen"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               ))}
               {cat.images.length === 0 && (
