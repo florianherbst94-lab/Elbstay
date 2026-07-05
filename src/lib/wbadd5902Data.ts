@@ -32,7 +32,7 @@ export interface ApartmentData {
 export const wbadd5902Data: ApartmentData = {
   id: "wbadd5902",
   name: "ElbStay Urban",
-  address: "Ostra-Allee 9, 01067 Dresden",
+  address: "Hermsdorfer Str. 11, 01159 Dresden, Deutschland",
   mapUrl: "https://wbk.li/de/dresden-o93",
   wifi: {
     ssid: "ElbStay",
