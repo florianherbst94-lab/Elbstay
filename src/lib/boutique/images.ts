@@ -11,22 +11,18 @@ export const boutiqueGallery: ImageCategory[] = [
     ]
   },
   {
-    title: "Essbereich",
+    title: "Wohnbereich",
     images: [
       "/images/boutique/02_essbereich_tv_hoch_airbnb_style_HIGHRES_8-10MB.jpg",
       "/images/boutique/03_essbereich_tv_weit_airbnb_style_HIGHRES_8-10MB.jpg",
       "/images/boutique/05_esstisch_detail_01_airbnb_edit_10mb.jpg",
       "/images/boutique/06_esstisch_detail_02_airbnb_edit_10mb.jpg",
       "/images/boutique/07_esstisch_detail_03_airbnb_edit_10mb.jpg",
-      "/images/boutique/10_studio_essbereich_bett_airbnb_style_HIGHRES_8-10MB.jpg"
-    ]
-  },
-  {
-    title: "Küche",
-    images: [
-      "/images/boutique/07_kueche_airbnb_style_HIGHRES.jpg",
-      "/images/boutique/10_kueche_gesamt_airbnb_edit_10mb.jpg",
-      "/images/boutique/04_kuechengeraete_detail_airbnb_edit_10mb.jpg"
+      "/images/boutique/10_studio_essbereich_bett_airbnb_style_HIGHRES_8-10MB.jpg",
+      "/images/boutique/living-room-1.jpg",
+      "/images/boutique/living-room-2.jpg",
+      "/images/boutique/living-room-3.jpg",
+      "/images/boutique/living-room-4.jpg"
     ]
   },
   {
@@ -41,6 +37,14 @@ export const boutiqueGallery: ImageCategory[] = [
       "/images/boutique/10_schlafzimmer_weit_airbnb_style_HIGHRES.jpg",
       "/images/boutique/02_spiegel_schlafzimmer_reflexion_airbnb_style_HIGHRES.jpg",
       "/images/boutique/03_spiegel_schlafzimmer_detail_airbnb_style_HIGHRES.jpg"
+    ]
+  },
+  {
+    title: "Küche",
+    images: [
+      "/images/boutique/07_kueche_airbnb_style_HIGHRES.jpg",
+      "/images/boutique/10_kueche_gesamt_airbnb_edit_10mb.jpg",
+      "/images/boutique/04_kuechengeraete_detail_airbnb_edit_10mb.jpg"
     ]
   },
   {
