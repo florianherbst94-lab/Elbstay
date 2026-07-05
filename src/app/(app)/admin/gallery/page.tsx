@@ -12,6 +12,7 @@ interface ImageCategory {
 export default function GalleryEditor() {
   const [urbanGallery, setUrbanGallery] = useState<ImageCategory[]>([]);
   const [premiumGallery, setPremiumGallery] = useState<ImageCategory[]>([]);
+  const [boutiqueGallery, setBoutiqueGallery] = useState<ImageCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -21,18 +22,19 @@ export default function GalleryEditor() {
       .then((data) => {
         setUrbanGallery(data.urbanGallery || []);
         setPremiumGallery(data.premiumGallery || []);
+        setBoutiqueGallery(data.boutiqueGallery || []);
         setLoading(false);
       });
   }, []);
 
-  const handleDragStart = (e: React.DragEvent, item: string, catIndex: number, type: "urban" | "premium") => {
+  const handleDragStart = (e: React.DragEvent, item: string, catIndex: number, type: "urban" | "premium" | "boutique") => {
     e.dataTransfer.setData("item", item);
     e.dataTransfer.setData("catIndex", String(catIndex));
     e.dataTransfer.setData("type", type);
     e.dataTransfer.effectAllowed = "move";
   };
 
-  const handleDrop = (e: React.DragEvent, targetCatIndex: number, targetType: "urban" | "premium") => {
+  const handleDrop = (e: React.DragEvent, targetCatIndex: number, targetType: "urban" | "premium" | "boutique") => {
     e.preventDefault();
     const item = e.dataTransfer.getData("item");
     const sourceCatIndex = parseInt(e.dataTransfer.getData("catIndex"), 10);
@@ -40,8 +42,19 @@ export default function GalleryEditor() {
 
     if (!item || sourceType !== targetType) return;
 
-    const state = targetType === "urban" ? [...urbanGallery] : [...premiumGallery];
-    const setter = targetType === "urban" ? setUrbanGallery : setPremiumGallery;
+    let state: ImageCategory[];
+    let setter: React.Dispatch<React.SetStateAction<ImageCategory[]>>;
+    
+    if (targetType === "urban") {
+      state = [...urbanGallery];
+      setter = setUrbanGallery;
+    } else if (targetType === "premium") {
+      state = [...premiumGallery];
+      setter = setPremiumGallery;
+    } else {
+      state = [...boutiqueGallery];
+      setter = setBoutiqueGallery;
+    }
 
     // Remove from old category
     state[sourceCatIndex].images = state[sourceCatIndex].images.filter((img) => img !== item);
@@ -58,7 +71,7 @@ export default function GalleryEditor() {
     try {
       const res = await fetch("/api/admin/gallery", {
         method: "POST",
-        body: JSON.stringify({ urbanGallery, premiumGallery }),
+        body: JSON.stringify({ urbanGallery, premiumGallery, boutiqueGallery }),
       });
       if (res.ok) alert("Galerie erfolgreich direkt in die Code-Datei gespeichert!");
       else alert("Fehler beim Speichern!");
@@ -99,6 +112,14 @@ export default function GalleryEditor() {
           onDragStart={handleDragStart} 
           onDrop={handleDrop} 
         />
+        <hr className="border-border" />
+        <EditorSection 
+          title="ElbStay Boutique" 
+          categories={boutiqueGallery} 
+          type="boutique" 
+          onDragStart={handleDragStart} 
+          onDrop={handleDrop} 
+        />
       </div>
     </div>
   );
@@ -107,9 +128,9 @@ export default function GalleryEditor() {
 interface EditorSectionProps {
   title: string;
   categories: ImageCategory[];
-  type: "urban" | "premium";
-  onDragStart: (e: React.DragEvent, item: string, catIndex: number, type: "urban" | "premium") => void;
-  onDrop: (e: React.DragEvent, targetCatIndex: number, targetType: "urban" | "premium") => void;
+  type: "urban" | "premium" | "boutique";
+  onDragStart: (e: React.DragEvent, item: string, catIndex: number, type: "urban" | "premium" | "boutique") => void;
+  onDrop: (e: React.DragEvent, targetCatIndex: number, targetType: "urban" | "premium" | "boutique") => void;
 }
 
 function EditorSection({ title, categories, type, onDragStart, onDrop }: EditorSectionProps) {

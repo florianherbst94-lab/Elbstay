@@ -2,9 +2,10 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import { urbanGallery, premiumGallery } from '@/lib/images';
+import { boutiqueGallery } from '@/lib/boutique/images';
 
 export async function GET() {
-  return NextResponse.json({ urbanGallery, premiumGallery });
+  return NextResponse.json({ urbanGallery, premiumGallery, boutiqueGallery });
 }
 
 export async function POST(req: Request) {
@@ -20,6 +21,13 @@ export async function POST(req: Request) {
     content += `export const premiumGallery: ImageCategory[] = ${JSON.stringify(data.premiumGallery, null, 2)};\n`;
 
     fs.writeFileSync(filePath, content, 'utf8');
+    
+    if (data.boutiqueGallery) {
+      const boutiquePath = path.join(process.cwd(), 'src', 'lib', 'boutique', 'images.ts');
+      let boutiqueContent = `import { ImageCategory } from "@/lib/images";\n\n`;
+      boutiqueContent += `export const boutiqueGallery: ImageCategory[] = ${JSON.stringify(data.boutiqueGallery, null, 2)};\n`;
+      fs.writeFileSync(boutiquePath, boutiqueContent, 'utf8');
+    }
     
     return NextResponse.json({ success: true });
   } catch (err) {
