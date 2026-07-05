@@ -115,8 +115,8 @@ export default function Wbadd5902CheckIn() {
             className="relative h-[400px] md:h-[500px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl"
           >
             <Image 
-              src="/images/checkin/wbadd5902-header.jpg"
-              alt="Boutique-Apartment Innenansicht"
+              src="/images/checkin/urban/header.jpg"
+              alt="Urban-Apartment Innenansicht"
               fill
               className="object-cover"
               priority
