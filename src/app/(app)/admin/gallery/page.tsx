@@ -34,8 +34,10 @@ export default function GalleryEditor() {
     e.dataTransfer.effectAllowed = "move";
   };
 
-  const handleDrop = (e: React.DragEvent, targetCatIndex: number, targetType: "urban" | "premium" | "boutique") => {
+  const handleDrop = (e: React.DragEvent, targetCatIndex: number, targetType: "urban" | "premium" | "boutique", targetImgIdx?: number) => {
     e.preventDefault();
+    e.stopPropagation();
+    
     const item = e.dataTransfer.getData("item");
     const sourceCatIndex = parseInt(e.dataTransfer.getData("catIndex"), 10);
     const sourceType = e.dataTransfer.getData("type");
@@ -56,11 +58,41 @@ export default function GalleryEditor() {
       setter = setBoutiqueGallery;
     }
 
-    // Remove from old category
-    state[sourceCatIndex].images = state[sourceCatIndex].images.filter((img) => img !== item);
-    // Add to new category (if not already there)
-    if (!state[targetCatIndex].images.includes(item)) {
-      state[targetCatIndex].images.push(item);
+    // If moving within the same category
+    if (sourceCatIndex === targetCatIndex) {
+      const images = [...state[sourceCatIndex].images];
+      const sourceImgIdx = images.indexOf(item);
+      
+      // Remove from old position
+      images.splice(sourceImgIdx, 1);
+      
+      // Insert at new position
+      if (targetImgIdx !== undefined) {
+        // If we drop on an item that was *after* our source item, 
+        // the index shifts by 1 because we just removed the source item.
+        const insertIdx = targetImgIdx;
+        images.splice(insertIdx, 0, item);
+      } else {
+        // Dropped on the category container, not a specific image -> put at the end
+        images.push(item);
+      }
+      
+      state[sourceCatIndex].images = images;
+    } else {
+      // Moving between different categories
+      // Remove from old category
+      state[sourceCatIndex].images = state[sourceCatIndex].images.filter((img) => img !== item);
+      
+      // Add to new category
+      const targetImages = [...state[targetCatIndex].images];
+      if (!targetImages.includes(item)) {
+        if (targetImgIdx !== undefined) {
+          targetImages.splice(targetImgIdx, 0, item);
+        } else {
+          targetImages.push(item);
+        }
+        state[targetCatIndex].images = targetImages;
+      }
     }
 
     setter(state);
@@ -188,7 +220,7 @@ interface EditorSectionProps {
   categories: ImageCategory[];
   type: "urban" | "premium" | "boutique";
   onDragStart: (e: React.DragEvent, item: string, catIndex: number, type: "urban" | "premium" | "boutique") => void;
-  onDrop: (e: React.DragEvent, targetCatIndex: number, targetType: "urban" | "premium" | "boutique") => void;
+  onDrop: (e: React.DragEvent, targetCatIndex: number, targetType: "urban" | "premium" | "boutique", targetImgIdx?: number) => void;
   onUploadComplete: (url: string) => void;
   onDelete: (catIndex: number, url: string) => void;
 }
@@ -266,6 +298,11 @@ function EditorSection({ title, categories, type, onDragStart, onDrop, onUploadC
                   key={src}
                   draggable
                   onDragStart={(e) => onDragStart(e, src, i, type)}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                  onDrop={(e) => onDrop(e, i, type, imgIdx)}
                   className="relative group w-32 h-24 rounded-lg overflow-hidden border border-border cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-primary shadow-sm"
                 >
                   <Image src={src} alt="" fill className="object-cover" />
