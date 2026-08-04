@@ -33,13 +33,19 @@ export async function syncProperties() {
 }
 
 export async function syncReservations(startDate?: string, endDate?: string) {
-  const reservations = await client.getReservations({ start_date: startDate, end_date: endDate })
-  let count = 0
-  
-  // We need to map Property IDs to our DB IDs
   const properties = await prisma.property.findMany()
   const propIdMap = new Map(properties.map(p => [p.hospitableId, p.id]))
+  const hospitablePropertyIds = Array.from(propIdMap.keys())
 
+  if (hospitablePropertyIds.length === 0) return 0
+
+  const reservations = await client.getReservations({ 
+    start_date: startDate, 
+    end_date: endDate,
+    property_ids: hospitablePropertyIds as any
+  })
+
+  let count = 0
   for (const res of reservations) {
     const dbPropertyId = propIdMap.get(res.property_id)
     if (!dbPropertyId) {

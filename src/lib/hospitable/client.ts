@@ -63,11 +63,19 @@ export class HospitableClient {
     return this.fetchAllPages("/properties");
   }
 
-  async getReservations(params?: { start_date?: string, end_date?: string, property_id?: string }) {
+  async getReservations(params?: { start_date?: string, end_date?: string, property_id?: string, property_ids?: string[] }) {
     const urlParams = new URLSearchParams();
     if (params?.start_date) urlParams.append("start_date", params.start_date);
     if (params?.end_date) urlParams.append("end_date", params.end_date);
-    if (params?.property_id) urlParams.append("property_id", params.property_id);
+    if (params?.property_id) urlParams.append("properties[]", params.property_id);
+    
+    // Also support passing an array of property IDs for mass sync
+    if ((params as any)?.property_ids && Array.isArray((params as any).property_ids)) {
+      (params as any).property_ids.forEach((id: string) => {
+        urlParams.append("properties[]", id);
+      });
+    }
+    
     // Include financials!
     urlParams.append("include", "financials");
     urlParams.append("per_page", "100");
