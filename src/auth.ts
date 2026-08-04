@@ -5,7 +5,10 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import prisma from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
+import { authConfig } from "./auth.config"
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
   // @ts-ignore - Auth.js adapter type incompatibility with Prisma 7
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
@@ -42,25 +45,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return user
       }
     })
-  ],
-  callbacks: {
-    async session({ session, token }) {
-      if (token.sub && session.user) {
-        session.user.id = token.sub
-      }
-      return session
-    },
-    async jwt({ token, user }) {
-      if (user) {
-        token.sub = user.id
-      }
-      return token
-    }
-  },
-  pages: {
-    signIn: '/admin/login',
-  },
-  experimental: {
-    enableWebAuthn: true,
-  }
+  ]
 })
