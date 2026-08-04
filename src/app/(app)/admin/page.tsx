@@ -20,15 +20,15 @@ export default function AdminOverviewPage() {
           </p>
         </Link>
         
-        <div className="rounded-2xl border border-border bg-muted/30 p-8 opacity-70">
-           <div className="bg-muted w-14 h-14 rounded-xl flex items-center justify-center mb-6">
-            <Settings className="w-7 h-7 text-muted-foreground" />
+        <Link href="/admin/revenue" className="group rounded-2xl border border-border bg-background p-8 hover:border-primary hover:shadow-lg transition-all duration-300">
+           <div className="bg-primary/10 w-14 h-14 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <Settings className="w-7 h-7 text-primary" />
           </div>
-          <h2 className="text-2xl font-bold mb-2">Text-Editor (Geplant)</h2>
+          <h2 className="text-2xl font-bold mb-2">Revenue & Break-even</h2>
           <p className="text-muted-foreground">
-            Feature für die Live-Bearbeitung von Website-Texten. Noch nicht aktiviert.
+            Wirtschaftliche Auswertung aller Ferienwohnungen.
           </p>
-        </div>
+        </Link>
       </div>
     </div>
   );

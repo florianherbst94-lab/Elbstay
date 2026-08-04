@@ -1,0 +1,77 @@
+export class HospitableClient {
+  private token: string;
+  private baseUrl = "https://public.api.hospitable.com/v2";
+
+  constructor() {
+    this.token = process.env.HOSPITABLE_API_TOKEN || "";
+  }
+
+  private async fetchAPI(endpoint: string, options: RequestInit = {}): Promise<any> {
+    if (!this.token) {
+      throw new Error("HOSPITABLE_API_TOKEN is not set.");
+    }
+    
+    // Add wait logic for retries
+    let retries = 3;
+    let delay = 1000;
+    
+    while (retries > 0) {
+      const response = await fetch(endpoint.startsWith('http') ? endpoint : `${this.baseUrl}${endpoint}`, {
+        ...options,
+        headers: {
+          "Authorization": `Bearer ${this.token}`,
+          "Content-Type": "application/json",
+          ...options.headers,
+        },
+      });
+
+      if (response.ok) {
+        return response.json();
+      }
+
+      if (response.status === 429 || response.status >= 500) {
+        retries--;
+        if (retries === 0) {
+          throw new Error(`Hospitable API Error ${response.status}: Rate limit or server error`);
+        }
+        await new Promise(r => setTimeout(r, delay));
+        delay *= 2; // Exponential backoff
+        continue;
+      }
+      
+      const errText = await response.text();
+      throw new Error(`Hospitable API Error ${response.status}: ${errText}`);
+    }
+  }
+
+  private async fetchAllPages(endpoint: string): Promise<any[]> {
+    let results: any[] = [];
+    let nextUrl = endpoint;
+
+    while (nextUrl) {
+      const res = await this.fetchAPI(nextUrl);
+      if (res.data) {
+        results = results.concat(res.data);
+      }
+      nextUrl = res.links?.next || null;
+    }
+
+    return results;
+  }
+
+  async getProperties() {
+    return this.fetchAllPages("/properties");
+  }
+
+  async getReservations(params?: { start_date?: string, end_date?: string, property_id?: string }) {
+    const urlParams = new URLSearchParams();
+    if (params?.start_date) urlParams.append("start_date", params.start_date);
+    if (params?.end_date) urlParams.append("end_date", params.end_date);
+    if (params?.property_id) urlParams.append("property_id", params.property_id);
+    // Include financials!
+    urlParams.append("include", "financials");
+    urlParams.append("per_page", "100");
+
+    return this.fetchAllPages(`/reservations?${urlParams.toString()}`);
+  }
+}
