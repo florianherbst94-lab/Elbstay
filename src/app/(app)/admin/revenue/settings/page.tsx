@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma"
 import { syncProperties, syncReservations } from "@/lib/hospitable/sync"
 import { revalidatePath } from "next/cache"
 import { Button } from "@/components/ui/Button"
+import { SyncButton } from "./sync-button"
 
 export const metadata: Metadata = {
   title: "Settings | Revenue Dashboard",
@@ -95,13 +96,7 @@ export default async function SettingsPage() {
 
         <div className="pt-6 border-t border-border flex items-center justify-between">
           <form action={handleSync}>
-            <button
-              type="submit"
-              disabled={!tokenSet}
-              className="bg-primary text-primary-foreground px-6 py-2 rounded-xl font-medium hover:opacity-90 disabled:opacity-50 transition-opacity"
-            >
-              Jetzt synchronisieren
-            </button>
+            <SyncButton disabled={!tokenSet} />
           </form>
           <p className="text-sm text-muted-foreground">
             Die automatische Synchronisation läuft alle 30 Minuten.
