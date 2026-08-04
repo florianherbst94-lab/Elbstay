@@ -49,6 +49,11 @@ export class HospitableClient {
     let nextUrl = endpoint;
 
     while (nextUrl) {
+      // Hospitable sometimes returns http:// links for pagination, which strips auth headers.
+      if (nextUrl.startsWith('http://')) {
+        nextUrl = nextUrl.replace('http://', 'https://')
+      }
+      
       const res = await this.fetchAPI(nextUrl);
       if (res.data) {
         results = results.concat(res.data);
