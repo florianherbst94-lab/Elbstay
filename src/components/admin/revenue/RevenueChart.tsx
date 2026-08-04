@@ -55,7 +55,7 @@ export function RevenueChart({ data }: { data: ChartData[] }) {
         <Tooltip 
           cursor={{ fill: 'hsl(var(--muted))' }}
           contentStyle={{ borderRadius: '8px', border: '1px solid hsl(var(--border))' }}
-          formatter={(value: number) => [`€ ${value.toFixed(2)}`, '']}
+          formatter={(value: any) => [`€ ${Number(value).toFixed(2)}`, '']}
         />
         <Legend wrapperStyle={{ paddingTop: '20px' }} />
         <Bar 

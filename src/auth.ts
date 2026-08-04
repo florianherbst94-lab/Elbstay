@@ -6,6 +6,7 @@ import prisma from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  // @ts-ignore - Auth.js adapter type incompatibility with Prisma 7
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   providers: [
