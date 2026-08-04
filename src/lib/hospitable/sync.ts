@@ -62,14 +62,14 @@ export async function syncReservations(startDate?: string, endDate?: string) {
       update: {
         code: res.code,
         platform: res.platform,
-        status: res.status,
+        status: res.reservation_status?.current?.category || res.status,
         checkIn,
         checkOut,
         nights,
-        adults: res.guests?.adults || 0,
-        children: res.guests?.children || 0,
+        adults: res.guests?.adult_count || 0,
+        children: (res.guests?.child_count || 0) + (res.guests?.infant_count || 0),
         totalGuests: res.guests?.total || 0,
-        isCancelled: res.status === "cancelled",
+        isCancelled: res.reservation_status?.current?.category === "cancelled" || res.status === "cancelled",
         hospitableUpdatedAt: res.updated_at ? new Date(res.updated_at) : null,
       },
       create: {
@@ -77,15 +77,15 @@ export async function syncReservations(startDate?: string, endDate?: string) {
         propertyId: dbPropertyId,
         code: res.code,
         platform: res.platform,
-        status: res.status,
-        bookedAt: res.booked_at ? new Date(res.booked_at) : null,
+        status: res.reservation_status?.current?.category || res.status,
+        bookedAt: res.booking_date ? new Date(res.booking_date) : null,
         checkIn,
         checkOut,
         nights,
-        adults: res.guests?.adults || 0,
-        children: res.guests?.children || 0,
+        adults: res.guests?.adult_count || 0,
+        children: (res.guests?.child_count || 0) + (res.guests?.infant_count || 0),
         totalGuests: res.guests?.total || 0,
-        isCancelled: res.status === "cancelled",
+        isCancelled: res.reservation_status?.current?.category === "cancelled" || res.status === "cancelled",
         hospitableCreatedAt: res.created_at ? new Date(res.created_at) : null,
         hospitableUpdatedAt: res.updated_at ? new Date(res.updated_at) : null,
       }
@@ -93,36 +93,45 @@ export async function syncReservations(startDate?: string, endDate?: string) {
 
     if (res.financials) {
       const fin = res.financials
-      // Convert to cents
-      const toCents = (amount?: number) => amount ? Math.round(amount * 100) : 0
+      // The API returns amounts in cents already!
+      const getAmount = (obj: any) => obj?.amount || 0
       
       const currency = fin.currency || "EUR"
-      const isComplete = fin.payout !== null && fin.payout !== undefined
+      // Guest totals
+      const accommodation = getAmount(fin.guest?.accommodation)
+      const cleaningFee = fin.guest?.fees?.find((f:any) => f.category === "Guest fees")?.amount || 0
+      const tax = fin.guest?.taxes?.reduce((sum:number, t:any) => sum + (t.amount || 0), 0) || 0
+      const totalPaidByGuest = getAmount(fin.guest?.total_price)
+      
+      // Host financials
+      const hostFee = fin.host?.host_fees?.reduce((sum:number, f:any) => sum + (f.amount || 0), 0) || 0
+      const payout = getAmount(fin.host?.revenue)
+      const isComplete = payout !== 0
 
       await prisma.reservationFinancials.upsert({
         where: { reservationId: dbRes.id },
         update: {
-          accommodationCent: toCents(fin.accommodation),
-          cleaningFeeCent: toCents(fin.cleaning_fee),
-          otherGuestFeeCent: toCents(fin.other_guest_fee),
-          discountCent: toCents(fin.discount),
-          taxCent: toCents(fin.tax),
-          hostFeeCent: toCents(fin.host_fee),
-          payoutCent: toCents(fin.payout),
-          totalPaidByGuestCent: toCents(fin.total_paid_by_guest),
+          accommodationCent: accommodation,
+          cleaningFeeCent: cleaningFee,
+          otherGuestFeeCent: 0,
+          discountCent: 0,
+          taxCent: tax,
+          hostFeeCent: hostFee,
+          payoutCent: payout,
+          totalPaidByGuestCent: totalPaidByGuest,
           currency,
           isComplete,
         },
         create: {
           reservationId: dbRes.id,
-          accommodationCent: toCents(fin.accommodation),
-          cleaningFeeCent: toCents(fin.cleaning_fee),
-          otherGuestFeeCent: toCents(fin.other_guest_fee),
-          discountCent: toCents(fin.discount),
-          taxCent: toCents(fin.tax),
-          hostFeeCent: toCents(fin.host_fee),
-          payoutCent: toCents(fin.payout),
-          totalPaidByGuestCent: toCents(fin.total_paid_by_guest),
+          accommodationCent: accommodation,
+          cleaningFeeCent: cleaningFee,
+          otherGuestFeeCent: 0,
+          discountCent: 0,
+          taxCent: tax,
+          hostFeeCent: hostFee,
+          payoutCent: payout,
+          totalPaidByGuestCent: totalPaidByGuest,
           currency,
           isComplete,
         }
