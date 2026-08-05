@@ -10,7 +10,9 @@ export function CostActionButtons({ cost }: {
     propertyId: string, 
     description: string, 
     amountCent: number, 
-    calculationType: string 
+    calculationType: string,
+    isGross: boolean,
+    taxRate: number
   } 
 }) {
   const [isPending, startTransition] = useTransition()
@@ -103,6 +105,25 @@ export function CostActionButtons({ cost }: {
                   <option value="PER_NIGHT">Pro Nacht</option>
                   <option value="FLAT">Einmalig</option>
                 </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Steuersatz</label>
+                  <select name="taxRate" defaultValue={cost.taxRate.toString()} required className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm">
+                    <option value="19">19% Mehrwertsteuer</option>
+                    <option value="7">7% Mehrwertsteuer</option>
+                    <option value="0">0% (z.B. Kleinunternehmer)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Betragstyp</label>
+                  <select name="isGross" defaultValue={cost.isGross.toString()} required className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm">
+                    <option value="true">Brutto (inkl. MwSt)</option>
+                    <option value="false">Netto (exkl. MwSt)</option>
+                  </select>
+                </div>
               </div>
 
               <div className="flex justify-end gap-3 pt-2">

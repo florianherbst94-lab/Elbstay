@@ -11,6 +11,8 @@ export async function createCost(formData: FormData) {
   const amountStr = formData.get("amount") as string
   const calculationType = formData.get("calculationType") as string
   const validFromStr = formData.get("validFrom") as string
+  const isGrossStr = formData.get("isGross") as string
+  const taxRateStr = formData.get("taxRate") as string
   
   if (!propertyId || !categoryId || !description || !amountStr || !calculationType || !validFromStr) {
     throw new Error("Bitte füllen Sie alle Pflichtfelder aus.")
@@ -48,7 +50,8 @@ export async function createCost(formData: FormData) {
       calculationType,
       validFrom,
       isActive: true,
-      isGross: true,
+      isGross: isGrossStr === "true",
+      taxRate: taxRateStr ? parseFloat(taxRateStr) : 0,
     }
   })
 
@@ -78,7 +81,8 @@ export async function duplicateCost(costId: string, propertyId: string) {
       calculationType: existing.calculationType,
       validFrom: existing.validFrom,
       isActive: existing.isActive,
-      isGross: existing.isGross
+      isGross: existing.isGross,
+      taxRate: existing.taxRate
     }
   })
   
@@ -90,6 +94,8 @@ export async function updateCost(costId: string, formData: FormData) {
   const description = formData.get("description") as string
   const amountStr = formData.get("amount") as string
   const calculationType = formData.get("calculationType") as string
+  const isGrossStr = formData.get("isGross") as string
+  const taxRateStr = formData.get("taxRate") as string
   
   if (!description || !amountStr || !calculationType) {
     throw new Error("Bitte füllen Sie alle Pflichtfelder aus.")
@@ -105,6 +111,8 @@ export async function updateCost(costId: string, formData: FormData) {
       description,
       amountCent,
       calculationType,
+      isGross: isGrossStr ? isGrossStr === "true" : undefined,
+      taxRate: taxRateStr ? parseFloat(taxRateStr) : undefined,
     }
   })
 

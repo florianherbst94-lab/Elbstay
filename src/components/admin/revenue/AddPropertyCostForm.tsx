@@ -140,6 +140,25 @@ export function AddPropertyCostForm({
           </div>
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block font-medium mb-1">Steuersatz</label>
+            <select name="taxRate" required className="w-full rounded-lg border border-border bg-background px-3 py-2">
+              <option value="19">19% Mehrwertsteuer</option>
+              <option value="7">7% Mehrwertsteuer</option>
+              <option value="0">0% (z.B. Kleinunternehmer)</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block font-medium mb-1">Betragstyp</label>
+            <select name="isGross" required className="w-full rounded-lg border border-border bg-background px-3 py-2">
+              <option value="true">Brutto (inkl. MwSt)</option>
+              <option value="false">Netto (exkl. MwSt)</option>
+            </select>
+          </div>
+        </div>
+
         <div className="pt-2 flex justify-end">
           <SubmitButton />
         </div>

@@ -64,6 +64,7 @@ export default async function PropertyDetailPage(props: {
   })
 
   let monthlyPayoutCent = 0
+  let monthlyNetPayoutCent = 0
   let checkoutsThisMonth = 0
 
   for (const res of activeReservations) {
@@ -78,25 +79,38 @@ export default async function PropertyDetailPage(props: {
       const totalNights = Object.values(nightsByMonth).reduce((a, b) => a + b, 0)
       if (totalNights > 0) {
         const fraction = nightsInCurrentMonth / totalNights
-        monthlyPayoutCent += Math.round(res.financials.payoutCent * fraction)
+        const amount = Math.round(res.financials.payoutCent * fraction)
+        monthlyPayoutCent += amount
+        monthlyNetPayoutCent += Math.round(amount / 1.07) // Revenue has 7% VAT
       }
     }
   }
 
   // Calculate costs for current month
   let monthlyFixedCostsCent = 0
+  let monthlyNetFixedCostsCent = 0
   let variableCostsCent = 0
+  let netVariableCostsCent = 0
+
+  const getNetCost = (cost: any, amountCent: number) => {
+    if (!cost.isGross) return amountCent
+    return Math.round(amountCent / (1 + (cost.taxRate || 0) / 100))
+  }
 
   for (const cost of property.costs) {
     if (cost.calculationType === 'PER_MONTH') {
       monthlyFixedCostsCent += cost.amountCent
+      monthlyNetFixedCostsCent += getNetCost(cost, cost.amountCent)
     } else if (cost.calculationType === 'PER_STAY') {
-      variableCostsCent += cost.amountCent * checkoutsThisMonth
+      const totalVarCost = cost.amountCent * checkoutsThisMonth
+      variableCostsCent += totalVarCost
+      netVariableCostsCent += getNetCost(cost, totalVarCost)
     }
   }
 
   const totalMonthlyCostsCent = monthlyFixedCostsCent + variableCostsCent
-  const profitCent = monthlyPayoutCent - totalMonthlyCostsCent
+  const totalMonthlyNetCostsCent = monthlyNetFixedCostsCent + netVariableCostsCent
+  const profitCent = monthlyNetPayoutCent - totalMonthlyNetCostsCent
 
   // Calculate occupancy
   const daysInMonth = endOfMonth.getDate()
@@ -128,18 +142,18 @@ export default async function PropertyDetailPage(props: {
           <h3 className="text-sm font-medium text-muted-foreground mb-2">Einnahmen ({currentMonth})</h3>
           <p className="text-3xl font-bold">€ {(monthlyPayoutCent / 100).toFixed(2)}</p>
           <div className="text-xs text-muted-foreground mt-1">
-            Anteilig basierend auf Nächten im Monat
+            Netto: € {(monthlyNetPayoutCent / 100).toFixed(2)} (Anteilig n. Nächten)
           </div>
         </div>
         <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
           <h3 className="text-sm font-medium text-muted-foreground mb-2">Kosten ({currentMonth})</h3>
           <p className="text-3xl font-bold">€ {(totalMonthlyCostsCent / 100).toFixed(2)}</p>
           <div className="text-xs text-muted-foreground mt-1">
-            Fix: € {(monthlyFixedCostsCent/100).toFixed(2)} | Variabel: € {(variableCostsCent/100).toFixed(2)}
+            Netto: € {(totalMonthlyNetCostsCent / 100).toFixed(2)}
           </div>
         </div>
         <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">Gewinn ({currentMonth})</h3>
+          <h3 className="text-sm font-medium text-muted-foreground mb-2">Nettogewinn ({currentMonth})</h3>
           <p className={`text-3xl font-bold ${profitCent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             € {(profitCent / 100).toFixed(2)}
           </p>

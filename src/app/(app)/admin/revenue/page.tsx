@@ -49,17 +49,17 @@ export default async function RevenueDashboard(props: {
   })
 
   // Initialize historical data
-  const monthlyData: Record<string, { payoutCent: number, costsCent: number }> = {}
+  const monthlyData: Record<string, { payoutCent: number, netPayoutCent: number, costsCent: number, netCostsCent: number }> = {}
   const chartData = []
   for (let i = 5; i >= 0; i--) {
     const d = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth() - i, 1)
     const m = getMonthYear(d)
-    monthlyData[m] = { payoutCent: 0, costsCent: 0 }
+    monthlyData[m] = { payoutCent: 0, netPayoutCent: 0, costsCent: 0, netCostsCent: 0 }
     chartData.push({ name: m, umsatz: 0, kosten: 0 })
   }
 
   // Per property stats tracking (current month)
-  const propertyStats = activeProperties.map(p => ({ id: p.id, name: p.name, payoutCent: 0, costsCent: 0, fixedCostsCent: 0, variableCostsCent: 0, checkouts: 0 }))
+  const propertyStats = activeProperties.map(p => ({ id: p.id, name: p.name, payoutCent: 0, netPayoutCent: 0, costsCent: 0, netCostsCent: 0, fixedCostsCent: 0, variableCostsCent: 0, checkouts: 0 }))
   const propStatsMap = new Map(propertyStats.map(s => [s.id, s]))
 
   // Track checkouts per month per property for PER_STAY costs
@@ -98,14 +98,19 @@ export default async function RevenueDashboard(props: {
       if (nights > 0 && totalNights > 0 && monthlyData[month]) {
         const fraction = nights / totalNights
         const amount = Math.round(res.financials.payoutCent * fraction)
+        const netAmount = Math.round(amount / 1.07) // Revenue has 7% VAT
         
         // Add to historical chart data
         monthlyData[month].payoutCent += amount
+        monthlyData[month].netPayoutCent += netAmount
         
         // Add to current month property stats
         if (month === currentMonth) {
           const stats = propStatsMap.get(res.propertyId)
-          if (stats) stats.payoutCent += amount
+          if (stats) {
+            stats.payoutCent += amount
+            stats.netPayoutCent += netAmount
+          }
         }
       }
     }
@@ -117,6 +122,11 @@ export default async function RevenueDashboard(props: {
     include: { category: true }
   })
 
+  const getNetCost = (cost: any, amountCent: number) => {
+    if (!cost.isGross) return amountCent
+    return Math.round(amountCent / (1 + (cost.taxRate || 0) / 100))
+  }
+
   for (const month of Object.keys(monthlyData)) {
     for (const cost of allCosts) {
       const costStartMonth = getMonthYear(cost.validFrom)
@@ -124,25 +134,31 @@ export default async function RevenueDashboard(props: {
       
       if (month >= costStartMonth && month <= costEndMonth) {
         if (cost.calculationType === 'PER_MONTH') {
+          const netCost = getNetCost(cost, cost.amountCent)
           monthlyData[month].costsCent += cost.amountCent
+          monthlyData[month].netCostsCent += netCost
           
           if (month === currentMonth) {
              const stats = propStatsMap.get(cost.propertyId)
              if (stats) {
                stats.costsCent += cost.amountCent
+               stats.netCostsCent += netCost
                stats.fixedCostsCent += cost.amountCent
              }
           }
         } else if (cost.calculationType === 'PER_STAY') {
           const checkoutsForProp = checkoutsPerMonthProperty.get(month)?.get(cost.propertyId) || 0
           const totalCost = cost.amountCent * checkoutsForProp
+          const netCost = getNetCost(cost, totalCost)
           monthlyData[month].costsCent += totalCost
+          monthlyData[month].netCostsCent += netCost
           
           if (month === currentMonth) {
             const stats = propStatsMap.get(cost.propertyId)
             if (stats) {
-              stats.costsCent += totalCost
-              stats.variableCostsCent += totalCost
+               stats.costsCent += totalCost
+               stats.netCostsCent += netCost
+               stats.variableCostsCent += totalCost
             }
           }
         }
@@ -153,14 +169,17 @@ export default async function RevenueDashboard(props: {
   // Map historical data back to chartData
   for (const item of chartData) {
     if (monthlyData[item.name]) {
-      item.umsatz = monthlyData[item.name].payoutCent / 100
-      item.kosten = monthlyData[item.name].costsCent / 100
+      // Use net values for chart to reflect true profit
+      item.umsatz = monthlyData[item.name].netPayoutCent / 100
+      item.kosten = monthlyData[item.name].netCostsCent / 100
     }
   }
 
   const monthlyPayoutCent = monthlyData[currentMonth]?.payoutCent || 0
+  const monthlyNetPayoutCent = monthlyData[currentMonth]?.netPayoutCent || 0
   const monthlyCostsCent = monthlyData[currentMonth]?.costsCent || 0
-  const profitCent = monthlyPayoutCent - monthlyCostsCent
+  const monthlyNetCostsCent = monthlyData[currentMonth]?.netCostsCent || 0
+  const profitCent = monthlyNetPayoutCent - monthlyNetCostsCent
   
   // Calculate Occupancy
   const daysInMonth = endOfMonth.getDate()
@@ -183,6 +202,9 @@ export default async function RevenueDashboard(props: {
         <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
           <h3 className="text-sm font-medium text-muted-foreground mb-2">Erwartete Auszahlung (Monat)</h3>
           <p className="text-4xl font-bold">€ {(monthlyPayoutCent / 100).toFixed(2)}</p>
+          <div className="mt-2 text-sm text-muted-foreground">
+            Netto: € {(monthlyNetPayoutCent / 100).toFixed(2)}
+          </div>
           {monthlyPayoutCent === 0 && (
             <div className="mt-2 text-sm text-yellow-600 font-medium bg-yellow-100/50 inline-block px-2 py-0.5 rounded-full">
               Noch keine Finanzdaten / Buchungen
@@ -199,12 +221,12 @@ export default async function RevenueDashboard(props: {
         </div>
 
         <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">Deckungsbeitrag</h3>
+          <h3 className="text-sm font-medium text-muted-foreground mb-2">Nettogewinn</h3>
           <p className={`text-4xl font-bold ${profitCent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             € {(profitCent / 100).toFixed(2)}
           </p>
           <div className="mt-2 text-sm text-muted-foreground">
-            Kosten: € {(monthlyCostsCent / 100).toFixed(2)}
+            Netto-Kosten: € {(monthlyNetCostsCent / 100).toFixed(2)}
           </div>
         </div>
       </div>
@@ -243,7 +265,7 @@ export default async function RevenueDashboard(props: {
                   </tr>
                 ) : (
                   propertyStats.map(stat => {
-                    const profit = stat.payoutCent - stat.costsCent
+                    const profit = stat.netPayoutCent - stat.netCostsCent
                     return (
                       <tr key={stat.id} className="border-b border-border/50 last:border-0 hover:bg-muted/30 transition-colors">
                         <td className="py-3">
@@ -252,12 +274,13 @@ export default async function RevenueDashboard(props: {
                           </Link>
                         </td>
                         <td className="py-3 text-center">{stat.checkouts}</td>
-                        <td className="py-3 text-right">€ {(stat.payoutCent / 100).toFixed(2)}</td>
+                        <td className="py-3 text-right">
+                          <div>€ {(stat.payoutCent / 100).toFixed(2)}</div>
+                          <div className="text-xs text-muted-foreground">Netto: € {(stat.netPayoutCent / 100).toFixed(2)}</div>
+                        </td>
                         <td className="py-3 text-right">
                           <div className="font-medium">€ {(stat.costsCent / 100).toFixed(2)}</div>
-                          <div className="text-xs text-muted-foreground">
-                            Fix: {(stat.fixedCostsCent / 100).toFixed(0)} | Var: {(stat.variableCostsCent / 100).toFixed(0)}
-                          </div>
+                          <div className="text-xs text-muted-foreground">Netto: € {(stat.netCostsCent / 100).toFixed(2)}</div>
                         </td>
                         <td className={`py-3 text-right font-medium ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                           € {(profit / 100).toFixed(2)}
