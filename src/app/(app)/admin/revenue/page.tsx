@@ -17,8 +17,8 @@ export default async function RevenueDashboard() {
   const activePropertiesCount = await prisma.property.count({ where: { status: "active" } })
   const activeProperties = await prisma.property.findMany({ where: { status: "active" } })
   
-  // Get all reservations for the current month
-  // We fetch reservations that overlap with the current month roughly
+  // Get all reservations for the past 6 months
+  const past6MonthsDate = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth() - 5, 1)
   const startOfMonth = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth(), 1)
   const endOfMonth = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth() + 1, 0)
   
@@ -26,40 +26,70 @@ export default async function RevenueDashboard() {
     where: {
       isCancelled: false,
       checkIn: { lte: endOfMonth },
-      checkOut: { gte: startOfMonth }
+      checkOut: { gte: past6MonthsDate }
     },
     include: { financials: true }
   })
 
-  // Per property stats tracking
+  // Initialize historical data
+  const monthlyData: Record<string, { payoutCent: number, costsCent: number }> = {}
+  const chartData = []
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth() - i, 1)
+    const m = getMonthYear(d)
+    monthlyData[m] = { payoutCent: 0, costsCent: 0 }
+    chartData.push({ name: m, umsatz: 0, kosten: 0 })
+  }
+
+  // Per property stats tracking (current month)
   const propertyStats = activeProperties.map(p => ({ id: p.id, name: p.name, payoutCent: 0, costsCent: 0, checkouts: 0 }))
   const propStatsMap = new Map(propertyStats.map(s => [s.id, s]))
 
-  // Count checkouts per property (for PER_STAY costs)
-  for (const res of reservations) {
-    if (getMonthYear(res.checkOut) === currentMonth) {
-      const stats = propStatsMap.get(res.propertyId)
-      if (stats) stats.checkouts++
-    }
-  }
+  // Track checkouts per month per property for PER_STAY costs
+  const checkoutsPerMonthProperty = new Map<string, Map<string, number>>()
 
-  // Calculate Monthly Payout
-  let monthlyPayoutCent = 0
   let occupiedNights = 0
 
   for (const res of reservations) {
-    if (!res.financials) continue
+    const checkOutMonth = getMonthYear(res.checkOut)
+    
+    // For property stats (current month)
+    if (checkOutMonth === currentMonth) {
+      const stats = propStatsMap.get(res.propertyId)
+      if (stats) stats.checkouts++
+    }
+    
+    // For historical charts (PER_STAY checkouts)
+    if (monthlyData[checkOutMonth]) {
+      if (!checkoutsPerMonthProperty.has(checkOutMonth)) checkoutsPerMonthProperty.set(checkOutMonth, new Map())
+      const monthMap = checkoutsPerMonthProperty.get(checkOutMonth)!
+      monthMap.set(res.propertyId, (monthMap.get(res.propertyId) || 0) + 1)
+    }
+
     const nightsByMonth = splitReservationNightsByMonth(res.checkIn, res.checkOut)
+    
+    // Occupied nights in current month
     const nightsInCurrentMonth = nightsByMonth[currentMonth] || 0
     if (nightsInCurrentMonth > 0) {
       occupiedNights += nightsInCurrentMonth
-      const totalNights = Object.values(nightsByMonth).reduce((a, b) => a + b, 0)
-      if (totalNights > 0) {
-        const fraction = nightsInCurrentMonth / totalNights
+    }
+
+    if (!res.financials) continue
+    
+    const totalNights = Object.values(nightsByMonth).reduce((a, b) => a + b, 0)
+    for (const [month, nights] of Object.entries(nightsByMonth)) {
+      if (nights > 0 && totalNights > 0 && monthlyData[month]) {
+        const fraction = nights / totalNights
         const amount = Math.round(res.financials.payoutCent * fraction)
-        monthlyPayoutCent += amount
-        const stats = propStatsMap.get(res.propertyId)
-        if (stats) stats.payoutCent += amount
+        
+        // Add to historical chart data
+        monthlyData[month].payoutCent += amount
+        
+        // Add to current month property stats
+        if (month === currentMonth) {
+          const stats = propStatsMap.get(res.propertyId)
+          if (stats) stats.payoutCent += amount
+        }
       }
     }
   }
@@ -70,44 +100,49 @@ export default async function RevenueDashboard() {
     include: { category: true }
   })
 
-  let monthlyCostsCent = 0
-  for (const cost of allCosts) {
-    const stats = propStatsMap.get(cost.propertyId)
-    
-    if (cost.calculationType === 'PER_MONTH') {
-      monthlyCostsCent += cost.amountCent
-      if (stats) stats.costsCent += cost.amountCent
-    } else if (cost.calculationType === 'PER_STAY') {
-      const checkouts = stats ? stats.checkouts : 0
-      const totalCost = cost.amountCent * checkouts
-      monthlyCostsCent += totalCost
-      if (stats) stats.costsCent += totalCost
+  for (const month of Object.keys(monthlyData)) {
+    for (const cost of allCosts) {
+      const costStartMonth = getMonthYear(cost.validFrom)
+      const costEndMonth = cost.validTo ? getMonthYear(cost.validTo) : "9999-12"
+      
+      if (month >= costStartMonth && month <= costEndMonth) {
+        if (cost.calculationType === 'PER_MONTH') {
+          monthlyData[month].costsCent += cost.amountCent
+          
+          if (month === currentMonth) {
+             const stats = propStatsMap.get(cost.propertyId)
+             if (stats) stats.costsCent += cost.amountCent
+          }
+        } else if (cost.calculationType === 'PER_STAY') {
+          const checkoutsForProp = checkoutsPerMonthProperty.get(month)?.get(cost.propertyId) || 0
+          const totalCost = cost.amountCent * checkoutsForProp
+          monthlyData[month].costsCent += totalCost
+          
+          if (month === currentMonth) {
+            const stats = propStatsMap.get(cost.propertyId)
+            if (stats) stats.costsCent += totalCost
+          }
+        }
+      }
     }
   }
 
+  // Map historical data back to chartData
+  for (const item of chartData) {
+    if (monthlyData[item.name]) {
+      item.umsatz = monthlyData[item.name].payoutCent / 100
+      item.kosten = monthlyData[item.name].costsCent / 100
+    }
+  }
+
+  const monthlyPayoutCent = monthlyData[currentMonth]?.payoutCent || 0
+  const monthlyCostsCent = monthlyData[currentMonth]?.costsCent || 0
   const profitCent = monthlyPayoutCent - monthlyCostsCent
   
   // Calculate Occupancy
   const daysInMonth = endOfMonth.getDate()
   const totalAvailableNights = activePropertiesCount * daysInMonth
   const occupancyPercentage = totalAvailableNights > 0 ? (occupiedNights / totalAvailableNights) * 100 : 0
-
-  // Chart Data: Past 6 months
-  const chartData = []
-  for (let i = 5; i >= 0; i--) {
-    const d = new Date()
-    d.setMonth(d.getMonth() - i)
-    const m = getMonthYear(d)
-    
-    // In a real app we'd query the DB per month here.
-    // For demo purposes and since this is a quick implementation, we use dummy logic or simplified aggregate for history.
-    // Here we'll just push zero values for history except current month.
-    chartData.push({
-      name: m,
-      umsatz: m === currentMonth ? monthlyPayoutCent / 100 : 0,
-      kosten: m === currentMonth ? monthlyCostsCent / 100 : 0
-    })
-  }
 
   return (
     <div className="space-y-8">
