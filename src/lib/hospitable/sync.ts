@@ -12,19 +12,19 @@ export async function syncProperties() {
       where: { hospitableId: prop.id },
       update: {
         name: prop.name,
-        address: prop.address?.formatted_address || null,
+        address: prop.address?.display || prop.address?.formatted_address || null,
         timezone: prop.timezone || "Europe/Berlin",
-        status: prop.status === "active" ? "active" : "inactive",
-        hospitableUpdatedAt: prop.updated_at ? new Date(prop.updated_at) : null,
+        status: prop.listed ? "active" : "inactive",
+        hospitableUpdatedAt: new Date(),
       },
       create: {
         hospitableId: prop.id,
         name: prop.name,
-        address: prop.address?.formatted_address || null,
+        address: prop.address?.display || prop.address?.formatted_address || null,
         timezone: prop.timezone || "Europe/Berlin",
-        status: prop.status === "active" ? "active" : "inactive",
-        hospitableCreatedAt: prop.created_at ? new Date(prop.created_at) : null,
-        hospitableUpdatedAt: prop.updated_at ? new Date(prop.updated_at) : null,
+        status: prop.listed ? "active" : "inactive",
+        hospitableCreatedAt: new Date(),
+        hospitableUpdatedAt: new Date(),
       }
     })
     count++
@@ -138,8 +138,40 @@ export async function syncReservations(startDate?: string, endDate?: string) {
     }
     
     count++
+    }
+  }
+  
+  // Update platforms based on reservations
+  for (const propertyId of hospitablePropertyIds) {
+    const dbPropertyId = propIdMap.get(propertyId)
+    if (!dbPropertyId) continue
+    
+    const distinctPlatforms = await prisma.reservation.findMany({
+      where: { propertyId: dbPropertyId },
+      select: { platform: true },
+      distinct: ['platform']
+    })
+    
+    const platforms = distinctPlatforms
+      .map(p => p.platform)
+      .filter(Boolean)
+      .map(p => {
+        const lower = p!.toLowerCase()
+        if (lower === 'airbnb') return 'Airbnb'
+        if (lower === 'booking' || lower === 'booking.com') return 'Booking.com'
+        if (lower === 'direct') return 'Direct'
+        if (lower === 'vrbo') return 'Vrbo'
+        return p!.charAt(0).toUpperCase() + p!.slice(1)
+      })
+      .join(', ')
+      
+    if (platforms) {
+      await prisma.property.update({
+        where: { id: dbPropertyId },
+        data: { platforms }
+      })
+    }
   }
   
   return count
-}
 }
