@@ -46,10 +46,9 @@ export class HospitableClient {
 
   private async fetchAllPages(endpoint: string): Promise<any[]> {
     let results: any[] = [];
-    let nextUrl = endpoint;
+    let nextUrl: string | null = endpoint;
 
     while (nextUrl) {
-      // Hospitable sometimes returns http:// links for pagination, which strips auth headers.
       if (nextUrl.startsWith('http://')) {
         nextUrl = nextUrl.replace('http://', 'https://')
       }
@@ -58,7 +57,22 @@ export class HospitableClient {
       if (res.data) {
         results = results.concat(res.data);
       }
-      nextUrl = res.links?.next || null;
+      
+      const nextLink = res.links?.next;
+      if (nextLink) {
+        // Hospitable's next link drops all query parameters (like properties[]), which causes 400 errors
+        // Extract the page number and append it to our original endpoint instead
+        const match = nextLink.match(/page=(\d+)/);
+        if (match) {
+          const page = match[1];
+          const hasQuery = endpoint.includes('?');
+          nextUrl = `${endpoint}${hasQuery ? '&' : '?'}page=${page}`;
+        } else {
+          nextUrl = nextLink;
+        }
+      } else {
+        nextUrl = null;
+      }
     }
 
     return results;
@@ -85,6 +99,10 @@ export class HospitableClient {
     urlParams.append("include", "financials");
     urlParams.append("per_page", "100");
 
-    return this.fetchAllPages(`/reservations?${urlParams.toString()}`);
+    // Hospitable API does not accept URL-encoded brackets like properties%5B%5D
+    // It specifically wants properties[]=id
+    const queryString = urlParams.toString().replace(/%5B/g, '[').replace(/%5D/g, ']');
+
+    return this.fetchAllPages(`/reservations?${queryString}`);
   }
 }

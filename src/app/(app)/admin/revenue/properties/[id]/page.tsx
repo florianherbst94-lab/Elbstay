@@ -3,6 +3,8 @@ import prisma from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
+import { AddPropertyCostForm } from "@/components/admin/revenue/AddPropertyCostForm"
+import { getMonthYear, splitReservationNightsByMonth } from "@/lib/revenue/calculations"
 
 export const metadata: Metadata = {
   title: "Wohnung Details | Revenue Dashboard",
@@ -31,6 +33,60 @@ export default async function PropertyDetailPage(props: { params: Promise<{ id: 
     notFound()
   }
 
+  const currentMonthDate = new Date()
+  const currentMonth = getMonthYear(currentMonthDate)
+  
+  const startOfMonth = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth(), 1)
+  const endOfMonth = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth() + 1, 0)
+  
+  // Calculate revenue for current month
+  const activeReservations = await prisma.reservation.findMany({
+    where: {
+      propertyId: property.id,
+      isCancelled: false,
+      checkIn: { lte: endOfMonth },
+      checkOut: { gte: startOfMonth }
+    },
+    include: { financials: true }
+  })
+
+  let monthlyPayoutCent = 0
+  let checkoutsThisMonth = 0
+
+  for (const res of activeReservations) {
+    if (getMonthYear(res.checkOut) === currentMonth) {
+      checkoutsThisMonth++
+    }
+
+    if (!res.financials) continue
+    const nightsByMonth = splitReservationNightsByMonth(res.checkIn, res.checkOut)
+    const nightsInCurrentMonth = nightsByMonth[currentMonth] || 0
+    if (nightsInCurrentMonth > 0) {
+      const totalNights = Object.values(nightsByMonth).reduce((a, b) => a + b, 0)
+      if (totalNights > 0) {
+        const fraction = nightsInCurrentMonth / totalNights
+        monthlyPayoutCent += Math.round(res.financials.payoutCent * fraction)
+      }
+    }
+  }
+
+  // Calculate costs for current month
+  let monthlyFixedCostsCent = 0
+  let variableCostsCent = 0
+
+  for (const cost of property.costs) {
+    if (cost.calculationType === 'PER_MONTH') {
+      monthlyFixedCostsCent += cost.amountCent
+    } else if (cost.calculationType === 'PER_STAY') {
+      variableCostsCent += cost.amountCent * checkoutsThisMonth
+    }
+  }
+
+  const totalMonthlyCostsCent = monthlyFixedCostsCent + variableCostsCent
+  const profitCent = monthlyPayoutCent - totalMonthlyCostsCent
+
+  const categories = await prisma.costCategory.findMany({ orderBy: { name: 'asc' } })
+
   return (
     <div className="space-y-8">
       <div>
@@ -39,6 +95,26 @@ export default async function PropertyDetailPage(props: { params: Promise<{ id: 
         </Link>
         <h1 className="text-3xl font-bold font-serif">{property.name}</h1>
         <p className="text-muted-foreground mt-1">Details und Auswertungen</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
+          <h3 className="text-sm font-medium text-muted-foreground mb-2">Einnahmen ({currentMonth})</h3>
+          <p className="text-3xl font-bold">€ {(monthlyPayoutCent / 100).toFixed(2)}</p>
+        </div>
+        <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
+          <h3 className="text-sm font-medium text-muted-foreground mb-2">Kosten ({currentMonth})</h3>
+          <p className="text-3xl font-bold">€ {(totalMonthlyCostsCent / 100).toFixed(2)}</p>
+          <div className="text-xs text-muted-foreground mt-1">
+            Fix: € {(monthlyFixedCostsCent/100).toFixed(2)} | Variabel: € {(variableCostsCent/100).toFixed(2)}
+          </div>
+        </div>
+        <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
+          <h3 className="text-sm font-medium text-muted-foreground mb-2">Gewinn ({currentMonth})</h3>
+          <p className={`text-3xl font-bold ${profitCent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            € {(profitCent / 100).toFixed(2)}
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -68,17 +144,22 @@ export default async function PropertyDetailPage(props: { params: Promise<{ id: 
             </Link>
           </div>
           {property.costs.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Keine aktiven Kosten hinterlegt.</p>
+            <p className="text-sm text-muted-foreground mb-4">Keine aktiven Kosten hinterlegt.</p>
           ) : (
-            <ul className="space-y-2">
+            <ul className="space-y-2 mb-6">
               {property.costs.map(cost => (
                 <li key={cost.id} className="flex justify-between text-sm items-center border-b border-border/50 pb-2 last:border-0">
                   <span>{cost.description} <span className="text-xs text-muted-foreground">({cost.category.name})</span></span>
-                  <span className="font-medium">€ {(cost.amountCent / 100).toFixed(2)}</span>
+                  <span className="font-medium">
+                    € {(cost.amountCent / 100).toFixed(2)}
+                    {cost.calculationType === 'PER_STAY' ? ' / Aufenthalt' : cost.calculationType === 'PER_NIGHT' ? ' / Nacht' : ' / Monat'}
+                  </span>
                 </li>
               ))}
             </ul>
           )}
+          
+          <AddPropertyCostForm propertyId={property.id} categories={categories} />
         </div>
       </div>
 

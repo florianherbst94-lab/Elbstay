@@ -6,7 +6,7 @@ import { redirect } from "next/navigation"
 
 export async function createCost(formData: FormData) {
   const propertyId = formData.get("propertyId") as string
-  const categoryId = formData.get("categoryId") as string
+  let categoryId = formData.get("categoryId") as string
   const description = formData.get("description") as string
   const amountStr = formData.get("amount") as string
   const calculationType = formData.get("calculationType") as string
@@ -14,6 +14,24 @@ export async function createCost(formData: FormData) {
   
   if (!propertyId || !categoryId || !description || !amountStr || !calculationType || !validFromStr) {
     throw new Error("Bitte füllen Sie alle Pflichtfelder aus.")
+  }
+
+  if (categoryId === "NEW") {
+    const newCategoryName = formData.get("newCategoryName") as string
+    const newCategoryType = formData.get("newCategoryType") as string
+    
+    if (!newCategoryName || !newCategoryType) {
+      throw new Error("Bitte geben Sie einen Namen für die neue Kategorie an.")
+    }
+    
+    const newCategory = await prisma.costCategory.create({
+      data: {
+        name: newCategoryName,
+        type: newCategoryType
+      }
+    })
+    
+    categoryId = newCategory.id
   }
 
   // Convert amount to cents
