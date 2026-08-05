@@ -5,8 +5,8 @@ export async function GET(req: Request) {
   try {
     const dStart = new Date()
     dStart.setMonth(dStart.getMonth() - 6) // past 6 months
-    
-    const count = await syncReservations(dStart.toISOString())
+    const formatDate = (date: Date) => date.toISOString().split('T')[0]
+    const count = await syncReservations(formatDate(dStart))
     
     return NextResponse.json({ 
       success: true, 

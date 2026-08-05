@@ -18,7 +18,10 @@ export async function GET(req: Request) {
     const dEnd = new Date()
     dEnd.setDate(dEnd.getDate() + 30)
 
-    const resCount = await syncReservations(dStart.toISOString(), dEnd.toISOString())
+    // Hospitable API expects YYYY-MM-DD
+    const formatDate = (date: Date) => date.toISOString().split('T')[0]
+
+    const resCount = await syncReservations(formatDate(dStart), formatDate(dEnd))
     
     return NextResponse.json({ 
       success: true, 
