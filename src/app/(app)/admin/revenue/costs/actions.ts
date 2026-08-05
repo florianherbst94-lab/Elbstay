@@ -64,3 +64,52 @@ export async function deleteCost(costId: string, propertyId: string) {
   revalidatePath("/admin/revenue/costs")
   revalidatePath(`/admin/revenue/properties/${propertyId}`)
 }
+
+export async function duplicateCost(costId: string, propertyId: string) {
+  const existing = await prisma.propertyCost.findUnique({ where: { id: costId } })
+  if (!existing) throw new Error("Cost not found")
+  
+  await prisma.propertyCost.create({
+    data: {
+      propertyId: existing.propertyId,
+      categoryId: existing.categoryId,
+      description: `${existing.description} (Kopie)`,
+      amountCent: existing.amountCent,
+      calculationType: existing.calculationType,
+      validFrom: existing.validFrom,
+      isActive: existing.isActive,
+      isGross: existing.isGross
+    }
+  })
+  
+  revalidatePath("/admin/revenue/costs")
+  revalidatePath(`/admin/revenue/properties/${propertyId}`)
+}
+
+export async function updateCost(costId: string, formData: FormData) {
+  const description = formData.get("description") as string
+  const amountStr = formData.get("amount") as string
+  const calculationType = formData.get("calculationType") as string
+  
+  if (!description || !amountStr || !calculationType) {
+    throw new Error("Bitte füllen Sie alle Pflichtfelder aus.")
+  }
+
+  const amountCent = Math.round(parseFloat(amountStr.replace(',', '.')) * 100)
+  
+  const existing = await prisma.propertyCost.findUnique({ where: { id: costId } })
+  
+  await prisma.propertyCost.update({
+    where: { id: costId },
+    data: {
+      description,
+      amountCent,
+      calculationType,
+    }
+  })
+
+  revalidatePath("/admin/revenue/costs")
+  if (existing) {
+    revalidatePath(`/admin/revenue/properties/${existing.propertyId}`)
+  }
+}

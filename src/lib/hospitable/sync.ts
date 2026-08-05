@@ -102,9 +102,18 @@ export async function syncReservations(startDate?: string, endDate?: string) {
       const tax = fin.guest?.taxes?.reduce((sum:number, t:any) => sum + (t.amount || 0), 0) || 0
       const totalPaidByGuest = getAmount(fin.guest?.total_price)
       
-      // Host financials
       const hostFee = fin.host?.host_fees?.reduce((sum:number, f:any) => sum + (f.amount || 0), 0) || 0
-      const payout = getAmount(fin.host?.revenue)
+      let payout = getAmount(fin.host?.revenue)
+      let calculatedTax = fin.guest?.taxes?.reduce((sum:number, t:any) => sum + (t.amount || 0), 0) || 0
+      
+      // Deduct 6% city tax for Booking.com (not automatically deducted by platform)
+      const platformLower = res.platform?.toLowerCase() || ""
+      if (platformLower === "booking" || platformLower === "booking.com") {
+        const cityTax = Math.round(payout * 0.06)
+        payout -= cityTax
+        calculatedTax += cityTax
+      }
+
       const isComplete = payout !== 0
 
       await prisma.reservationFinancials.upsert({
@@ -114,7 +123,7 @@ export async function syncReservations(startDate?: string, endDate?: string) {
           cleaningFeeCent: cleaningFee,
           otherGuestFeeCent: 0,
           discountCent: 0,
-          taxCent: tax,
+          taxCent: calculatedTax,
           hostFeeCent: hostFee,
           payoutCent: payout,
           totalPaidByGuestCent: totalPaidByGuest,
@@ -127,7 +136,7 @@ export async function syncReservations(startDate?: string, endDate?: string) {
           cleaningFeeCent: cleaningFee,
           otherGuestFeeCent: 0,
           discountCent: 0,
-          taxCent: tax,
+          taxCent: calculatedTax,
           hostFeeCent: hostFee,
           payoutCent: payout,
           totalPaidByGuestCent: totalPaidByGuest,

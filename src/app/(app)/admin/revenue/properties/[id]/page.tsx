@@ -4,7 +4,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { AddPropertyCostForm } from "@/components/admin/revenue/AddPropertyCostForm"
-import { DeleteCostButton } from "@/components/admin/revenue/DeleteCostButton"
+import { CostActionButtons } from "@/components/admin/revenue/CostActionButtons"
 import { MonthSelector } from "@/components/admin/revenue/MonthSelector"
 import { getMonthYear, splitReservationNightsByMonth } from "@/lib/revenue/calculations"
 
@@ -98,6 +98,14 @@ export default async function PropertyDetailPage(props: {
   const totalMonthlyCostsCent = monthlyFixedCostsCent + variableCostsCent
   const profitCent = monthlyPayoutCent - totalMonthlyCostsCent
 
+  // Calculate occupancy
+  const daysInMonth = endOfMonth.getDate()
+  const occupiedNightsInMonth = activeReservations.reduce((acc, res) => {
+    const nightsByMonth = splitReservationNightsByMonth(res.checkIn, res.checkOut)
+    return acc + (nightsByMonth[currentMonth] || 0)
+  }, 0)
+  const occupancyRate = (occupiedNightsInMonth / daysInMonth) * 100
+
   const categories = await prisma.costCategory.findMany({ orderBy: { name: 'asc' } })
 
   return (
@@ -115,7 +123,7 @@ export default async function PropertyDetailPage(props: {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
           <h3 className="text-sm font-medium text-muted-foreground mb-2">Einnahmen ({currentMonth})</h3>
           <p className="text-3xl font-bold">€ {(monthlyPayoutCent / 100).toFixed(2)}</p>
@@ -137,6 +145,13 @@ export default async function PropertyDetailPage(props: {
           </p>
           <div className="text-xs text-muted-foreground mt-1">
             {checkoutsThisMonth} {checkoutsThisMonth === 1 ? 'Check-out' : 'Check-outs'} im Monat
+          </div>
+        </div>
+        <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
+          <h3 className="text-sm font-medium text-muted-foreground mb-2">Auslastung ({currentMonth})</h3>
+          <p className="text-3xl font-bold">{occupancyRate.toFixed(1)}%</p>
+          <div className="text-xs text-muted-foreground mt-1">
+            {occupiedNightsInMonth} von {daysInMonth} Nächten gebucht
           </div>
         </div>
       </div>
@@ -186,7 +201,7 @@ export default async function PropertyDetailPage(props: {
                         </div>
                       )}
                     </div>
-                    <DeleteCostButton costId={cost.id} propertyId={property.id} />
+                    <CostActionButtons cost={cost} />
                   </div>
                 </li>
               ))}

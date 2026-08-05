@@ -2,15 +2,32 @@ import { Metadata } from "next"
 import prisma from "@/lib/prisma"
 import { getMonthYear, splitReservationNightsByMonth } from "@/lib/revenue/calculations"
 import { RevenueChart } from "@/components/admin/revenue/RevenueChart"
+import { MonthSelector } from "@/components/admin/revenue/MonthSelector"
 import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "Portfolio Overview | Revenue Dashboard",
 }
 
-export default async function RevenueDashboard() {
-  const currentMonthDate = new Date()
+export default async function RevenueDashboard(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  const searchParams = await props.searchParams
+  const requestedMonth = typeof searchParams.month === 'string' ? searchParams.month : getMonthYear(new Date())
+  const selectedDate = new Date(`${requestedMonth}-01T00:00:00`)
+  
+  const currentMonthDate = isNaN(selectedDate.getTime()) ? new Date() : selectedDate
   const currentMonth = getMonthYear(currentMonthDate)
+  
+  const availableMonths = []
+  for (let i = -2; i < 12; i++) {
+    const d = new Date()
+    d.setMonth(d.getMonth() - i)
+    availableMonths.push({
+      value: getMonthYear(d),
+      label: d.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' })
+    })
+  }
   
   // Basic stats
   const properties = await prisma.property.count()
@@ -42,7 +59,7 @@ export default async function RevenueDashboard() {
   }
 
   // Per property stats tracking (current month)
-  const propertyStats = activeProperties.map(p => ({ id: p.id, name: p.name, payoutCent: 0, costsCent: 0, checkouts: 0 }))
+  const propertyStats = activeProperties.map(p => ({ id: p.id, name: p.name, payoutCent: 0, costsCent: 0, fixedCostsCent: 0, variableCostsCent: 0, checkouts: 0 }))
   const propStatsMap = new Map(propertyStats.map(s => [s.id, s]))
 
   // Track checkouts per month per property for PER_STAY costs
@@ -111,7 +128,10 @@ export default async function RevenueDashboard() {
           
           if (month === currentMonth) {
              const stats = propStatsMap.get(cost.propertyId)
-             if (stats) stats.costsCent += cost.amountCent
+             if (stats) {
+               stats.costsCent += cost.amountCent
+               stats.fixedCostsCent += cost.amountCent
+             }
           }
         } else if (cost.calculationType === 'PER_STAY') {
           const checkoutsForProp = checkoutsPerMonthProperty.get(month)?.get(cost.propertyId) || 0
@@ -120,7 +140,10 @@ export default async function RevenueDashboard() {
           
           if (month === currentMonth) {
             const stats = propStatsMap.get(cost.propertyId)
-            if (stats) stats.costsCent += totalCost
+            if (stats) {
+              stats.costsCent += totalCost
+              stats.variableCostsCent += totalCost
+            }
           }
         }
       }
@@ -146,9 +169,14 @@ export default async function RevenueDashboard() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold font-serif">Portfolio Übersicht</h1>
-        <p className="text-muted-foreground mt-1">Auswertung für {currentMonth}</p>
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold font-serif">Portfolio Übersicht</h1>
+          <p className="text-muted-foreground mt-1">Auswertung für {currentMonth}</p>
+        </div>
+        <div className="pt-2 md:pt-0">
+          <MonthSelector currentMonth={currentMonth} availableMonths={availableMonths} />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -202,6 +230,7 @@ export default async function RevenueDashboard() {
               <thead>
                 <tr className="border-b border-border text-muted-foreground">
                   <th className="pb-3 font-medium">Wohnung</th>
+                  <th className="pb-3 font-medium text-center">Aufenthalte</th>
                   <th className="pb-3 font-medium text-right">Einnahmen</th>
                   <th className="pb-3 font-medium text-right">Kosten</th>
                   <th className="pb-3 font-medium text-right">Gewinn</th>
@@ -210,7 +239,7 @@ export default async function RevenueDashboard() {
               <tbody>
                 {propertyStats.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="py-4 text-center text-muted-foreground">Keine aktiven Wohnungen gefunden.</td>
+                    <td colSpan={5} className="py-4 text-center text-muted-foreground">Keine aktiven Wohnungen gefunden.</td>
                   </tr>
                 ) : (
                   propertyStats.map(stat => {
@@ -222,8 +251,14 @@ export default async function RevenueDashboard() {
                             {stat.name}
                           </Link>
                         </td>
+                        <td className="py-3 text-center">{stat.checkouts}</td>
                         <td className="py-3 text-right">€ {(stat.payoutCent / 100).toFixed(2)}</td>
-                        <td className="py-3 text-right">€ {(stat.costsCent / 100).toFixed(2)}</td>
+                        <td className="py-3 text-right">
+                          <div className="font-medium">€ {(stat.costsCent / 100).toFixed(2)}</div>
+                          <div className="text-xs text-muted-foreground">
+                            Fix: {(stat.fixedCostsCent / 100).toFixed(0)} | Var: {(stat.variableCostsCent / 100).toFixed(0)}
+                          </div>
+                        </td>
                         <td className={`py-3 text-right font-medium ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                           € {(profit / 100).toFixed(2)}
                         </td>

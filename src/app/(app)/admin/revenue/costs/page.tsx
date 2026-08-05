@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import prisma from "@/lib/prisma"
 import Link from "next/link"
+import { CostActionButtons } from "@/components/admin/revenue/CostActionButtons"
 
 export const metadata: Metadata = {
   title: "Kostenverwaltung | Revenue Dashboard",
@@ -44,6 +45,7 @@ export default async function CostsPage(props: { searchParams?: Promise<{ proper
                 <th className="p-4 font-medium">Typ</th>
                 <th className="p-4 font-medium">Betrag</th>
                 <th className="p-4 font-medium text-right">Status</th>
+                <th className="p-4 font-medium text-right">Aktionen</th>
               </tr>
             </thead>
             <tbody>
@@ -69,6 +71,9 @@ export default async function CostsPage(props: { searchParams?: Promise<{ proper
                       }`}>
                         {cost.isActive ? 'Aktiv' : 'Inaktiv'}
                       </span>
+                    </td>
+                    <td className="p-4 text-right flex justify-end">
+                      <CostActionButtons cost={cost} />
                     </td>
                   </tr>
                 ))

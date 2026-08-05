@@ -104,6 +104,17 @@ export async function POST(req: Request) {
               const fin = res.financials
               const toCents = (amount?: number) => amount ? Math.round(amount * 100) : 0
               const currency = fin.currency || "EUR"
+              
+              let payoutCent = toCents(fin.payout)
+              let taxCent = toCents(fin.tax)
+              
+              const platformLower = res.platform?.toLowerCase() || ""
+              if (platformLower === "booking" || platformLower === "booking.com") {
+                const cityTax = Math.round(payoutCent * 0.06)
+                payoutCent -= cityTax
+                taxCent += cityTax
+              }
+
               const isComplete = fin.payout !== null && fin.payout !== undefined
 
               await prisma.reservationFinancials.upsert({
@@ -113,9 +124,9 @@ export async function POST(req: Request) {
                   cleaningFeeCent: toCents(fin.cleaning_fee),
                   otherGuestFeeCent: toCents(fin.other_guest_fee),
                   discountCent: toCents(fin.discount),
-                  taxCent: toCents(fin.tax),
+                  taxCent,
                   hostFeeCent: toCents(fin.host_fee),
-                  payoutCent: toCents(fin.payout),
+                  payoutCent,
                   totalPaidByGuestCent: toCents(fin.total_paid_by_guest),
                   currency,
                   isComplete,
@@ -126,9 +137,9 @@ export async function POST(req: Request) {
                   cleaningFeeCent: toCents(fin.cleaning_fee),
                   otherGuestFeeCent: toCents(fin.other_guest_fee),
                   discountCent: toCents(fin.discount),
-                  taxCent: toCents(fin.tax),
+                  taxCent,
                   hostFeeCent: toCents(fin.host_fee),
-                  payoutCent: toCents(fin.payout),
+                  payoutCent,
                   totalPaidByGuestCent: toCents(fin.total_paid_by_guest),
                   currency,
                   isComplete,
