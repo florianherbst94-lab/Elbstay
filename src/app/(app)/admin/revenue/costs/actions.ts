@@ -55,3 +55,12 @@ export async function createCost(formData: FormData) {
   revalidatePath("/admin/revenue/costs")
   redirect("/admin/revenue/costs")
 }
+
+export async function deleteCost(costId: string, propertyId: string) {
+  await prisma.propertyCost.delete({
+    where: { id: costId }
+  })
+  
+  revalidatePath("/admin/revenue/costs")
+  revalidatePath(`/admin/revenue/properties/${propertyId}`)
+}

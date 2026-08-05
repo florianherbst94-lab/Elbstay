@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { AddPropertyCostForm } from "@/components/admin/revenue/AddPropertyCostForm"
+import { DeleteCostButton } from "@/components/admin/revenue/DeleteCostButton"
 import { getMonthYear, splitReservationNightsByMonth } from "@/lib/revenue/calculations"
 
 export const metadata: Metadata = {
@@ -150,10 +151,13 @@ export default async function PropertyDetailPage(props: { params: Promise<{ id: 
               {property.costs.map(cost => (
                 <li key={cost.id} className="flex justify-between text-sm items-center border-b border-border/50 pb-2 last:border-0">
                   <span>{cost.description} <span className="text-xs text-muted-foreground">({cost.category.name})</span></span>
-                  <span className="font-medium">
-                    € {(cost.amountCent / 100).toFixed(2)}
-                    {cost.calculationType === 'PER_STAY' ? ' / Aufenthalt' : cost.calculationType === 'PER_NIGHT' ? ' / Nacht' : ' / Monat'}
-                  </span>
+                  <div className="flex items-center gap-3">
+                    <span className="font-medium">
+                      € {(cost.amountCent / 100).toFixed(2)}
+                      {cost.calculationType === 'PER_STAY' ? ' / Aufenthalt' : cost.calculationType === 'PER_NIGHT' ? ' / Nacht' : ' / Monat'}
+                    </span>
+                    <DeleteCostButton costId={cost.id} propertyId={property.id} />
+                  </div>
                 </li>
               ))}
             </ul>
