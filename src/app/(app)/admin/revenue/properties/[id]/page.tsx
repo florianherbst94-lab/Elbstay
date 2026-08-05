@@ -21,13 +21,6 @@ export default async function PropertyDetailPage(props: {
   const property = await prisma.property.findUnique({
     where: { id: params.id },
     include: {
-      reservations: {
-        orderBy: { checkIn: 'desc' },
-        take: 5,
-        include: {
-          financials: true
-        }
-      },
       costs: {
         where: { isActive: true },
         include: { category: true }
@@ -66,6 +59,7 @@ export default async function PropertyDetailPage(props: {
       checkIn: { lte: endOfMonth },
       checkOut: { gte: startOfMonth }
     },
+    orderBy: { checkIn: 'desc' },
     include: { financials: true }
   })
 
@@ -205,8 +199,8 @@ export default async function PropertyDetailPage(props: {
 
       <div className="bg-background border border-border rounded-2xl shadow-sm overflow-hidden p-6">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-bold">Letzte Buchungen</h3>
-          <Link href={`/admin/revenue/bookings?property=${property.id}`} className="text-primary text-sm hover:underline">
+          <h3 className="text-lg font-bold">Buchungen im {currentMonth}</h3>
+          <Link href={`/admin/revenue/bookings?property=${property.id}&month=${requestedMonth}`} className="text-primary text-sm hover:underline">
             Alle ansehen
           </Link>
         </div>
@@ -221,12 +215,12 @@ export default async function PropertyDetailPage(props: {
               </tr>
             </thead>
             <tbody>
-              {property.reservations.length === 0 ? (
+              {activeReservations.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="py-4 text-center text-muted-foreground">Keine Buchungen vorhanden.</td>
+                  <td colSpan={4} className="py-4 text-center text-muted-foreground">Keine Buchungen in diesem Monat.</td>
                 </tr>
               ) : (
-                property.reservations.map(res => (
+                activeReservations.map(res => (
                   <tr key={res.id} className="border-b border-border/50 last:border-0">
                     <td className="py-3">
                       {res.checkIn.toLocaleDateString('de-DE')} - {res.checkOut.toLocaleDateString('de-DE')}
