@@ -5,14 +5,19 @@ import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { AddPropertyCostForm } from "@/components/admin/revenue/AddPropertyCostForm"
 import { DeleteCostButton } from "@/components/admin/revenue/DeleteCostButton"
+import { MonthSelector } from "@/components/admin/revenue/MonthSelector"
 import { getMonthYear, splitReservationNightsByMonth } from "@/lib/revenue/calculations"
 
 export const metadata: Metadata = {
   title: "Wohnung Details | Revenue Dashboard",
 }
 
-export default async function PropertyDetailPage(props: { params: Promise<{ id: string }> }) {
+export default async function PropertyDetailPage(props: { 
+  params: Promise<{ id: string }>,
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
   const params = await props.params
+  const searchParams = await props.searchParams
   const property = await prisma.property.findUnique({
     where: { id: params.id },
     include: {
@@ -34,11 +39,24 @@ export default async function PropertyDetailPage(props: { params: Promise<{ id: 
     notFound()
   }
 
-  const currentMonthDate = new Date()
-  const currentMonth = getMonthYear(currentMonthDate)
+  const requestedMonth = typeof searchParams.month === 'string' ? searchParams.month : getMonthYear(new Date())
+  const selectedDate = new Date(`${requestedMonth}-01T00:00:00`)
   
-  const startOfMonth = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth(), 1)
-  const endOfMonth = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth() + 1, 0)
+  const targetMonthDate = isNaN(selectedDate.getTime()) ? new Date() : selectedDate
+  const currentMonth = getMonthYear(targetMonthDate)
+  
+  const startOfMonth = new Date(targetMonthDate.getFullYear(), targetMonthDate.getMonth(), 1)
+  const endOfMonth = new Date(targetMonthDate.getFullYear(), targetMonthDate.getMonth() + 1, 0)
+  
+  const availableMonths = []
+  for (let i = -2; i < 12; i++) {
+    const d = new Date()
+    d.setMonth(d.getMonth() - i)
+    availableMonths.push({
+      value: getMonthYear(d),
+      label: d.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' })
+    })
+  }
   
   // Calculate revenue for current month
   const activeReservations = await prisma.reservation.findMany({
@@ -90,18 +108,26 @@ export default async function PropertyDetailPage(props: { params: Promise<{ id: 
 
   return (
     <div className="space-y-8">
-      <div>
-        <Link href="/admin/revenue/properties" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-4 transition-colors">
-          <ArrowLeft className="w-4 h-4 mr-1" /> Zurück zur Übersicht
-        </Link>
-        <h1 className="text-3xl font-bold font-serif">{property.name}</h1>
-        <p className="text-muted-foreground mt-1">Details und Auswertungen</p>
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+        <div>
+          <Link href="/admin/revenue/properties" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-4 transition-colors">
+            <ArrowLeft className="w-4 h-4 mr-1" /> Zurück zur Übersicht
+          </Link>
+          <h1 className="text-3xl font-bold font-serif">{property.name}</h1>
+          <p className="text-muted-foreground mt-1">Details und Auswertungen</p>
+        </div>
+        <div className="pt-2 md:pt-0">
+          <MonthSelector currentMonth={currentMonth} availableMonths={availableMonths} />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
           <h3 className="text-sm font-medium text-muted-foreground mb-2">Einnahmen ({currentMonth})</h3>
           <p className="text-3xl font-bold">€ {(monthlyPayoutCent / 100).toFixed(2)}</p>
+          <div className="text-xs text-muted-foreground mt-1">
+            Anteilig basierend auf Nächten im Monat
+          </div>
         </div>
         <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
           <h3 className="text-sm font-medium text-muted-foreground mb-2">Kosten ({currentMonth})</h3>
@@ -115,6 +141,9 @@ export default async function PropertyDetailPage(props: { params: Promise<{ id: 
           <p className={`text-3xl font-bold ${profitCent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             € {(profitCent / 100).toFixed(2)}
           </p>
+          <div className="text-xs text-muted-foreground mt-1">
+            {checkoutsThisMonth} {checkoutsThisMonth === 1 ? 'Check-out' : 'Check-outs'} im Monat
+          </div>
         </div>
       </div>
 
@@ -149,13 +178,20 @@ export default async function PropertyDetailPage(props: { params: Promise<{ id: 
           ) : (
             <ul className="space-y-2 mb-6">
               {property.costs.map(cost => (
-                <li key={cost.id} className="flex justify-between text-sm items-center border-b border-border/50 pb-2 last:border-0">
+                <li key={cost.id} className="flex justify-between text-sm items-center border-b border-border/50 pb-3 pt-1 last:border-0">
                   <span>{cost.description} <span className="text-xs text-muted-foreground">({cost.category.name})</span></span>
-                  <div className="flex items-center gap-3">
-                    <span className="font-medium">
-                      € {(cost.amountCent / 100).toFixed(2)}
-                      {cost.calculationType === 'PER_STAY' ? ' / Aufenthalt' : cost.calculationType === 'PER_NIGHT' ? ' / Nacht' : ' / Monat'}
-                    </span>
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <div className="font-medium">
+                        € {(cost.amountCent / 100).toFixed(2)}
+                        {cost.calculationType === 'PER_STAY' ? ' / Aufenthalt' : cost.calculationType === 'PER_NIGHT' ? ' / Nacht' : ' / Monat'}
+                      </div>
+                      {cost.calculationType === 'PER_STAY' && (
+                        <div className="text-xs text-muted-foreground mt-0.5">
+                          {checkoutsThisMonth}x im Monat = <span className="font-medium text-foreground">€ {((cost.amountCent * checkoutsThisMonth) / 100).toFixed(2)}</span>
+                        </div>
+                      )}
+                    </div>
                     <DeleteCostButton costId={cost.id} propertyId={property.id} />
                   </div>
                 </li>
