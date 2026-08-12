@@ -35,8 +35,8 @@ export const penthouse1Data: ApartmentData = {
   address: "Löbtauer Straße 2, 01067 Dresden",
   mapUrl: "https://www.google.com/maps/search/?api=1&query=L%C3%B6btauer+Stra%C3%9Fe+2,+01067+Dresden",
   wifi: {
-    ssid: "JINO Dresden",
-    password: "Willkommen25!",
+    ssid: "ElbStay",
+    password: "Elbstay.de",
   },
   parking: "Reservierter Stellplatz WE10 im Innenhof. Einfahrt über die Berliner Straße (beim großen Wandgemälde).",
   houseRules: [
