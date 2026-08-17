@@ -4,6 +4,9 @@ import { syncProperties, syncReservations } from "@/lib/hospitable/sync"
 import { revalidatePath } from "next/cache"
 import { Button } from "@/components/ui/Button"
 import { SyncButton } from "./sync-button"
+import { PasskeySettingsCard } from "@/components/admin/PasskeySettingsCard"
+
+export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
   title: "Settings | Revenue Dashboard",
@@ -57,9 +60,13 @@ export default async function SettingsPage() {
     <div className="max-w-4xl space-y-8">
       <div>
         <h1 className="text-3xl font-bold font-serif">Einstellungen</h1>
-        <p className="text-muted-foreground mt-1">Hospitable Anbindung & Systemverwaltung</p>
+        <p className="text-muted-foreground mt-1">Sicherheit, Passkey & Hospitable Anbindung</p>
       </div>
 
+      {/* Passkey / Security Section */}
+      <PasskeySettingsCard />
+
+      {/* Hospitable Section */}
       <div className="bg-background border border-border p-6 rounded-2xl shadow-sm space-y-6">
         <h2 className="text-xl font-bold">Hospitable-Verbindung</h2>
         

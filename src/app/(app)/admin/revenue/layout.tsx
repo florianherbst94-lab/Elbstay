@@ -1,6 +1,8 @@
 import Link from "next/link"
 import { BarChart, Home, FileText, Settings, User } from "lucide-react"
 
+import { LogoutButton } from "@/components/admin/LogoutButton"
+
 export default function RevenueLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen bg-muted/20">
@@ -29,10 +31,11 @@ export default function RevenueLayout({ children }: { children: React.ReactNode 
           </Link>
         </nav>
 
-        <div className="mt-auto pt-6 border-t border-border">
-          <Link href="/admin" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted text-sm text-muted-foreground">
+        <div className="mt-auto pt-6 border-t border-border space-y-1">
+          <Link href="/admin" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted text-sm text-muted-foreground transition-colors">
             <User className="w-5 h-5" /> Zurück zum Admin
           </Link>
+          <LogoutButton />
         </div>
       </aside>
 

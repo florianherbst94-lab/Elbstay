@@ -1,6 +1,8 @@
 import { Metadata } from "next"
 import prisma from "@/lib/prisma"
 
+export const dynamic = "force-dynamic"
+
 export const metadata: Metadata = {
   title: "Buchungen | Revenue Dashboard",
 }

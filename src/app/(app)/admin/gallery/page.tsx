@@ -1,8 +1,10 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Save, Loader2, GripVertical, UploadCloud, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { Save, Loader2, GripVertical, UploadCloud, Trash2, Star, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { LogoutButton } from "@/components/admin/LogoutButton";
 
 interface ImageCategory {
   title: string;
@@ -68,22 +70,17 @@ export default function GalleryEditor() {
       
       // Insert at new position
       if (targetImgIdx !== undefined) {
-        // If we drop on an item that was *after* our source item, 
-        // the index shifts by 1 because we just removed the source item.
         const insertIdx = targetImgIdx;
         images.splice(insertIdx, 0, item);
       } else {
-        // Dropped on the category container, not a specific image -> put at the end
         images.push(item);
       }
       
       state[sourceCatIndex].images = images;
     } else {
       // Moving between different categories
-      // Remove from old category
       state[sourceCatIndex].images = state[sourceCatIndex].images.filter((img) => img !== item);
       
-      // Add to new category
       const targetImages = [...state[targetCatIndex].images];
       if (!targetImages.includes(item)) {
         if (targetImgIdx !== undefined) {
@@ -93,6 +90,37 @@ export default function GalleryEditor() {
         }
         state[targetCatIndex].images = targetImages;
       }
+    }
+
+    setter(state);
+  };
+
+  const handleSetCover = (targetType: "urban" | "premium" | "boutique", sourceCatIndex: number, imgUrl: string) => {
+    let state: ImageCategory[];
+    let setter: React.Dispatch<React.SetStateAction<ImageCategory[]>>;
+    
+    if (targetType === "urban") {
+      state = [...urbanGallery];
+      setter = setUrbanGallery;
+    } else if (targetType === "premium") {
+      state = [...premiumGallery];
+      setter = setPremiumGallery;
+    } else {
+      state = [...boutiqueGallery];
+      setter = setBoutiqueGallery;
+    }
+
+    if (state.length === 0) return;
+
+    if (sourceCatIndex === 0) {
+      // Move this image to index 0 of Highlights
+      const highlightImages = state[0].images.filter((img) => img !== imgUrl);
+      state[0].images = [imgUrl, ...highlightImages];
+    } else {
+      // Move from another category to index 0 of Highlights
+      state[sourceCatIndex].images = state[sourceCatIndex].images.filter((img) => img !== imgUrl);
+      const highlightImages = state[0].images.filter((img) => img !== imgUrl);
+      state[0].images = [imgUrl, ...highlightImages];
     }
 
     setter(state);
@@ -165,16 +193,29 @@ export default function GalleryEditor() {
     setSaving(false);
   };
 
-  if (loading) return <div className="p-12 text-center">Lade Daten...</div>;
+  if (loading) return <div className="p-12 text-center text-muted-foreground">Lade Daten...</div>;
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12 pb-32">
-      <div className="flex justify-between items-center mb-10">
+    <div className="max-w-7xl mx-auto px-6 py-10 pb-32">
+      {/* Top Navigation Bar */}
+      <div className="flex items-center justify-between gap-4 mb-8 pb-4 border-b border-border">
+        <Link
+          href="/admin"
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors font-medium"
+        >
+          <ArrowLeft className="w-4 h-4" /> Zurück zur Admin-Übersicht
+        </Link>
+        <LogoutButton variant="minimal" />
+      </div>
+
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-10">
         <div>
-          <h1 className="text-4xl font-serif font-bold text-foreground mb-2">Galerie Drag & Drop</h1>
-          <p className="text-muted-foreground">Laden Sie Bilder hoch und verschieben Sie diese, um die Galerien anzupassen.</p>
+          <h1 className="text-4xl font-serif font-bold text-foreground mb-2">Galerie & Titelbild Editor</h1>
+          <p className="text-muted-foreground max-w-2xl">
+            Laden Sie Bilder hoch, sortieren Sie Kategorien per Drag & Drop und wählen Sie das offizielle <strong>Titelbild</strong> für die Vorschau auf der Website & bei Buchungen aus.
+          </p>
         </div>
-        <Button onClick={saveChanges} disabled={saving} size="lg" className="gap-2 bg-green-600 hover:bg-green-700 text-white">
+        <Button onClick={saveChanges} disabled={saving} size="lg" className="gap-2 bg-green-600 hover:bg-green-700 text-white shrink-0 shadow-md">
           {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
           {saving ? "Speichert & Pusht..." : "Speichern & Live schalten"}
         </Button>
@@ -187,6 +228,7 @@ export default function GalleryEditor() {
           type="urban" 
           onDragStart={handleDragStart} 
           onDrop={handleDrop} 
+          onSetCover={(catIndex, url) => handleSetCover("urban", catIndex, url)}
           onUploadComplete={(url) => handleUploadComplete("urban", url)}
           onDelete={(catIndex, url) => handleDelete("urban", catIndex, url)}
         />
@@ -197,6 +239,7 @@ export default function GalleryEditor() {
           type="premium" 
           onDragStart={handleDragStart} 
           onDrop={handleDrop} 
+          onSetCover={(catIndex, url) => handleSetCover("premium", catIndex, url)}
           onUploadComplete={(url) => handleUploadComplete("premium", url)}
           onDelete={(catIndex, url) => handleDelete("premium", catIndex, url)}
         />
@@ -207,6 +250,7 @@ export default function GalleryEditor() {
           type="boutique" 
           onDragStart={handleDragStart} 
           onDrop={handleDrop} 
+          onSetCover={(catIndex, url) => handleSetCover("boutique", catIndex, url)}
           onUploadComplete={(url) => handleUploadComplete("boutique", url)}
           onDelete={(catIndex, url) => handleDelete("boutique", catIndex, url)}
         />
@@ -221,11 +265,12 @@ interface EditorSectionProps {
   type: "urban" | "premium" | "boutique";
   onDragStart: (e: React.DragEvent, item: string, catIndex: number, type: "urban" | "premium" | "boutique") => void;
   onDrop: (e: React.DragEvent, targetCatIndex: number, targetType: "urban" | "premium" | "boutique", targetImgIdx?: number) => void;
+  onSetCover: (catIndex: number, url: string) => void;
   onUploadComplete: (url: string) => void;
   onDelete: (catIndex: number, url: string) => void;
 }
 
-function EditorSection({ title, categories, type, onDragStart, onDrop, onUploadComplete, onDelete }: EditorSectionProps) {
+function EditorSection({ title, categories, type, onDragStart, onDrop, onSetCover, onUploadComplete, onDelete }: EditorSectionProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -263,7 +308,12 @@ function EditorSection({ title, categories, type, onDragStart, onDrop, onUploadC
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
-        <h2 className="text-3xl font-bold">{title}</h2>
+        <div>
+          <h2 className="text-3xl font-bold font-serif text-foreground">{title}</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Das erste Bild unter &quot;Highlights&quot; wird automatisch als Haupt-/Titelbild für alle Vorschauen verwendet.
+          </p>
+        </div>
         <div>
           <input 
             type="file" 
@@ -276,56 +326,116 @@ function EditorSection({ title, categories, type, onDragStart, onDrop, onUploadC
             variant="outline" 
             onClick={() => fileInputRef.current?.click()} 
             disabled={uploading}
-            className="gap-2"
+            className="gap-2 shadow-xs"
           >
             {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
-            {uploading ? "Lädt..." : "Bild hochladen"}
+            {uploading ? "Lädt..." : "Neues Bild hochladen"}
           </Button>
         </div>
       </div>
+
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        {categories.map((cat, i) => (
-          <div
-            key={i}
-            className="border-2 border-dashed border-border/60 bg-muted/20 rounded-xl p-6 min-h-[200px]"
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => onDrop(e, i, type)}
-          >
-            <h3 className="text-lg font-bold mb-4">{cat.title} <span className="text-sm font-normal text-muted-foreground ml-2">({cat.images.length} Bilder)</span></h3>
-            <div className="flex gap-4 flex-wrap">
-              {cat.images.map((src, imgIdx) => (
-                <div
-                  key={src}
-                  draggable
-                  onDragStart={(e) => onDragStart(e, src, i, type)}
-                  onDragOver={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                  onDrop={(e) => onDrop(e, i, type, imgIdx)}
-                  className="relative group w-32 h-24 rounded-lg overflow-hidden border border-border cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-primary shadow-sm"
-                >
-                  <Image src={src} alt="" fill className="object-cover" />
-                  <div className="absolute inset-x-0 bottom-0 bg-black/50 p-1 hidden group-hover:flex justify-center">
-                    <GripVertical className="w-4 h-4 text-white" />
+        {categories.map((cat, i) => {
+          const isHighlightCategory = i === 0 || cat.title.toLowerCase().includes("highlight");
+
+          return (
+            <div
+              key={i}
+              className={`border-2 border-dashed rounded-2xl p-6 min-h-[220px] transition-colors ${
+                isHighlightCategory
+                  ? "border-amber-400/50 bg-amber-50/20 dark:bg-amber-950/10"
+                  : "border-border/60 bg-muted/20"
+              }`}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => onDrop(e, i, type)}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-lg font-bold flex items-center gap-2 text-foreground">
+                    {isHighlightCategory && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
+                    {cat.title}
+                  </h3>
+                  <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
+                    {cat.images.length} {cat.images.length === 1 ? "Bild" : "Bilder"}
+                  </span>
+                </div>
+                {isHighlightCategory && (
+                  <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">
+                    Bild #1 = Titelbild
+                  </span>
+                )}
+              </div>
+
+              <div className="flex gap-4 flex-wrap">
+                {cat.images.map((src, imgIdx) => {
+                  const isCover = isHighlightCategory && imgIdx === 0;
+
+                  return (
+                    <div
+                      key={src}
+                      draggable
+                      onDragStart={(e) => onDragStart(e, src, i, type)}
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                      onDrop={(e) => onDrop(e, i, type, imgIdx)}
+                      className={`relative group w-36 h-28 rounded-xl overflow-hidden border cursor-grab active:cursor-grabbing shadow-xs transition-all ${
+                        isCover
+                          ? "ring-2 ring-amber-500 border-amber-400 shadow-md"
+                          : "border-border hover:ring-2 hover:ring-primary"
+                      }`}
+                    >
+                      <Image src={src} alt="" fill className="object-cover" />
+
+                      {/* Cover Badge on Highlights #1 */}
+                      {isCover ? (
+                        <div className="absolute top-1.5 left-1.5 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 shadow-md z-10 ring-1 ring-amber-300/40 pointer-events-none">
+                          <Star className="w-3 h-3 fill-white text-white" />
+                          <span>Titelbild</span>
+                        </div>
+                      ) : (
+                        /* Set as Cover button on other images */
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSetCover(i, src);
+                          }}
+                          className="absolute top-1.5 left-1.5 bg-black/80 hover:bg-amber-600 text-white text-[10px] font-medium px-2 py-0.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 shadow-sm z-10"
+                          title={isHighlightCategory ? "Als Titelbild festlegen" : "In Highlights verschieben und als Titelbild festlegen"}
+                        >
+                          <Star className="w-3 h-3 text-amber-300" />
+                          <span>Als Titelbild</span>
+                        </button>
+                      )}
+
+                      {/* Drag handle overlay */}
+                      <div className="absolute inset-x-0 bottom-0 bg-black/60 py-1 hidden group-hover:flex justify-center items-center">
+                        <GripVertical className="w-4 h-4 text-white/90" />
+                      </div>
+
+                      {/* Delete button */}
+                      <button 
+                        onClick={() => onDelete(i, src)}
+                        className="absolute top-1.5 right-1.5 bg-destructive/90 text-destructive-foreground p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive shadow-sm z-10"
+                        title="Bild entfernen"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  );
+                })}
+
+                {cat.images.length === 0 && (
+                  <div className="w-full text-center py-8 text-muted-foreground text-sm border-2 border-dotted border-border/40 rounded-xl">
+                    Ziehe Bilder hierher
                   </div>
-                  <button 
-                    onClick={() => onDelete(i, src)}
-                    className="absolute top-1 right-1 bg-destructive/90 text-destructive-foreground p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive"
-                    title="Bild entfernen"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              ))}
-              {cat.images.length === 0 && (
-                <div className="w-full text-center py-6 text-muted-foreground text-sm">
-                  Ziehe Bilder hierher
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

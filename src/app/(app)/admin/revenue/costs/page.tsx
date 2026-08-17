@@ -3,6 +3,8 @@ import prisma from "@/lib/prisma"
 import Link from "next/link"
 import { CostActionButtons } from "@/components/admin/revenue/CostActionButtons"
 
+export const dynamic = "force-dynamic"
+
 export const metadata: Metadata = {
   title: "Kostenverwaltung | Revenue Dashboard",
 }

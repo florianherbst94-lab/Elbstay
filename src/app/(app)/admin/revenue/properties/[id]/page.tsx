@@ -8,6 +8,8 @@ import { CostActionButtons } from "@/components/admin/revenue/CostActionButtons"
 import { MonthSelector } from "@/components/admin/revenue/MonthSelector"
 import { getMonthYear, splitReservationNightsByMonth } from "@/lib/revenue/calculations"
 
+export const dynamic = "force-dynamic"
+
 export const metadata: Metadata = {
   title: "Wohnung Details | Revenue Dashboard",
 }

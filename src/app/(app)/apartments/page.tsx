@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   },
 };
 
+import { urbanGallery, premiumGallery } from "@/lib/images";
+import { boutiqueGallery } from "@/lib/boutique/images";
+
 const APARTMENTS = [
   {
     id: "boutique",
@@ -25,7 +28,7 @@ const APARTMENTS = [
     guests: 4,
     beds: "1 Bett + 1 Schlafcouch",
     size: 48,
-    imageUrl: "/images/boutique/living-room-1.jpg",
+    imageUrl: boutiqueGallery[0]?.images[0] || "/images/boutique/living-room-1.jpg",
     priceFrom: 85,
   },
   {
@@ -36,7 +39,7 @@ const APARTMENTS = [
     guests: 6,
     beds: "2 Betten + 1 Schlafcouch",
     size: 85,
-    imageUrl: "/images/premium/floairbnb_-77.jpg",
+    imageUrl: premiumGallery[0]?.images[0] || "/images/premium/floairbnb_-77.jpg",
     priceFrom: 110,
   },
   {
@@ -47,7 +50,7 @@ const APARTMENTS = [
     guests: 4,
     beds: "1 Bett + 1 Schlafcouch",
     size: 55,
-    imageUrl: "/images/urban/airbnb-flo-5.jpg",
+    imageUrl: urbanGallery[0]?.images[0] || "/images/urban/airbnb-flo-5.jpg",
     priceFrom: 70,
   }
 ];

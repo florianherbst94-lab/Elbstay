@@ -4,6 +4,8 @@ import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { createCost } from "../actions"
 
+export const dynamic = "force-dynamic"
+
 export const metadata: Metadata = {
   title: "Neue Kosten | Revenue Dashboard",
 }

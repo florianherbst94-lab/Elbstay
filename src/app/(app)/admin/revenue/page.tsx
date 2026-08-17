@@ -5,6 +5,8 @@ import { RevenueChart } from "@/components/admin/revenue/RevenueChart"
 import { MonthSelector } from "@/components/admin/revenue/MonthSelector"
 import Link from "next/link"
 
+export const dynamic = "force-dynamic"
+
 export const metadata: Metadata = {
   title: "Portfolio Overview | Revenue Dashboard",
 }
