@@ -76,7 +76,14 @@ export default async function SettingsPage() {
           <div>
             <h3 className="text-sm font-medium text-muted-foreground">Letzte Synchronisierung</h3>
             <p className="font-medium mt-2">
-              {lastSync?.completedAt ? lastSync.completedAt.toLocaleString('de-DE') : 'Nie'}
+              {lastSync?.completedAt ? (
+                <>
+                  {lastSync.completedAt.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' })} Uhr
+                  <span className="text-xs text-muted-foreground ml-2">
+                    ({lastSync.type === 'DAILY' || lastSync.type === 'PERIODIC' ? 'Automatisch' : 'Manuell'})
+                  </span>
+                </>
+              ) : 'Nie'}
             </p>
             {lastSync?.status === "FAILED" && (
               <p className="text-xs text-red-500 mt-1">Fehler: {lastSync.errorMessage}</p>
@@ -94,12 +101,12 @@ export default async function SettingsPage() {
           </div>
         </div>
 
-        <div className="pt-6 border-t border-border flex items-center justify-between">
+        <div className="pt-6 border-t border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <form action={handleSync}>
             <SyncButton disabled={!tokenSet} />
           </form>
           <p className="text-sm text-muted-foreground">
-            Die automatische Synchronisation läuft alle 30 Minuten.
+            Die automatische Synchronisation wird einmal täglich nachts ausgeführt.
           </p>
         </div>
       </div>
