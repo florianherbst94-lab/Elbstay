@@ -457,15 +457,11 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          3. AUSSTATTUNG – Premium Icon Grid
+          3. DIREKTBUCHUNGS-VORTEILE + APARTMENTS
       ═══════════════════════════════════════════ */}
-      <section className="py-28 md:py-40 bg-muted/50 relative overflow-hidden">
-        {/* Subtle background silhouette */}
-        <div className="absolute bottom-0 left-0 right-0 text-border/30 pointer-events-none">
-          <DresdenSilhouette className="w-full h-auto" />
-        </div>
-
+      <section id="apartments" className="py-28 md:py-40 bg-muted/40 relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10">
+          {/* Direktbuchungs-Vorteile */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -474,16 +470,17 @@ export default function Home() {
             className="text-center mb-20"
           >
             <motion.div variants={fadeUp}>
-              <SectionLabel>Ausstattung</SectionLabel>
+              <SectionLabel>Direkt buchen & sparen</SectionLabel>
             </motion.div>
             <motion.h2
               variants={fadeUpSlow}
               className="font-serif text-3xl md:text-[3.25rem] font-bold text-foreground mb-6 text-balance"
             >
-              Einziehen und wohlfühlen.
+              Direkt buchen. Mehr sparen.
             </motion.h2>
-            <motion.p variants={fadeUp} className="text-muted-foreground text-lg max-w-xl mx-auto leading-relaxed">
-              Boxspring-Betten, Nespresso, Netflix – jedes Detail ist durchdacht.
+            <motion.p variants={fadeUp} className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
+              Sie finden uns auch auf Airbnb und Booking.com. Aber: Direkt bei uns sparen Sie
+              die Plattform-Gebühren – und bekommen persönlichen Service dazu.
             </motion.p>
           </motion.div>
 
@@ -492,21 +489,159 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-60px" }}
             variants={stagger}
-            className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6"
+            className="grid md:grid-cols-3 gap-6 md:gap-8 mb-28"
           >
-            {AMENITIES.map((item, idx) => (
+            {[
+              {
+                icon: Percent,
+                title: "Bestpreis-Garantie",
+                text: "Keine Vermittlungsgebühr, kein Aufschlag. Bei uns sparen Sie ca. 10% gegenüber Airbnb und Booking.",
+                highlight: "– 10%",
+              },
+              {
+                icon: HeartHandshake,
+                title: "Flexibel stornieren",
+                text: "Kostenlos stornieren bis 7 Tage vor Anreise. Keine Anzahlung, kein Risiko.",
+                highlight: "Gratis",
+              },
+              {
+                icon: PhoneCall,
+                title: "Echte Gastgeber",
+                text: "Kein Bot, kein Callcenter. Wir sind vor Ort in Dresden und helfen Ihnen persönlich.",
+                highlight: "Direkt",
+              },
+            ].map((item, idx) => (
               <motion.div
                 key={idx}
                 variants={scaleIn}
-                className="premium-card flex flex-col items-center text-center p-7 md:p-8 rounded-2xl bg-background border border-border/40 group cursor-default"
+                className="premium-card bg-background rounded-3xl p-8 md:p-10 border border-border/40 group cursor-default relative overflow-hidden"
               >
-                <div className="h-14 w-14 rounded-2xl bg-primary/[0.07] flex items-center justify-center mb-5 group-hover:bg-primary/[0.12] group-hover:scale-110 transition-all duration-400">
-                  <item.icon className="h-6 w-6 text-primary transition-transform duration-300 group-hover:scale-110" strokeWidth={1.5} />
+                {/* Highlight badge */}
+                <div className="absolute top-6 right-6 text-xs font-bold text-primary bg-primary/[0.08] px-3 py-1 rounded-full">{item.highlight}</div>
+
+                <div className="h-14 w-14 rounded-2xl bg-primary/[0.07] flex items-center justify-center mb-8 group-hover:bg-primary/[0.12] group-hover:scale-110 transition-all duration-400">
+                  <item.icon className="h-7 w-7 text-primary" strokeWidth={1.5} />
                 </div>
-                <span className="text-sm font-semibold text-foreground mb-1">{item.label}</span>
-                <span className="text-xs text-muted-foreground">{item.desc}</span>
+                <h3 className="text-xl font-bold text-foreground mb-4">{item.title}</h3>
+                <p className="text-muted-foreground leading-relaxed text-[15px]">{item.text}</p>
               </motion.div>
             ))}
+          </motion.div>
+
+          {/* Apartment-Karten */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={stagger}
+          >
+            <motion.div variants={fadeUp} className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+              <div>
+                <SectionLabel>Unsere Apartments</SectionLabel>
+                <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground tracking-tight text-balance">
+                  Drei Apartments. Ein Versprechen.
+                </h2>
+              </div>
+              <p className="text-muted-foreground text-lg max-w-md leading-relaxed pb-1">
+                Eingerichtet wie ein Zuhause. Ausgestattet wie ein Hotel.
+              </p>
+            </motion.div>
+
+            <motion.div
+              variants={stagger}
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12"
+            >
+              {APARTMENTS.map((apt) => (
+                <motion.div key={apt.id} variants={scaleIn} className="h-full">
+                  <ApartmentCard {...apt} />
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════
+          4. LAGE – Parallax Image
+      ═══════════════════════════════════════════ */}
+      <section className="py-28 md:py-40 bg-background">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={stagger}
+            className="grid md:grid-cols-2 gap-14 lg:gap-24 items-center"
+          >
+            {/* Text */}
+            <motion.div variants={fadeUp} className="order-2 md:order-1">
+              <SectionLabel>Standort</SectionLabel>
+              <h2 className="font-serif text-3xl md:text-[3.25rem] font-bold text-foreground mb-8 leading-[1.12] text-balance">
+                Zentral an der Elbe.
+                Alles fußläufig.
+              </h2>
+              <p className="text-muted-foreground text-lg leading-[1.8] mb-10">
+                Die Frauenkirche zum Abendspaziergang, der Elbradweg für morgens,
+                die Neustadt für abends – von uns aus erreichen Sie alles in Minuten.
+              </p>
+              <div className="space-y-5">
+                {[
+                  { text: "5 Min. zu Fuß zur Frauenkirche", detail: "750m" },
+                  { text: "10 Min. zum Zwinger & Semperoper", detail: "1.2km" },
+                  { text: "Elbradweg direkt vor der Tür", detail: "0m" },
+                  { text: "Straßenbahn-Haltestelle in 2 Min.", detail: "150m" },
+                ].map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.3 + idx * 0.1, ease }}
+                    className="flex items-center justify-between gap-4 group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="h-10 w-10 rounded-xl bg-primary/[0.07] flex items-center justify-center shrink-0 group-hover:bg-primary/[0.12] transition-colors duration-300">
+                        <MapPin className="h-4 w-4 text-primary" strokeWidth={1.5} />
+                      </div>
+                      <span className="text-foreground font-medium">{item.text}</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground font-mono tracking-wide">{item.detail}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Parallax Image */}
+            <motion.div
+              ref={locationImageRef}
+              variants={scaleIn}
+              className="relative h-[450px] md:h-[580px] rounded-3xl overflow-hidden shadow-2xl order-1 md:order-2"
+            >
+              <motion.div className="absolute inset-0" style={{ y: locY }}>
+                <Image
+                  src="/images/dresden_hero_user_final.jpg"
+                  alt="Dresden Lage – Blick auf Elbe und Altstadt"
+                  fill
+                  className="object-cover scale-110"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  unoptimized
+                />
+              </motion.div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="glass rounded-2xl px-6 py-4 bg-white/80 backdrop-blur-xl border-white/40">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <MapPin className="h-5 w-5 text-primary" strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <span className="font-semibold text-foreground text-sm block">Dresden · Löbtau</span>
+                      <span className="text-xs text-muted-foreground">Direkt an der Elbe</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
