@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { MapPin, Users, Home, Bed, Bath } from "lucide-react";
 
@@ -13,23 +14,50 @@ import { ApartmentHeaderGallery } from "@/components/apartment/ApartmentHeaderGa
 import { premiumReviews } from "@/lib/reviews";
 import { HospitableIframeSync } from "@/components/booking/HospitableIframeSync";
 
+export const metadata: Metadata = {
+  title: "ElbStay Premium Penthouse | Dachterrasse mit Elbblick in Dresden",
+  description: "Exklusives 85m² Penthouse mit Dachterrasse, Elbblick & Tiefgaragenstellplatz in Dresden am Bahnhof Mitte. Für bis zu 6 Gäste. Direkt buchen & 10% sparen!",
+  keywords: [
+    "Penthouse Dresden",
+    "Ferienwohnung Dachterrasse Dresden",
+    "Luxus Unterkunft Dresden",
+    "Ferienwohnung Bahnhof Mitte Dresden",
+    "Ferienwohnung Dresden direkt buchen"
+  ],
+  alternates: {
+    canonical: "https://elbstay.de/apartments/premium",
+  },
+  openGraph: {
+    title: "ElbStay Premium Penthouse | Dachterrasse mit Elbblick in Dresden",
+    description: "Exklusives 85m² Penthouse mit Dachterrasse, Elbblick & Tiefgaragenstellplatz in Dresden. Direkt buchen & 10% sparen.",
+    url: "https://elbstay.de/apartments/premium",
+    images: ["/images/premium/floairbnb_-77.jpg"],
+  },
+};
+
 export default function PremiumApartment() {
   const allImages = premiumGallery.flatMap(cat => cat.images).filter(Boolean);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "VacationRental",
-    name: "ElbStay Premium Penthouse",
+    "@id": "https://elbstay.de/apartments/premium/#rental",
+    name: "ElbStay Premium Penthouse Dresden",
     description: "Dachterrasse mit Elbblick, großzügige Räume und Premium-Ausstattung – Ihr privates Penthouse über Dresden.",
-    image: [
-      "https://elbstay.de" + allImages[0]
-    ],
+    image: allImages.map(img => "https://elbstay.de" + img),
     url: "https://elbstay.de/apartments/premium",
     address: {
       "@type": "PostalAddress",
+      streetAddress: "Jahnstraße / Könneritzstraße",
       addressLocality: "Dresden",
       addressRegion: "Sachsen",
+      postalCode: "01067",
       addressCountry: "DE"
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 51.0558,
+      longitude: 13.7246
     },
     numberOfRooms: 3,
     occupancy: {
@@ -38,25 +66,27 @@ export default function PremiumApartment() {
     },
     floorSize: {
       "@type": "QuantitativeValue",
-      value: 120,
+      value: 85,
       unitCode: "MTK"
     },
+    offers: {
+      "@type": "Offer",
+      name: "Direktbuchung Bestpreis",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: "110",
+        priceCurrency: "EUR",
+        unitCode: "DAY"
+      },
+      url: "https://elbstay.de/apartments/premium"
+    },
     amenityFeature: [
-      {
-        "@type": "LocationFeatureSpecification",
-        name: "WLAN",
-        value: true
-      },
-      {
-        "@type": "LocationFeatureSpecification",
-        name: "Küche",
-        value: true
-      },
-      {
-        "@type": "LocationFeatureSpecification",
-        name: "Klimaanlage",
-        value: true
-      }
+      { "@type": "LocationFeatureSpecification", name: "Dachterrasse mit Elbblick", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Tiefgaragen-Parkplatz", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Highspeed-WLAN", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Weinkühler", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Voll ausgestattete Küche", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Self-Check-In 24/7", value: true }
     ]
   };
 

@@ -285,26 +285,67 @@ export default function Home() {
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "LodgingBusiness",
-    name: "ElbStay Boutique Apartments",
-    description: "Zentrumsnahe Boutique-Apartments in Dresden an der Elbe. Entdecken Sie ElbStay Urban, Premium und Boutique. Jetzt direkt buchen.",
-    url: "https://elbstay.de",
-    telephone: "", // Add if known
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Dresden",
-      addressRegion: "Sachsen",
-      postalCode: "01127", // Example for Pieschen, adjust if needed
-      addressCountry: "DE"
-    },
-    image: [
-      "https://elbstay.de/images/dresden_hero_user_final.jpg"
-    ],
-    priceRange: "€€",
-    starRating: {
-      "@type": "Rating",
-      ratingValue: "4.9"
-    }
+    "@graph": [
+      {
+        "@type": "LodgingBusiness",
+        "@id": "https://elbstay.de/#lodging",
+        "name": "ElbStay Boutique Apartments",
+        "description": "Zentrumsnahe Boutique-Apartments & Ferienwohnungen in Dresden an der Elbe. Entdecken Sie ElbStay Urban, Premium Penthouse und Boutique. Jetzt direkt buchen und ca. 10% sparen.",
+        "url": "https://elbstay.de",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Dresden",
+          "addressRegion": "Sachsen",
+          "postalCode": "01127",
+          "addressCountry": "DE"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 51.0504,
+          "longitude": 13.7373
+        },
+        "image": [
+          "https://elbstay.de/images/dresden_hero_user_final.jpg"
+        ],
+        "priceRange": "€€",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "50"
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Ferienwohnungen Dresden",
+          "itemListElement": APARTMENTS.map((apt) => ({
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Accommodation",
+              "name": apt.name,
+              "description": apt.description,
+              "url": `https://elbstay.de/apartments/${apt.id}`
+            },
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": apt.priceFrom,
+              "priceCurrency": "EUR",
+              "unitCode": "DAY"
+            }
+          }))
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://elbstay.de/#faq",
+        "mainEntity": FAQS.map((faq) => ({
+          "@type": "Question",
+          "name": faq.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.a
+          }
+        }))
+      }
+    ]
   };
 
   return (

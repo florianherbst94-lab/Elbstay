@@ -1,4 +1,5 @@
 
+import type { Metadata } from "next";
 import { MapPin, Users, Home, Bed, Bath } from "lucide-react";
 
 import { ApartmentGallery } from "@/components/apartment/ApartmentGallery";
@@ -13,23 +14,49 @@ import { ApartmentHeaderGallery } from "@/components/apartment/ApartmentHeaderGa
 import { boutiqueReviews } from "@/lib/boutique/reviews";
 import { HospitableIframeSync } from "@/components/booking/HospitableIframeSync";
 
+export const metadata: Metadata = {
+  title: "ElbStay Boutique Apartment | Stilvoll wohnen in Dresden-Pieschen",
+  description: "Hochwertige 2-Raum-Ferienwohnung in Dresden-Pieschen nahe der Elbe. Altbaucharme, Boxspringbett, Nespresso & Highspeed-WLAN. Jetzt direkt zum Bestpreis buchen!",
+  keywords: [
+    "Ferienwohnung Dresden Pieschen",
+    "Boutique Apartment Dresden",
+    "Unterkunft Leipziger Straße Dresden",
+    "Ferienwohnung Dresden direkt buchen"
+  ],
+  alternates: {
+    canonical: "https://elbstay.de/apartments/boutique",
+  },
+  openGraph: {
+    title: "ElbStay Boutique Apartment | Stilvoll wohnen in Dresden-Pieschen",
+    description: "Hochwertige 2-Raum-Ferienwohnung in Dresden nahe der Elbe. Direkt buchen & 10% sparen.",
+    url: "https://elbstay.de/apartments/boutique",
+    images: ["/images/boutique/living-room-1.jpg"],
+  },
+};
+
 export default function BoutiqueApartment() {
   const allImages = boutiqueGallery.flatMap(cat => cat.images).filter(Boolean);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "VacationRental",
-    name: "ElbStay Boutique-Apartment",
+    "@id": "https://elbstay.de/apartments/boutique/#rental",
+    name: "ElbStay Boutique-Apartment Dresden",
     description: "Stilvolles Boutique-Apartment in Dresden-Pieschen. Die hochwertig eingerichtete 2-Raum-Wohnung verbindet Altbaucharme mit modernem Komfort.",
-    image: [
-      "https://elbstay.de" + allImages[0]
-    ],
+    image: allImages.map(img => "https://elbstay.de" + img),
     url: "https://elbstay.de/apartments/boutique",
     address: {
       "@type": "PostalAddress",
+      streetAddress: "Leipziger Straße",
       addressLocality: "Dresden",
       addressRegion: "Sachsen",
+      postalCode: "01127",
       addressCountry: "DE"
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 51.0772,
+      longitude: 13.7226
     },
     numberOfRooms: 2,
     occupancy: {
@@ -38,20 +65,27 @@ export default function BoutiqueApartment() {
     },
     floorSize: {
       "@type": "QuantitativeValue",
-      value: 85,
+      value: 48,
       unitCode: "MTK"
     },
-    amenityFeature: [
-      {
-        "@type": "LocationFeatureSpecification",
-        name: "WLAN",
-        value: true
+    offers: {
+      "@type": "Offer",
+      name: "Direktbuchung Bestpreis",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: "85",
+        priceCurrency: "EUR",
+        unitCode: "DAY"
       },
-      {
-        "@type": "LocationFeatureSpecification",
-        name: "Küche",
-        value: true
-      }
+      url: "https://elbstay.de/apartments/boutique"
+    },
+    amenityFeature: [
+      { "@type": "LocationFeatureSpecification", name: "Highspeed-WLAN", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Küche", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Nespresso Kaffeemaschine", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Smart TV", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Waschmaschine", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Self-Check-In 24/7", value: true }
     ]
   };
 

@@ -1,0 +1,36 @@
+# ElbStay Boutique Apartments Dresden
+
+> Exclusive design vacation rentals and boutique apartments in Dresden, Germany. Located directly by the Elbe river, offering direct booking advantages with guaranteed best prices.
+
+## Core Direct Booking Benefits
+- **Best Price Guarantee**: Save ~10% compared to Airbnb and Booking.com by booking directly at [elbstay.de](https://elbstay.de).
+- **Flexible Cancellation**: Free cancellation up to 7 days before arrival.
+- **Personal Support**: Direct local contact in Dresden – no call centers or automated bots.
+
+## Apartments
+- **ElbStay Boutique** (Dresden-Pieschen, Leipziger Str.):
+  - Size: 48 m² | Capacity: Up to 4 guests | 1 Bedroom + 1 Sofa bed
+  - Features: Restored old-building charm, Boxspring bed, high-speed Wi-Fi, Nespresso, Smart TV, full kitchen, free side-street parking.
+  - Link: https://elbstay.de/apartments/boutique
+
+- **ElbStay Premium Penthouse** (Dresden Bahnhof Mitte, Jahnstr. / Könneritzstr.):
+  - Size: 85 m² | Capacity: Up to 6 guests | 2 Bedrooms + 1 Sofa bed
+  - Features: Rooftop terrace with Elbe & skyline view, luxury furnishing, wine cooler, underground garage parking spot included.
+  - Link: https://elbstay.de/apartments/premium
+
+- **ElbStay Urban** (Dresden-Löbtau, Clara-Zetkin-Str.):
+  - Size: 55 m² | Capacity: Up to 4 guests | 1 Bedroom + 1 Sofa bed
+  - Features: Modern design, quiet courtyard, high-speed Wi-Fi, 55" Smart TV, full kitchen, washer. Pets allowed upon request.
+  - Link: https://elbstay.de/apartments/urban
+
+## Key Location Highlights
+- **Frauenkirche & Historic Old Town**: ~10 minutes away.
+- **Elbwiesen & Riverfront**: Right at the doorstep (1 minute).
+- **Semperoper & Zwinger**: ~10–12 minutes.
+- **Dresdner Neustadt (Bar Quarter)**: ~8 minutes.
+
+## Contact & Direct Booking
+- Website: https://elbstay.de
+- Search & Instant Booking: https://elbstay.de/#apartments
+- FAQ: https://elbstay.de/faq
+- Full AI Dossier: https://elbstay.de/llms-full.txt

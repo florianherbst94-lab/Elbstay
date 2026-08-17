@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { MapPin, Users, Home, Bed, Bath, Check, Wifi, Coffee, Tv } from "lucide-react";
 
@@ -13,23 +14,49 @@ import { ApartmentHeaderGallery } from "@/components/apartment/ApartmentHeaderGa
 import { urbanReviews } from "@/lib/reviews";
 import { HospitableIframeSync } from "@/components/booking/HospitableIframeSync";
 
+export const metadata: Metadata = {
+  title: "ElbStay Urban Apartment | Design-Ferienwohnung in Dresden-Löbtau",
+  description: "Moderne 55m² Design-Ferienwohnung in Dresden-Löbtau zum ruhigen Innenhof. Boxspringbett, 55\" Smart-TV, Nespresso & Highspeed-WLAN. Direkt buchen & 10% sparen!",
+  keywords: [
+    "Ferienwohnung Dresden Löbtau",
+    "Design Apartment Dresden",
+    "Unterkunft Clara-Zetkin-Straße Dresden",
+    "Ferienwohnung Dresden direkt buchen"
+  ],
+  alternates: {
+    canonical: "https://elbstay.de/apartments/urban",
+  },
+  openGraph: {
+    title: "ElbStay Urban Apartment | Design-Ferienwohnung in Dresden-Löbtau",
+    description: "Moderne 55m² Design-Ferienwohnung in Dresden-Löbtau. Direkt buchen & 10% sparen.",
+    url: "https://elbstay.de/apartments/urban",
+    images: ["/images/urban/urban-living-1.jpg"],
+  },
+};
+
 export default function UrbanApartment() {
   const allImages = urbanGallery.flatMap(cat => cat.images).filter(Boolean);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "VacationRental",
-    name: "ElbStay Urban Apartment",
+    "@id": "https://elbstay.de/apartments/urban/#rental",
+    name: "ElbStay Urban Apartment Dresden",
     description: "Klare Linien, warme Materialien und ein durchdachtes Raumgefühl – für alle, die Design und Ruhe lieben.",
-    image: [
-      "https://elbstay.de" + allImages[0]
-    ],
+    image: allImages.map(img => "https://elbstay.de" + img),
     url: "https://elbstay.de/apartments/urban",
     address: {
       "@type": "PostalAddress",
+      streetAddress: "Clara-Zetkin-Straße",
       addressLocality: "Dresden",
       addressRegion: "Sachsen",
+      postalCode: "01159",
       addressCountry: "DE"
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 51.0411,
+      longitude: 13.7028
     },
     numberOfRooms: 2,
     occupancy: {
@@ -41,17 +68,24 @@ export default function UrbanApartment() {
       value: 55,
       unitCode: "MTK"
     },
-    amenityFeature: [
-      {
-        "@type": "LocationFeatureSpecification",
-        name: "WLAN",
-        value: true
+    offers: {
+      "@type": "Offer",
+      name: "Direktbuchung Bestpreis",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: "75",
+        priceCurrency: "EUR",
+        unitCode: "DAY"
       },
-      {
-        "@type": "LocationFeatureSpecification",
-        name: "Küche",
-        value: true
-      }
+      url: "https://elbstay.de/apartments/urban"
+    },
+    amenityFeature: [
+      { "@type": "LocationFeatureSpecification", name: "Highspeed-WLAN", value: true },
+      { "@type": "LocationFeatureSpecification", name: "55\" Smart-TV", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Ruhige Innenhoflage", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Nespresso Kaffeemaschine", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Voll ausgestattete Küche", value: true },
+      { "@type": "LocationFeatureSpecification", name: "Self-Check-In 24/7", value: true }
     ]
   };
 

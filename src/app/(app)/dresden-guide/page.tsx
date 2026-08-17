@@ -5,9 +5,18 @@ import { MapPin, Coffee, Utensils, Music, Landmark, ArrowRight, Camera } from "l
 import { Button } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
-  title: "Dresden Guide | Insider-Tipps für Ihren Aufenthalt",
-  description: "Entdecken Sie Dresden wie ein Local. Sehenswürdigkeiten, Geheimtipps, Restaurants und Cafés in Pieschen, Neustadt und der Altstadt.",
-  keywords: ["Dresden Insider Tipps", "Sehenswürdigkeiten Dresden", "Restaurant Dresden Pieschen", "Dresden Guide", "Was tun in Dresden"],
+  title: "Dresden Guide | Insider-Tipps für Ihren Aufenthalt in Dresden",
+  description: "Entdecken Sie Dresden wie ein Local. Sehenswürdigkeiten, Frauenkirche, Semperoper, Geheimtipps, Restaurants & Cafés in Pieschen, Neustadt und der Altstadt.",
+  keywords: ["Dresden Insider Tipps", "Sehenswürdigkeiten Dresden", "Restaurant Dresden Pieschen", "Dresden Guide", "Was tun in Dresden", "Ferienwohnung Dresden"],
+  alternates: {
+    canonical: "https://elbstay.de/dresden-guide",
+  },
+  openGraph: {
+    title: "Dresden Guide | Insider-Tipps für Ihren Aufenthalt in Dresden",
+    description: "Entdecken Sie Dresden wie ein Local. Sehenswürdigkeiten, Restaurants & Geheimtipps.",
+    url: "https://elbstay.de/dresden-guide",
+    images: ["/images/dresden_hero_user_final.jpg"],
+  },
 };
 
 export default function DresdenGuidePage() {

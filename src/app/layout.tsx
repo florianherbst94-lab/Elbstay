@@ -73,6 +73,56 @@ export default function RootLayout({
       className={`${inter.variable} ${playfair.variable} h-full antialiased overflow-x-hidden`}
     >
       <body className="min-h-full flex flex-col font-sans text-foreground bg-background overflow-x-hidden">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "@id": "https://elbstay.de/#organization",
+                  "name": "ElbStay Boutique Apartments",
+                  "url": "https://elbstay.de",
+                  "logo": "https://elbstay.de/images/elbstay-logo-official.png",
+                  "description": "Exklusive Design-Ferienwohnungen und Boutique-Apartments in Dresden direkt an der Elbe."
+                },
+                {
+                  "@type": "LodgingBusiness",
+                  "@id": "https://elbstay.de/#lodging",
+                  "name": "ElbStay Boutique Apartments Dresden",
+                  "url": "https://elbstay.de",
+                  "image": "https://elbstay.de/images/dresden_hero_user_final.jpg",
+                  "priceRange": "€€",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Dresden",
+                    "addressRegion": "Sachsen",
+                    "postalCode": "01127",
+                    "addressCountry": "DE"
+                  },
+                  "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": 51.0504,
+                    "longitude": 13.7373
+                  },
+                  "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "4.9",
+                    "reviewCount": "50"
+                  },
+                  "makesOffer": {
+                    "@type": "Offer",
+                    "name": "Direktbuchungs-Vorteil (Bestpreis-Garantie)",
+                    "description": "Direkt buchen auf elbstay.de und ca. 10% Plattform-Gebühren sparen.",
+                    "priceCurrency": "EUR",
+                    "url": "https://elbstay.de/#apartments"
+                  }
+                }
+              ]
+            })
+          }}
+        />
         {children}
         <DirectBookingBanner />
         <Script 
