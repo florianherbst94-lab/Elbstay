@@ -1,16 +1,25 @@
 import NextAuth from "next-auth"
 import { authConfig } from "@/auth.config"
+import { NextResponse } from "next/server"
 
 const { auth } = NextAuth(authConfig)
-import { NextResponse } from "next/server"
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth
-  const isRevenueAdminRoute = req.nextUrl.pathname.startsWith('/admin/revenue')
-  const isLoginRoute = req.nextUrl.pathname === '/admin/login'
+  const pathname = req.nextUrl.pathname
 
-  if (isRevenueAdminRoute && !isLoggedIn) {
-    return NextResponse.redirect(new URL('/admin/login?callbackUrl=' + encodeURIComponent(req.nextUrl.pathname), req.nextUrl))
+  const isLoginRoute = pathname === '/admin/login'
+  const isAdminRoute = pathname.startsWith('/admin') && !isLoginRoute
+  const isAdminApiRoute = pathname.startsWith('/api/admin')
+
+  // Block any unauthorized access to /admin/* or /api/admin/*
+  if ((isAdminRoute || isAdminApiRoute) && !isLoggedIn) {
+    if (isAdminApiRoute) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return NextResponse.redirect(
+      new URL('/admin/login?callbackUrl=' + encodeURIComponent(pathname), req.nextUrl)
+    )
   }
   
   if (isLoginRoute && isLoggedIn) {
