@@ -70,9 +70,9 @@ export default function RootLayout({
   return (
     <html
       lang="de"
-      className={`${inter.variable} ${playfair.variable} h-full antialiased`}
+      className={`${inter.variable} ${playfair.variable} h-full antialiased overflow-x-hidden`}
     >
-      <body className="min-h-full flex flex-col font-sans text-foreground bg-background">
+      <body className="min-h-full flex flex-col font-sans text-foreground bg-background overflow-x-hidden">
         {children}
         <DirectBookingBanner />
         <Script 
