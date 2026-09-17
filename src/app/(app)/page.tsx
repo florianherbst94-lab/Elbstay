@@ -14,47 +14,13 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { useState, useRef } from "react";
 
 import { urbanGallery, premiumGallery } from "@/lib/images";
+import { APARTMENTS } from "@/lib/data/apartments";
 import { boutiqueGallery } from "@/lib/boutique/images";
 
 /* ═══════════════════════════════════════════════
    DATA
 ═══════════════════════════════════════════════ */
 
-const APARTMENTS = [
-  {
-    id: "boutique",
-    name: "ElbStay Boutique",
-    type: "Boutique" as const,
-    description: "Stilvolles Boutique-Apartment in Dresden-Pieschen. Die hochwertig eingerichtete 2-Raum-Wohnung verbindet Altbaucharme, warmes Interior und modernen Komfort.",
-    guests: 4,
-    beds: "1 Bett + 1 Schlafcouch",
-    size: 48,
-    imageUrl: boutiqueGallery[0]?.images[0] || "/images/boutique/living-room-1.jpg",
-    priceFrom: 85,
-  },
-  {
-    id: "premium-1",
-    name: "ElbStay Premium",
-    type: "Premium" as const,
-    description: "Dachterrasse mit Elbblick, großzügige Räume und Premium-Ausstattung – Ihr privates Penthouse über Dresden.",
-    guests: 6,
-    beds: "2 Betten + 1 Schlafcouch",
-    size: 85,
-    imageUrl: premiumGallery[0]?.images[0] || "/images/premium/floairbnb_-77.jpg",
-    priceFrom: 110,
-  },
-  {
-    id: "urban-1",
-    name: "ElbStay Urban",
-    type: "Urban" as const,
-    description: "Klare Linien, warme Materialien und ein durchdachtes Raumgefühl – für alle, die Design und Ruhe lieben.",
-    guests: 4,
-    beds: "1 Bett + 1 Schlafcouch",
-    size: 55,
-    imageUrl: urbanGallery[0]?.images[0] || "/images/urban/airbnb-flo-5.jpg",
-    priceFrom: 70,
-  }
-];
 
 const AMENITIES = [
   { icon: Wifi, label: "Highspeed-WLAN", desc: "100 Mbit/s" },
@@ -324,7 +290,7 @@ export default function Home() {
             "itemOffered": {
               "@type": "Accommodation",
               "name": apt.name,
-              "description": apt.description,
+              "description": apt.shortDescription,
               "url": `https://elbstay.de/apartments/${apt.id}`
             },
             "priceSpecification": {

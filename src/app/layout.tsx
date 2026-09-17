@@ -4,7 +4,10 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { DirectBookingBanner } from "@/components/layout/DirectBookingBanner";
+import { Suspense } from "react";
+import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
 import Script from "next/script";
+import { siteConfig } from "@/lib/data/config";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -17,7 +20,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://elbstay.de"),
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: "ElbStay | Stilvoll wohnen in Dresden",
     template: "%s | ElbStay Dresden",
@@ -33,18 +36,18 @@ export const metadata: Metadata = {
     "Design Ferienwohnung",
     "Dresden Urlaub"
   ],
-  authors: [{ name: "ElbStay" }],
-  creator: "ElbStay",
+  authors: [{ name: siteConfig.owner }],
+  creator: siteConfig.name,
   openGraph: {
     type: "website",
     locale: "de_DE",
-    url: "https://elbstay.de",
+    url: siteConfig.url,
     title: "ElbStay | Stilvoll wohnen in Dresden",
     description: "Zentrumsnahe Boutique-Apartments in Dresden an der Elbe. Entdecken Sie ElbStay Urban, Premium und Boutique. Jetzt direkt buchen.",
-    siteName: "ElbStay Boutique Apartments",
+    siteName: siteConfig.name,
     images: [
       {
-        url: "/images/dresden_hero_user_final.jpg", // We use the beautiful hero image as the fallback sharing image
+        url: "/images/dresden_hero_user_final.jpg",
         width: 1200,
         height: 630,
         alt: "Dresden Skyline bei Sonnenuntergang",
@@ -58,7 +61,7 @@ export const metadata: Metadata = {
     images: ["/images/dresden_hero_user_final.jpg"],
   },
   alternates: {
-    canonical: "https://elbstay.de",
+    canonical: siteConfig.url,
   },
 };
 
@@ -81,24 +84,36 @@ export default function RootLayout({
               "@graph": [
                 {
                   "@type": "Organization",
-                  "@id": "https://elbstay.de/#organization",
-                  "name": "ElbStay Boutique Apartments",
-                  "url": "https://elbstay.de",
-                  "logo": "https://elbstay.de/images/elbstay-logo-official.png",
-                  "description": "Exklusive Design-Ferienwohnungen und Boutique-Apartments in Dresden direkt an der Elbe."
+                  "@id": `${siteConfig.url}/#organization`,
+                  "name": siteConfig.name,
+                  "url": siteConfig.url,
+                  "logo": `${siteConfig.url}/images/elbstay-logo-official.png`,
+                  "description": siteConfig.description,
+                  "contactPoint": {
+                    "@type": "ContactPoint",
+                    "telephone": siteConfig.contact.phone,
+                    "contactType": "customer service"
+                  }
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": `${siteConfig.url}/#website`,
+                  "url": siteConfig.url,
+                  "name": siteConfig.name
                 },
                 {
                   "@type": "LodgingBusiness",
-                  "@id": "https://elbstay.de/#lodging",
-                  "name": "ElbStay Boutique Apartments Dresden",
-                  "url": "https://elbstay.de",
-                  "image": "https://elbstay.de/images/dresden_hero_user_final.jpg",
+                  "@id": `${siteConfig.url}/#lodging`,
+                  "name": `${siteConfig.name} Dresden`,
+                  "url": siteConfig.url,
+                  "image": `${siteConfig.url}/images/dresden_hero_user_final.jpg`,
                   "priceRange": "€€",
                   "address": {
                     "@type": "PostalAddress",
-                    "addressLocality": "Dresden",
+                    "streetAddress": siteConfig.contact.address.street,
+                    "addressLocality": siteConfig.contact.address.city,
                     "addressRegion": "Sachsen",
-                    "postalCode": "01127",
+                    "postalCode": siteConfig.contact.address.zip,
                     "addressCountry": "DE"
                   },
                   "geo": {
@@ -106,17 +121,12 @@ export default function RootLayout({
                     "latitude": 51.0504,
                     "longitude": 13.7373
                   },
-                  "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": "4.9",
-                    "reviewCount": "50"
-                  },
                   "makesOffer": {
                     "@type": "Offer",
-                    "name": "Direktbuchungs-Vorteil (Bestpreis-Garantie)",
-                    "description": "Direkt buchen auf elbstay.de und ca. 10% Plattform-Gebühren sparen.",
+                    "name": "Direktbuchungs-Vorteil",
+                    "description": "Direkt buchen und Plattform-Gebühren sparen.",
                     "priceCurrency": "EUR",
-                    "url": "https://elbstay.de/#apartments"
+                    "url": `${siteConfig.url}/#apartments`
                   }
                 }
               ]
@@ -124,10 +134,11 @@ export default function RootLayout({
           }}
         />
         {children}
+        <Suspense fallback={null}><GoogleAnalytics /></Suspense>
         <DirectBookingBanner />
         <Script 
           src="https://hospitable.b-cdn.net/direct-property-search-widget/hospitable-search-widget.prod.js"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
       </body>
     </html>

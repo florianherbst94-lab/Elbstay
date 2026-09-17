@@ -1,7 +1,25 @@
 import { MetadataRoute } from 'next';
+import { siteConfig } from "@/lib/data/config";
+import { APARTMENTS } from "@/lib/data/apartments";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://elbstay.de';
+  const baseUrl = siteConfig.url;
+  
+  const seoPages = [
+    'ferienwohnung-dresden',
+    'ferienwohnung-dresden-neustadt',
+    'ferienwohnung-dresden-pieschen',
+    'ferienwohnung-dresden-zentrum',
+    'monteurwohnung-dresden',
+    'business-apartment-dresden',
+    'ferienwohnung-dresden-familie',
+    'langzeitaufenthalt-dresden',
+    'ferienwohnung-dresden-mit-parkplatz',
+    'dresden-guide',
+    'dresden-guide/neustadt',
+    'dresden-guide/pieschen',
+    'dresden-guide/altstadt'
+  ];
 
   return [
     {
@@ -10,30 +28,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 1,
     },
-    {
-      url: `${baseUrl}/dresden-guide`,
+    ...APARTMENTS.map((apt) => ({
+      url: `${baseUrl}${apt.slug}`,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: 'monthly' as const,
       priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/apartments/boutique`,
+    })),
+    ...seoPages.map(page => ({
+      url: `${baseUrl}/${page}`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly' as const,
       priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/apartments/premium`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/apartments/urban`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
+    })),
     {
       url: `${baseUrl}/apartments`,
       lastModified: new Date(),

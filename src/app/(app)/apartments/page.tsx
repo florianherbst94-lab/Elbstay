@@ -17,43 +17,9 @@ export const metadata: Metadata = {
 };
 
 import { urbanGallery, premiumGallery } from "@/lib/images";
+import { APARTMENTS } from "@/lib/data/apartments";
 import { boutiqueGallery } from "@/lib/boutique/images";
 
-const APARTMENTS = [
-  {
-    id: "boutique",
-    name: "ElbStay Boutique",
-    type: "Boutique" as const,
-    description: "Stilvolles Boutique-Apartment in Dresden-Pieschen. Die hochwertig eingerichtete 2-Raum-Wohnung verbindet Altbaucharme, warmes Interior und modernen Komfort.",
-    guests: 4,
-    beds: "1 Bett + 1 Schlafcouch",
-    size: 48,
-    imageUrl: boutiqueGallery[0]?.images[0] || "/images/boutique/living-room-1.jpg",
-    priceFrom: 85,
-  },
-  {
-    id: "premium-1",
-    name: "ElbStay Premium",
-    type: "Premium" as const,
-    description: "Exklusives Penthouse mit weitläufiger Dachterrasse und Panoramablick über Dresden. Luxus und Erlebnis für Familien und Gruppen.",
-    guests: 6,
-    beds: "2 Betten + 1 Schlafcouch",
-    size: 85,
-    imageUrl: premiumGallery[0]?.images[0] || "/images/premium/floairbnb_-77.jpg",
-    priceFrom: 110,
-  },
-  {
-    id: "urban-1",
-    name: "ElbStay Urban",
-    type: "Urban" as const,
-    description: "Modernes Design-Apartment im Herzen von Dresden. Perfekt für Paare und Business-Reisende, die Wert auf Stil und Komfort legen.",
-    guests: 4,
-    beds: "1 Bett + 1 Schlafcouch",
-    size: 55,
-    imageUrl: urbanGallery[0]?.images[0] || "/images/urban/airbnb-flo-5.jpg",
-    priceFrom: 70,
-  }
-];
 
 export default function ApartmentsPage() {
   return (

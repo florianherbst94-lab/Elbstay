@@ -1,5 +1,12 @@
 import { MapPin, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { siteConfig } from "@/lib/data/config";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Kontakt & Anfrage | ElbStay",
+  description: "Treten Sie mit uns in Kontakt. Wir beantworten gerne Ihre Fragen zu unseren Apartments in Dresden oder nehmen Ihre Buchungsanfrage entgegen.",
+};
 
 export default function ContactPage() {
   return (
@@ -23,8 +30,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-foreground mb-1">E-Mail</h3>
-                  <a href="mailto:hello@elbstay.com" className="text-muted-foreground hover:text-primary transition-colors">hello@elbstay.com</a>
-                  <p className="text-xs text-muted-foreground mt-1">Wir antworten in der Regel innerhalb von 2-4 Stunden.</p>
+                  <a href={`mailto:${siteConfig.contact.email}`} className="text-muted-foreground hover:text-primary transition-colors">{siteConfig.contact.email}</a>
+                  <p className="text-xs text-muted-foreground mt-1">Wir antworten in der Regel schnellstmöglich.</p>
                 </div>
               </div>
               
@@ -34,8 +41,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-foreground mb-1">Telefon</h3>
-                  <a href="tel:+49123456789" className="text-muted-foreground hover:text-primary transition-colors">+49 (0) 123 456 789</a>
-                  <p className="text-xs text-muted-foreground mt-1">Täglich erreichbar von 09:00 bis 18:00 Uhr.</p>
+                  <a href={`tel:${siteConfig.contact.phone.replace(/[^0-9+]/g, '')}`} className="text-muted-foreground hover:text-primary transition-colors">{siteConfig.contact.phone}</a>
                 </div>
               </div>
 
@@ -44,19 +50,19 @@ export default function ContactPage() {
                   <MapPin className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-foreground mb-1">Büro / Anschrift</h3>
+                  <h3 className="text-lg font-semibold text-foreground mb-1">Anschrift</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    ElbStay GmbH<br/>
-                    Beispielstraße 42<br/>
-                    01067 Dresden<br/>
-                    Deutschland
+                    {siteConfig.name}<br/>
+                    Inhaber: {siteConfig.owner}<br/>
+                    {siteConfig.contact.address.street}<br/>
+                    {siteConfig.contact.address.zip} {siteConfig.contact.address.city}<br/>
+                    {siteConfig.contact.address.country}
                   </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Contact Form mock */}
           <div className="bg-muted border border-border/50 rounded-2xl p-8 lg:p-12">
             <h2 className="text-2xl font-bold font-serif mb-6">Nachricht schreiben</h2>
             <form className="space-y-6">

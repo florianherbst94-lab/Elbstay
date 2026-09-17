@@ -1,0 +1,124 @@
+import { urbanGallery, premiumGallery } from "@/lib/images";
+import { boutiqueGallery } from "@/lib/boutique/images";
+
+export type ApartmentType = "Boutique" | "Premium" | "Urban";
+
+export interface ApartmentData {
+  id: string;
+  name: string;
+  type: ApartmentType;
+  shortDescription: string;
+  longDescription: string;
+  guests: number;
+  beds: string;
+  bedrooms: number;
+  bathrooms: number;
+  size: number;
+  imageUrl: string;
+  gallery: any[];
+  priceFrom: number;
+  address: {
+    street: string;
+    city: string;
+    zip: string;
+    region: string;
+    country: string;
+  };
+  geo: {
+    lat: number;
+    lng: number;
+  };
+  slug: string;
+  cancellationPolicy: string;
+  parking: string;
+}
+
+export const APARTMENTS: ApartmentData[] = [
+  {
+    id: "boutique",
+    name: "ElbStay Boutique",
+    type: "Boutique",
+    shortDescription: "Stilvolles Boutique-Apartment in Dresden-Pieschen. Die hochwertig eingerichtete 2-Raum-Wohnung verbindet Altbaucharme, warmes Interior und modernen Komfort.",
+    longDescription: "Erleben Sie Dresden in unserem liebevoll sanierten Boutique-Apartment im beliebten Stadtteil Pieschen. Die 48m² große 2-Raum-Wohnung bietet mit ihrem Mix aus Altbaucharme, freigelegter Ziegelwand und moderner Ausstattung den perfekten Rückzugsort. Genießen Sie den Komfort eines Premium-Boxspringbettes, einer voll ausgestatteten Küche mit Nespresso-Maschine und eines modernen Badezimmers mit bodengleicher Regendusche. Schnelles WLAN und ein Smart-TV runden das Angebot ab.",
+    guests: 4,
+    beds: "1 Bett + 1 Schlafcouch",
+    bedrooms: 1,
+    bathrooms: 1,
+    size: 48,
+    imageUrl: boutiqueGallery[0]?.images[0] || "/images/boutique/living-room-1.jpg",
+    gallery: boutiqueGallery,
+    priceFrom: 85,
+    address: {
+      street: "Leipziger Straße",
+      city: "Dresden",
+      zip: "01127",
+      region: "Sachsen",
+      country: "DE"
+    },
+    geo: {
+      lat: 51.0772,
+      lng: 13.7226
+    },
+    slug: "/apartments/boutique",
+    cancellationPolicy: "Kostenlose Stornierung bis 5 Tage vor Anreise.",
+    parking: "Öffentliche, kostenfreie Parkplätze in den umliegenden Nebenstraßen verfügbar."
+  },
+  {
+    id: "premium-1",
+    name: "ElbStay Premium",
+    type: "Premium",
+    shortDescription: "Exklusives Penthouse mit weitläufiger Dachterrasse und Panoramablick über Dresden. Luxus und Erlebnis für Familien und Gruppen.",
+    longDescription: "Residieren Sie über den Dächern von Dresden in unserem exklusiven 85m² Penthouse. Das absolute Highlight ist die großzügige Dachterrasse mit Loungemöbeln und atemberaubendem Blick auf die historische Altstadt. Die lichtdurchflutete Wohnung bietet Platz für bis zu 6 Personen in zwei separaten Schlafzimmern und dem großen Wohnbereich. Bodentiefe Fenster, eine voll ausgestattete Designerküche und ein luxuriöses Badezimmer garantieren einen unvergesslichen Aufenthalt im Zentrum der Stadt.",
+    guests: 6,
+    beds: "2 Betten + 1 Schlafcouch",
+    bedrooms: 2,
+    bathrooms: 1,
+    size: 85,
+    imageUrl: premiumGallery[0]?.images[0] || "/images/premium/floairbnb_-77.jpg",
+    gallery: premiumGallery,
+    priceFrom: 110,
+    address: {
+      street: "Jahnstraße / Könneritzstraße",
+      city: "Dresden",
+      zip: "01067",
+      region: "Sachsen",
+      country: "DE"
+    },
+    geo: {
+      lat: 51.0594,
+      lng: 13.7225
+    },
+    slug: "/apartments/premium",
+    cancellationPolicy: "Kostenlose Stornierung bis 5 Tage vor Anreise.",
+    parking: "Kostenpflichtiger Parkplatz direkt am Gebäude oder im nahegelegenen Parkhaus."
+  },
+  {
+    id: "urban-1",
+    name: "ElbStay Urban",
+    type: "Urban",
+    shortDescription: "Modernes Design-Apartment im Herzen von Dresden. Perfekt für Paare und Business-Reisende, die Wert auf Stil und Komfort legen.",
+    longDescription: "Urbanes Wohnen trifft auf höchsten Komfort in unserem 55m² Design-Apartment im aufstrebenden Stadtteil Löbtau. Klare Linien, warme Materialien und ein durchdachtes Raumkonzept schaffen eine Atmosphäre zum Wohlfühlen. Das Apartment verfügt über ein separates Schlafzimmer mit bequemen Boxspringbett, einen großzügigen Wohn- und Essbereich sowie einen sonnigen Balkon. Ideal für Geschäftsreisende und Paare, die Dresden von einer modernen Seite kennenlernen möchten.",
+    guests: 4,
+    beds: "1 Bett + 1 Schlafcouch",
+    bedrooms: 1,
+    bathrooms: 1,
+    size: 55,
+    imageUrl: urbanGallery[0]?.images[0] || "/images/urban/airbnb-flo-5.jpg",
+    gallery: urbanGallery,
+    priceFrom: 70,
+    address: {
+      street: "Clara-Zetkin-Straße",
+      city: "Dresden",
+      zip: "01159",
+      region: "Sachsen",
+      country: "DE"
+    },
+    geo: {
+      lat: 51.0427,
+      lng: 13.7029
+    },
+    slug: "/apartments/urban",
+    cancellationPolicy: "Kostenlose Stornierung bis 5 Tage vor Anreise.",
+    parking: "Kostenfreie öffentliche Parkplätze in der Straße und näheren Umgebung."
+  }
+];

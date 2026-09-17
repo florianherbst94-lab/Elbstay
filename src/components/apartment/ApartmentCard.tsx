@@ -1,13 +1,16 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { Users, BedDouble, Square, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { event as gaEvent } from "@/components/layout/GoogleAnalytics";
 
 interface ApartmentCardProps {
   id: string;
   name: string;
   type: "Urban" | "Premium" | "Boutique";
-  description: string;
+  shortDescription?: string;
+  description?: string;
   guests: number;
   beds: string;
   size: number;
@@ -20,14 +23,35 @@ export function ApartmentCard({
   name,
   type,
   description,
+  shortDescription,
   guests,
   beds,
   size,
   imageUrl,
   priceFrom,
 }: ApartmentCardProps) {
+  
+  const handleCardClick = () => {
+    gaEvent({
+      action: "apartment_view",
+      category: "engagement",
+      label: name,
+    });
+  };
+
+  const handleBookClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    gaEvent({
+      action: "direct_booking_click",
+      category: "booking",
+      label: name,
+    });
+  };
+
+  const desc = shortDescription || description;
+
   return (
-    <Link href={`/apartments/${type.toLowerCase()}`} className="group flex flex-col rounded-xl overflow-hidden border border-border/80 bg-background hover:shadow-xl transition-all duration-300 relative block h-full">
+    <Link onClick={handleCardClick} href={`/apartments/${type.toLowerCase()}`} className="group flex flex-col rounded-xl overflow-hidden border border-border/80 bg-background hover:shadow-xl transition-all duration-300 relative block h-full">
       <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-muted">
         <Image
           src={imageUrl}
@@ -52,7 +76,7 @@ export function ApartmentCard({
         </div>
         
         <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-2 flex-1">
-          {description}
+          {desc}
         </p>
         
         <div className="grid grid-cols-3 gap-2 py-4 border-y border-border/60 mb-6 mt-auto">
@@ -77,7 +101,7 @@ export function ApartmentCard({
             </Button>
           </div>
           <object className="flex-1">
-            <Link href={`/apartments/${type.toLowerCase()}#book`} className="block w-full">
+            <Link onClick={handleBookClick} href={`/apartments/${type.toLowerCase()}#book`} className="block w-full">
               <Button className="w-full group/btn pointer-events-auto">
                 Buchen
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />

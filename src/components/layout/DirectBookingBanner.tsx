@@ -5,21 +5,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Percent } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { event as gaEvent } from "./GoogleAnalytics";
 
 export function DirectBookingBanner() {
   const [isVisible, setIsVisible] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    // Only show the banner if we are NOT on the search/booking page or check-in pages
-    // and wait a few seconds before showing it so it's not too aggressive
-    if (pathname === "/search" || pathname.startsWith("/wbadd")) {
+    if (pathname === "/search" || pathname?.startsWith("/wbadd")) {
       setIsVisible(false);
       return;
     }
 
     const timer = setTimeout(() => {
-      // Check if user previously closed the banner in this session
       const hasClosed = sessionStorage.getItem("directBookingBannerClosed");
       if (!hasClosed) {
         setIsVisible(true);
@@ -34,6 +32,15 @@ export function DirectBookingBanner() {
     sessionStorage.setItem("directBookingBannerClosed", "true");
   };
 
+  const handleCTA = () => {
+    setIsVisible(false);
+    gaEvent({
+      action: "direct_booking_click",
+      category: "booking",
+      label: "Banner Popup",
+    });
+  };
+
   return (
     <AnimatePresence>
       {isVisible && (
@@ -45,7 +52,6 @@ export function DirectBookingBanner() {
           className="fixed bottom-6 right-6 z-50 max-w-sm w-[calc(100%-3rem)]"
         >
           <div className="bg-foreground text-background rounded-2xl shadow-2xl p-5 relative overflow-hidden">
-            {/* Background Accent */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
             
             <button 
@@ -63,12 +69,12 @@ export function DirectBookingBanner() {
               <div className="pr-4">
                 <h4 className="font-semibold text-lg mb-1 leading-tight">Direkt buchen & sparen</h4>
                 <p className="text-sm text-background/80 mb-3 leading-relaxed">
-                  Nutzen Sie den Code <strong className="bg-primary/20 text-primary px-2 py-0.5 rounded font-mono mx-1">DIREKT5</strong> für weitere 5% Rabatt auf den ohnehin schon günstigsten Preis!
+                  Buchen Sie hier direkt auf unserer Website und sparen Sie sich die teuren Servicegebühren der Buchungsplattformen.
                 </p>
                 <Link 
-                  href="/search"
+                  href="/#apartments"
                   className="inline-flex items-center justify-center bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg text-sm font-medium transition-colors w-full"
-                  onClick={() => setIsVisible(false)}
+                  onClick={handleCTA}
                 >
                   Jetzt Verfügbarkeit prüfen
                 </Link>
