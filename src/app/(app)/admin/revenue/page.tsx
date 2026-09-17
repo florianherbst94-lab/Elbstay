@@ -61,7 +61,7 @@ export default async function RevenueDashboard(props: {
   }
 
   // Per property stats tracking (current month)
-  const propertyStats = activeProperties.map(p => ({ id: p.id, name: p.name, payoutCent: 0, netPayoutCent: 0, costsCent: 0, netCostsCent: 0, fixedCostsCent: 0, variableCostsCent: 0, checkouts: 0 }))
+  const propertyStats = activeProperties.map(p => ({ id: p.id, name: p.name, payoutCent: 0, netPayoutCent: 0, costsCent: 0, netCostsCent: 0, fixedCostsCent: 0, variableCostsCent: 0, checkouts: 0, occupiedNights: 0 }))
   const propStatsMap = new Map(propertyStats.map(s => [s.id, s]))
 
   // Track checkouts per month per property for PER_STAY costs
@@ -91,6 +91,11 @@ export default async function RevenueDashboard(props: {
     const nightsInCurrentMonth = nightsByMonth[currentMonth] || 0
     if (nightsInCurrentMonth > 0) {
       occupiedNights += nightsInCurrentMonth
+      
+      const stats = propStatsMap.get(res.propertyId)
+      if (stats) {
+        stats.occupiedNights += nightsInCurrentMonth
+      }
     }
 
     if (!res.financials) continue
@@ -200,7 +205,7 @@ export default async function RevenueDashboard(props: {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
           <h3 className="text-sm font-medium text-muted-foreground mb-2">Erwartete Auszahlung (Monat)</h3>
           <p className="text-4xl font-bold">€ {(monthlyPayoutCent / 100).toFixed(2)}</p>
@@ -227,8 +232,28 @@ export default async function RevenueDashboard(props: {
           <p className={`text-4xl font-bold ${profitCent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             € {(profitCent / 100).toFixed(2)}
           </p>
+          <div className="mt-2 text-sm text-muted-foreground flex justify-between">
+            <span>Netto-Kosten: € {(monthlyNetCostsCent / 100).toFixed(2)}</span>
+          </div>
+        </div>
+
+        <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
+          <h3 className="text-sm font-medium text-muted-foreground mb-2">ADR / Durchschnittsrate</h3>
+          <p className="text-4xl font-bold">
+            € {occupiedNights > 0 ? (monthlyNetPayoutCent / occupiedNights / 100).toFixed(2) : "0.00"}
+          </p>
           <div className="mt-2 text-sm text-muted-foreground">
-            Netto-Kosten: € {(monthlyNetCostsCent / 100).toFixed(2)}
+            Umsatz pro gebuchter Nacht (Netto)
+          </div>
+        </div>
+
+        <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
+          <h3 className="text-sm font-medium text-muted-foreground mb-2">RevPAR</h3>
+          <p className="text-4xl font-bold">
+            € {totalAvailableNights > 0 ? (monthlyNetPayoutCent / totalAvailableNights / 100).toFixed(2) : "0.00"}
+          </p>
+          <div className="mt-2 text-sm text-muted-foreground">
+            Umsatz pro verfügbarer Nacht (Netto)
           </div>
         </div>
       </div>
@@ -258,16 +283,19 @@ export default async function RevenueDashboard(props: {
                   <th className="pb-3 font-medium text-right">Einnahmen</th>
                   <th className="pb-3 font-medium text-right">Kosten</th>
                   <th className="pb-3 font-medium text-right">Gewinn</th>
+                  <th className="pb-3 font-medium text-right">ADR</th>
+                  <th className="pb-3 font-medium text-right">RevPAR</th>
                 </tr>
               </thead>
               <tbody>
                 {propertyStats.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="py-4 text-center text-muted-foreground">Keine aktiven Wohnungen gefunden.</td>
+                    <td colSpan={7} className="py-4 text-center text-muted-foreground">Keine aktiven Wohnungen gefunden.</td>
                   </tr>
                 ) : (
                   propertyStats.map(stat => {
                     const profit = stat.netPayoutCent - stat.netCostsCent
+                    
                     return (
                       <tr key={stat.id} className="border-b border-border/50 last:border-0 hover:bg-muted/30 transition-colors">
                         <td className="py-3">
@@ -275,7 +303,10 @@ export default async function RevenueDashboard(props: {
                             {stat.name}
                           </Link>
                         </td>
-                        <td className="py-3 text-center">{stat.checkouts}</td>
+                        <td className="py-3 text-center">
+                          <div>{stat.checkouts}</div>
+                          <div className="text-xs text-muted-foreground">{stat.occupiedNights} Nächte</div>
+                        </td>
                         <td className="py-3 text-right">
                           <div>€ {(stat.payoutCent / 100).toFixed(2)}</div>
                           <div className="text-xs text-muted-foreground">Netto: € {(stat.netPayoutCent / 100).toFixed(2)}</div>
@@ -286,6 +317,12 @@ export default async function RevenueDashboard(props: {
                         </td>
                         <td className={`py-3 text-right font-medium ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                           € {(profit / 100).toFixed(2)}
+                        </td>
+                        <td className="py-3 text-right font-medium text-foreground">
+                          € {stat.occupiedNights > 0 ? (stat.netPayoutCent / stat.occupiedNights / 100).toFixed(2) : "0.00"}
+                        </td>
+                        <td className="py-3 text-right text-muted-foreground">
+                          € {(stat.netPayoutCent / daysInMonth / 100).toFixed(2)}
                         </td>
                       </tr>
                     )
