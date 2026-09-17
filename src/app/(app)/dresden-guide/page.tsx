@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   const filteredApartments = APARTMENTS.filter(a => 
-    false ? true : "all".split(',').includes(a.id) || "all".split(',').includes(a.type.toLowerCase())
+    true ? true : "all".split(',').includes(a.id) || "all".split(',').includes(a.type.toLowerCase())
   );
 
   return (

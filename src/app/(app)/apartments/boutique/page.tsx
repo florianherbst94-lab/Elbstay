@@ -11,6 +11,9 @@ import { ReviewsList } from "@/components/apartment/ReviewsList";
 
 import { ApartmentDescription } from "@/components/apartment/ApartmentDescription";
 import { ApartmentHeaderGallery } from "@/components/apartment/ApartmentHeaderGallery";
+import { APARTMENTS } from "@/lib/data/apartments";
+import { ViewItemTracker } from "@/components/layout/GoogleAnalytics";
+import { event as gaEvent } from "@/components/layout/GoogleAnalytics";
 import { boutiqueReviews } from "@/lib/boutique/reviews";
 import { HospitableIframeSync } from "@/components/booking/HospitableIframeSync";
 
@@ -114,7 +117,8 @@ export default function BoutiqueApartment() {
         </div>
 
         {/* Header Gallery */}
-        <ApartmentHeaderGallery images={allImages.slice(0, 15)} />
+        <ViewItemTracker item={APARTMENTS.find(a => a.id.includes('boutique'))!} />
+      <ApartmentHeaderGallery images={allImages.slice(0, 15)} />
 
         {/* Main Content Split */}
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 mt-12 md:mt-16 relative">
@@ -193,13 +197,8 @@ export default function BoutiqueApartment() {
           {/* Right Sidebar - Hospitable Booking Widget */}
           <div className="lg:w-1/3 relative mt-8 lg:mt-0">
             <div className="sticky top-32 z-20 h-fit">
-              <iframe 
-                id="booking-iframe" 
-                sandbox="allow-top-navigation allow-scripts allow-same-origin" 
-                style={{ width: "100%", height: "900px" }} 
-                frameBorder="0" 
-                src="https://booking.hospitable.com/widget/a20a137a-0c7e-42ba-8aa6-9c47accca90f/2329032"
-              ></iframe>
+              {/* @ts-ignore */}
+              <hospitable-direct-property identifier="a20a137a-0c7e-42ba-8aa6-9c47accca90f" property="2329032"></hospitable-direct-property>
             </div>
           </div>
         </div>

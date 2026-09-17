@@ -33,39 +33,19 @@ const AMENITIES = [
   { icon: Bath, label: "Pflegeprodukte", desc: "Handtücher inkl." },
 ];
 
-const REVIEWS = [
-  {
-    name: "Sarah & Markus",
-    date: "März 2026",
-    stars: 5,
-    text: "Morgens Kaffee mit Elbblick, abends zu Fuß in die Altstadt – so hatten wir uns Dresden vorgestellt. Die Wohnung ist geschmackvoll bis ins Detail.",
-  },
-  {
-    name: "Dr. Thomas Richter",
-    date: "Februar 2026",
-    stars: 5,
-    text: "Ruhig, zentral, schnelles WLAN – perfekt für meinen Business-Trip. Die Direktbuchung hat mir 15€ pro Nacht gespart. Komme definitiv wieder.",
-  },
-  {
-    name: "Julia & Freundinnen",
-    date: "Januar 2026",
-    stars: 5,
-    text: "Drei Tage Dresden mit den Mädels – und die Wohnung war das Highlight. Großzügig, stylish, und die Küche hat sogar einen Weinkühler!",
-  },
-];
 
 const DRESDEN_HIGHLIGHTS = [
   {
     icon: Landmark,
     title: "Frauenkirche & Altstadt",
     text: "Durch kopfsteingepflasterte Gassen schlendern, die Semperoper bestaunen und danach ein Eis am Neumarkt.",
-    distance: "10 Min.",
+    distance: "Top Lage",
   },
   {
     icon: TreePine,
     title: "Elbwiesen & Natur",
     text: "Morgens joggen am Wasser, abends den Sonnenuntergang über der Skyline genießen – direkt vor der Tür.",
-    distance: "1 Min.",
+    distance: "Top Lage",
   },
   {
     icon: Bike,
@@ -77,7 +57,7 @@ const DRESDEN_HIGHLIGHTS = [
     icon: Music,
     title: "Dresdner Neustadt",
     text: "Craft-Kaffee, Vintage-Läden und das beste Nachtleben der Stadt – alles fußläufig erreichbar.",
-    distance: "8 Min.",
+    distance: "Top Lage",
   },
 ];
 
@@ -88,40 +68,24 @@ const FAQS = [
   },
   {
     q: "Gibt es Parkmöglichkeiten?",
-    a: "Einige Apartments verfügen über einen direkten Parkplatz. Bei den Wohnungen ohne eigenen Stellplatz ist es möglich, kostenfrei in der direkten Umgebung zu parken.",
+    a: "Die Parkmöglichkeiten variieren je nach Apartment. Während Sie bei den Apartments in Pieschen und Löbtau (Boutique & Urban) kostenfreie öffentliche Parkmöglichkeiten in den Nebenstraßen finden, stehen am Premium-Standort im Zentrum primär kostenpflichtige Parkhäuser zur Verfügung.",
   },
   {
     q: "Sind Haustiere erlaubt?",
-    a: "Ja, in den Wohnungen ElbStay Urban und ElbStay Boutique sind Haustiere erlaubt. Im Premium Penthouse sind leider keine Haustiere gestattet.",
+    a: "Um unseren hohen Standard an Sauberkeit und Hygiene für alle Gäste zu gewährleisten, sind Haustiere in unseren Apartments leider nicht gestattet.",
   },
   {
     q: "Wie ist die Stornierungsregelung?",
-    a: "Bei Direktbuchung: kostenlose Stornierung bis 7 Tage vor Anreise. Danach 50% des Gesamtpreises. Deutlich flexibler als Airbnb oder Booking.",
-  },
-  {
-    q: "Wie komme ich am besten nach Dresden?",
-    a: "Per Bahn: Hauptbahnhof in 15 Min. Per Auto: A4/A17 direkt nach Dresden. Per Flugzeug: Flughafen Dresden in 20 Min. Die Straßenbahn bringt Sie direkt zu uns.",
-  },
-  {
-    q: "Wie weit ist es zu der Altstadt?",
-    a: "Alle Apartments sind entweder zentral oder zentrumsnah gelegen. Mit den öffentlichen Verkehrsmitteln erreichen Sie die Altstadt in der Regel in wenigen Minuten. Vom ElbStay Premium am Bahnhof Mitte ist die Altstadt sogar in nur 10 Minuten fußläufig erreichbar.",
+    a: "Bei Direktbuchung über unsere Website gilt: Kostenlose Stornierung bis 7 Tage vor Anreise. Danach berechnen wir 80% des Gesamtpreises.",
   },
   {
     q: "Für wen sind die Apartments geeignet?",
     a: "Für Paare, Städtereisende, Business-Gäste und Familien oder kleinere Gruppen.",
   },
   {
-    q: "Warum direkt buchen statt über Airbnb?",
-    a: "Drei gute Gründe: Sie sparen die Plattform-Gebühren (ca. 10%), erhalten flexiblere Stornierungsbedingungen und haben einen persönlichen Ansprechpartner – kein Bot, kein Callcenter.",
-  },
-  {
-    q: "Welche Sehenswürdigkeiten sind in der Nähe?",
-    a: "Frauenkirche, Zwinger, Semperoper und Brühlsche Terrasse sind alle fußläufig erreichbar. Die Dresdner Neustadt mit ihren Cafés und Boutiquen ist nur 8 Minuten entfernt.",
-  },
-  {
-    q: "Gibt es einen Mindestaufenthalt?",
-    a: "Der Mindestaufenthalt beträgt 2 Nächte. Bei längeren Aufenthalten ab 7 Nächten gewähren wir zusätzliche Rabatte – sprechen Sie uns einfach an.",
-  },
+    q: "Warum direkt buchen statt über Portale?",
+    a: "Drei gute Gründe: Sie sparen die Plattform-Gebühren, erhalten flexiblere Stornierungsbedingungen und haben einen persönlichen Ansprechpartner – kein Bot, kein Callcenter.",
+  }
 ];
 
 /* ═══════════════════════════════════════════════
@@ -394,8 +358,8 @@ export default function Home() {
               className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mb-12"
             >
               {[
-                { icon: Star, text: "4.9 ★ von 50+ Gästen" },
-                { icon: MapPin, text: "10 Min. zur Frauenkirche" },
+                { icon: Star, text: "Höchste Gästezufriedenheit" },
+                { icon: MapPin, text: "Verschiedene Lagen in Dresden" },
                 { icon: Percent, text: "ca. 10% günstiger als Airbnb" },
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2.5 text-white/70 text-sm">
@@ -596,10 +560,10 @@ export default function Home() {
               </p>
               <div className="space-y-5">
                 {[
-                  { text: "5 Min. zu Fuß zur Frauenkirche", detail: "750m" },
-                  { text: "10 Min. zum Zwinger & Semperoper", detail: "1.2km" },
-                  { text: "Elbradweg direkt vor der Tür", detail: "0m" },
-                  { text: "Straßenbahn-Haltestelle in 2 Min.", detail: "150m" },
+                  { text: "Zentrale Lagen", detail: "Altstadt" },
+                  { text: "Direkte ÖPNV-Anbindung", detail: "Mobil" },
+                  { text: "Kurze Wege zur Natur", detail: "Grün" },
+                  { text: "Einfache Anreise", detail: "Verkehr" },
                 ].map((item, idx) => (
                   <motion.div
                     key={idx}
@@ -659,71 +623,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════
           5. BEWERTUNGEN – Premium Cards
       ═══════════════════════════════════════════ */}
-      <section className="py-28 md:py-40 bg-background">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={stagger}
-            className="text-center mb-20"
-          >
-            <motion.div variants={fadeUp}>
-              <SectionLabel>Gästestimmen</SectionLabel>
-            </motion.div>
-            <motion.h2
-              variants={fadeUpSlow}
-              className="font-serif text-3xl md:text-[3.25rem] font-bold text-foreground mb-8 text-balance"
-            >
-              50+ Gäste. Alle begeistert.
-            </motion.h2>
-            <motion.div variants={fadeIn} className="flex items-center justify-center gap-1.5">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-5 w-5 text-primary fill-current" />
-              ))}
-              <span className="ml-3 text-foreground font-bold text-lg">5.0</span>
-              <span className="text-muted-foreground text-sm ml-1">/ 5 Sterne</span>
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={stagger}
-            className="grid md:grid-cols-3 gap-6 md:gap-8"
-          >
-            {REVIEWS.map((review, idx) => (
-              <motion.div
-                key={idx}
-                variants={scaleIn}
-                className="premium-card bg-muted/50 rounded-3xl p-8 md:p-10 border border-border/30 relative group cursor-default"
-              >
-                {/* Quote Icon */}
-                <Quote className="h-8 w-8 text-primary/15 mb-6" strokeWidth={1} />
-
-                <div className="flex items-center gap-1 mb-5">
-                  {[...Array(review.stars)].map((_, i) => (
-                    <Star key={i} className="h-3.5 w-3.5 text-primary fill-current" />
-                  ))}
-                </div>
-                <p className="text-foreground leading-[1.8] mb-8 text-[15px]">
-                  &ldquo;{review.text}&rdquo;
-                </p>
-                <div className="flex items-center gap-4 pt-6 border-t border-border/30">
-                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
-                    {review.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-foreground text-sm">{review.name}</p>
-                    <p className="text-xs text-muted-foreground">{review.date}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+      
 
       {/* ═══════════════════════════════════════════
           7. DRESDEN-ERLEBNIS

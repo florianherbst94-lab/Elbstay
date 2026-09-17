@@ -16,6 +16,7 @@ interface ApartmentCardProps {
   size: number;
   imageUrl: string;
   priceFrom: number;
+  district?: string;
 }
 
 export function ApartmentCard({
@@ -29,6 +30,7 @@ export function ApartmentCard({
   size,
   imageUrl,
   priceFrom,
+  district,
 }: ApartmentCardProps) {
   
   const handleCardClick = () => {
@@ -61,8 +63,8 @@ export function ApartmentCard({
         />
         <div className="absolute top-4 left-4">
           <span className="bg-background/90 backdrop-blur-sm text-foreground px-3 py-1.5 text-xs font-semibold uppercase tracking-wider rounded-md shadow-sm">
-            ElbStay {type}
-          </span>
+            {district ? district : `ElbStay ${type}`}
+            </span>
         </div>
       </div>
       

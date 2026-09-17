@@ -24,6 +24,7 @@ export interface ApartmentData {
     region: string;
     country: string;
   };
+  district: string;
   geo: {
     lat: number;
     lng: number;
@@ -31,6 +32,11 @@ export interface ApartmentData {
   slug: string;
   cancellationPolicy: string;
   parking: string;
+  wifi: string;
+  washingMachine: boolean;
+  babyBed: boolean;
+  checkIn: string;
+  features: string[];
 }
 
 export const APARTMENTS: ApartmentData[] = [
@@ -55,13 +61,19 @@ export const APARTMENTS: ApartmentData[] = [
       region: "Sachsen",
       country: "DE"
     },
+    district: "Dresden-Pieschen",
     geo: {
       lat: 51.0772,
       lng: 13.7226
     },
     slug: "/apartments/boutique",
-    cancellationPolicy: "Kostenlose Stornierung bis 5 Tage vor Anreise.",
-    parking: "Öffentliche, kostenfreie Parkplätze in den umliegenden Nebenstraßen verfügbar."
+    cancellationPolicy: "Kostenlose Stornierung bis 7 Tage vor Anreise.",
+    parking: "Kostenfreie öffentliche Parkmöglichkeiten befinden sich in umliegenden Straßen. Ein Stellplatz kann nicht garantiert werden.",
+    wifi: "Highspeed WLAN",
+    washingMachine: true,
+    babyBed: true,
+    checkIn: "Flexibler Self Check-in ab 15:00 Uhr",
+    features: ["Voll ausgestattete Küche", "Nespresso-Maschine", "Boxspringbett", "Smart-TV", "Balkon"]
   },
   {
     id: "premium-1",
@@ -84,13 +96,19 @@ export const APARTMENTS: ApartmentData[] = [
       region: "Sachsen",
       country: "DE"
     },
+    district: "Dresden-Zentrum / Wilsdruffer Vorstadt",
     geo: {
       lat: 51.0594,
       lng: 13.7225
     },
     slug: "/apartments/premium",
-    cancellationPolicy: "Kostenlose Stornierung bis 5 Tage vor Anreise.",
-    parking: "Kostenpflichtiger Parkplatz direkt am Gebäude oder im nahegelegenen Parkhaus."
+    cancellationPolicy: "Kostenlose Stornierung bis 7 Tage vor Anreise.",
+    parking: "Öffentliche kostenpflichtige Parkplätze und Parkhäuser in der direkten Umgebung.",
+    wifi: "Highspeed WLAN",
+    washingMachine: true,
+    babyBed: true,
+    checkIn: "Flexibler Self Check-in ab 15:00 Uhr",
+    features: ["Dachterrasse", "Panoramablick", "Designerküche", "2 Schlafzimmer", "Arbeitsplatz"]
   },
   {
     id: "urban-1",
@@ -113,12 +131,18 @@ export const APARTMENTS: ApartmentData[] = [
       region: "Sachsen",
       country: "DE"
     },
+    district: "Dresden-Löbtau",
     geo: {
       lat: 51.0427,
       lng: 13.7029
     },
     slug: "/apartments/urban",
-    cancellationPolicy: "Kostenlose Stornierung bis 5 Tage vor Anreise.",
-    parking: "Kostenfreie öffentliche Parkplätze in der Straße und näheren Umgebung."
+    cancellationPolicy: "Kostenlose Stornierung bis 7 Tage vor Anreise.",
+    parking: "Kostenfreie öffentliche Parkmöglichkeiten befinden sich in umliegenden Straßen. Ein Stellplatz kann nicht garantiert werden.",
+    wifi: "Highspeed WLAN",
+    washingMachine: true,
+    babyBed: true,
+    checkIn: "Flexibler Self Check-in ab 15:00 Uhr",
+    features: ["Balkon", "Arbeitsplatz", "Boxspringbett", "Smart-TV", "Voll ausgestattete Küche"]
   }
 ];

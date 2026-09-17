@@ -1,3 +1,5 @@
+import { siteConfig } from "@/lib/data/config";
+
 export default function FAQPage() {
   const faqs = [
     {
@@ -5,8 +7,8 @@ export default function FAQPage() {
       a: "Wir nutzen ein smartes, kontaktloses Check-in System. Am Anreisetag erhalten Sie einen Pin-Code per E-Mail, mit dem Sie jederzeit nach 15:00 Uhr das Apartment betreten können."
     },
     {
-      q: "Ist ein Parkplatz inbegriffen?",
-      a: "Bei ElbStay Premium ist ein Tiefgaragenstellplatz inkludiert. Bei ElbStay Urban senden wir Ihnen mit der Buchungsbestätigung eine Übersicht der nahegelegenen Parkmöglichkeiten (teilweise kostenpflichtig)."
+      q: "Wie sind die Parkmöglichkeiten?",
+      a: "Die Parkmöglichkeiten variieren je nach Apartment. Während Sie bei den Apartments in Pieschen und Löbtau (Boutique & Urban) kostenfreie öffentliche Parkmöglichkeiten in den Nebenstraßen finden, stehen am Premium-Standort im Zentrum primär kostenpflichtige Parkhäuser zur Verfügung. Genauere Details finden Sie auf den jeweiligen Apartment-Seiten."
     },
     {
       q: "Sind Haustiere erlaubt?",
@@ -14,7 +16,7 @@ export default function FAQPage() {
     },
     {
       q: "Wie sind die Stornierungsbedingungen?",
-      a: "Bei Direktbuchung über unsere Website können Sie bis 5 Tage vor Anreise kostenfrei stornieren. Danach berechnen wir 80% des Gesamtpreises."
+      a: `Bei Direktbuchung über unsere Website gilt: ${siteConfig.policies.cancellation}`
     }
   ];
 
