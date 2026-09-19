@@ -35,7 +35,7 @@ export const t = {
         description: "So gelangst du zur Ferienwohnung: Die Unterkunft befindet sich auf der Leipziger Straße 138, 01127 Dresden. Gehe durch das Eingangstor an der Hauptstraße.",
       },
       {
-        title: "Briefkasten & Schlüsselkasten",
+        title: "Schlüsselkasten",
         description: "Auf der linken Seite im Hof findest du die Eingangstür. Die Ferienwohnung liegt im Erdgeschoss in der Mitte. Dort befindet sich der Schlüsselkasten. Gebe dort den Zahlencode 7395 ein.",
       },
       {
@@ -127,7 +127,7 @@ export const t = {
         description: "How to get to the apartment: The accommodation is located at Leipziger Straße 138, 01127 Dresden. Go through the entrance gate on the main street.",
       },
       {
-        title: "Mailbox & Key Box",
+        title: "Key Box",
         description: "You will find the entrance door on the left side of the courtyard. The apartment is on the ground floor in the middle. The key box is located there. Enter the code 7395.",
       },
       {
