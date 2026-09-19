@@ -125,7 +125,7 @@ export const wbadd2703Data: ApartmentData = {
     },
     {
       title: "Schlüsselkasten",
-      description: "Auf der linken Seite im Hof findest du die Eingangstür. Die Ferienwohnung liegt im Erdgeschoss in der Mitte. Dort befindet sich der Schlüsselkasten. Gebe dort den Zahlencode 7395 ein.",
+      description: "Auf dem Türrahmen befindet sich der Schlüsselkasten. Dort gibst du bitte den Code 7395 ein. In dem Schlüsselkasten befindet sich der Schlüssel zur Wohnung.",
       imageUrl: "/images/checkin/wbadd2703-step3-new.jpg",
     },
     {

@@ -36,7 +36,7 @@ export const t = {
       },
       {
         title: "Schlüsselkasten",
-        description: "Auf der linken Seite im Hof findest du die Eingangstür. Die Ferienwohnung liegt im Erdgeschoss in der Mitte. Dort befindet sich der Schlüsselkasten. Gebe dort den Zahlencode 7395 ein.",
+        description: "Auf dem Türrahmen befindet sich der Schlüsselkasten. Dort gibst du bitte den Code 7395 ein. In dem Schlüsselkasten befindet sich der Schlüssel zur Wohnung.",
       },
       {
         title: "Schlüssel entnehmen",
@@ -128,7 +128,7 @@ export const t = {
       },
       {
         title: "Key Box",
-        description: "You will find the entrance door on the left side of the courtyard. The apartment is on the ground floor in the middle. The key box is located there. Enter the code 7395.",
+        description: "The key box is located on the door frame. Please enter the code 7395 there. The key to the apartment is inside the key box.",
       },
       {
         title: "Take Key",
