@@ -32,7 +32,7 @@ export const t = {
     steps: [
       {
         title: "Hauseingang",
-        description: "So gelangst du zur Ferienwohnung: Die Unterkunft befindet sich auf der Leipziger Straße 138, 01127 Dresden. Gehe durch das Eingangstor an der Hauptstraße.",
+        description: "So gelangst du zur Ferienwohnung: Die Unterkunft befindet sich auf der Leipziger Straße 138, 01127 Dresden. Suche die Tür mit der Hausnummer 138.",
       },
       {
         title: "Schlüsselkasten",
@@ -124,7 +124,7 @@ export const t = {
     steps: [
       {
         title: "Building Entrance",
-        description: "How to get to the apartment: The accommodation is located at Leipziger Straße 138, 01127 Dresden. Go through the entrance gate on the main street.",
+        description: "How to get to the apartment: The accommodation is located at Leipziger Straße 138, 01127 Dresden. Look for the door with the house number 138.",
       },
       {
         title: "Key Box",

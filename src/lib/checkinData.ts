@@ -120,7 +120,7 @@ export const wbadd2703Data: ApartmentData = {
   steps: [
     {
       title: "Hauseingang",
-      description: "So gelangst du zur Ferienwohnung: Die Unterkunft befindet sich auf der Leipziger Straße 138, 01127 Dresden. Gehe durch das Eingangstor an der Hauptstraße.",
+      description: "So gelangst du zur Ferienwohnung: Die Unterkunft befindet sich auf der Leipziger Straße 138, 01127 Dresden. Suche die Tür mit der Hausnummer 138.",
       imageUrl: "/images/checkin/wbadd2703-step2-new.jpg",
     },
     {
