@@ -120,23 +120,23 @@ export const wbadd2703Data: ApartmentData = {
   steps: [
     {
       title: "Hauseingang",
-      description: "Suche den Hauseingang auf der Leipziger Straße 138.",
-      imageUrl: "/images/checkin/wbadd2703-step2.jpg",
+      description: "So gelangst du zur Ferienwohnung: Die Unterkunft befindet sich auf der Leipziger Straße 138, 01127 Dresden. Gehe durch das Eingangstor an der Hauptstraße.",
+      imageUrl: "/images/checkin/wbadd2703-step1-new.jpg",
     },
     {
-      title: "Briefkasten ElbStay",
-      description: "Dort befindet sich der Briefkasten mit dem Namen ElbStay. Gebe in den Zahlencode dreimal die 0 ein (000).",
-      imageUrl: "/images/checkin/wbadd2703-step3.jpg",
+      title: "Briefkasten & Schlüsselkasten",
+      description: "Auf der linken Seite im Hof findest du die Eingangstür. Die Ferienwohnung liegt im Erdgeschoss in der Mitte. Dort befindet sich der Schlüsselkasten. Gebe dort den Zahlencode 7395 ein.",
+      imageUrl: "/images/checkin/wbadd2703-step2-new.jpg",
     },
     {
-      title: "Schlüsselkasten",
-      description: "In dem Briefkasten befindet sich ein Schlüsselkasten mit dem Zahlencode 7395. Dort erhältst du den Schlüssel und Zugang zur Wohnung.",
-      imageUrl: "/images/checkin/wbadd2703-step1.jpg",
+      title: "Schlüssel entnehmen",
+      description: "Verschließe den Schlüsselkasten und verstelle den Code wieder.",
+      imageUrl: "/images/checkin/wbadd2703-step3-new.jpg",
     },
     {
       title: "Treppenhaus",
-      description: "Gehe die Treppe nach oben, die erste Tür links ist der Zugang zur Wohnung.",
-      imageUrl: "/images/checkin/wbadd2703-step4.jpg",
+      description: "Gehe das Treppenhaus nach oben, die erste Tür links ist der Zugang zur Wohnung.",
+      imageUrl: "/images/checkin/wbadd2703-step4-new.jpg",
     },
     {
       title: "Wohnungstür",

@@ -29,23 +29,22 @@ export const t = {
     checkinDesc: "Folgen Sie diesen Schritten, um Ihren Schlüssel zu erhalten.",
     arrivalFrom: "Anreise ab",
 
-    // Step titles and descriptions
     steps: [
       {
         title: "Hauseingang",
-        description: "Suche den Hauseingang auf der Leipziger Straße 138.",
+        description: "So gelangst du zur Ferienwohnung: Die Unterkunft befindet sich auf der Leipziger Straße 138, 01127 Dresden. Gehe durch das Eingangstor an der Hauptstraße.",
       },
       {
-        title: "Briefkasten ElbStay",
-        description: "Dort befindet sich der Briefkasten mit dem Namen ElbStay. Gebe in den Zahlencode dreimal die 0 ein (000).",
+        title: "Briefkasten & Schlüsselkasten",
+        description: "Auf der linken Seite im Hof findest du die Eingangstür. Die Ferienwohnung liegt im Erdgeschoss in der Mitte. Dort befindet sich der Schlüsselkasten. Gebe dort den Zahlencode 7395 ein.",
       },
       {
-        title: "Schlüsselkasten",
-        description: "In dem Briefkasten befindet sich ein Schlüsselkasten mit dem Zahlencode 7395. Dort erhältst du den Schlüssel und Zugang zur Wohnung.",
+        title: "Schlüssel entnehmen",
+        description: "Verschließe den Schlüsselkasten und verstelle den Code wieder.",
       },
       {
         title: "Treppenhaus",
-        description: "Gehe die Treppe nach oben, die erste Tür links ist der Zugang zur Wohnung.",
+        description: "Gehe das Treppenhaus nach oben, die erste Tür links ist der Zugang zur Wohnung.",
       },
       {
         title: "Wohnungstür",
@@ -122,19 +121,18 @@ export const t = {
     checkinDesc: "Follow these steps to collect your key.",
     arrivalFrom: "Arrival from",
 
-    // Step titles and descriptions
     steps: [
       {
         title: "Building Entrance",
-        description: "Find the building entrance at Leipziger Straße 138.",
+        description: "How to get to the apartment: The accommodation is located at Leipziger Straße 138, 01127 Dresden. Go through the entrance gate on the main street.",
       },
       {
-        title: "ElbStay Mailbox",
-        description: "There you will find the mailbox labeled ElbStay. Enter the number 0 three times (000) for the code.",
+        title: "Mailbox & Key Box",
+        description: "You will find the entrance door on the left side of the courtyard. The apartment is on the ground floor in the middle. The key box is located there. Enter the code 7395.",
       },
       {
-        title: "Key Box",
-        description: "Inside the mailbox is a key box with the code 7395. There you will get the key and access to the apartment.",
+        title: "Take Key",
+        description: "Close the key box and scramble the code again.",
       },
       {
         title: "Staircase",
