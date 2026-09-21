@@ -35,8 +35,8 @@ export const wbadd5902Data: ApartmentData = {
   address: "Hermsdorfer Str. 11, 01159 Dresden, Deutschland",
   mapUrl: "https://wbk.li/de/dresden-o93",
   wifi: {
-    ssid: "ElbStay",
-    password: "Elbstay.de",
+    ssid: "Elbstay.de",
+    password: "elbstay1.de",
   },
   parking: "Es ist kein direkter Parkplatz für die Wohnung vorgesehen. Parkplätze sind in unmittelbarer Umgebung in den Nebenstraßen vorhanden.",
   houseRules: [
