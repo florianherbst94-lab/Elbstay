@@ -115,8 +115,8 @@ export default function Wbadd9904CheckIn() {
             className="relative h-[400px] md:h-[500px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl"
           >
             <Image 
-              src="/images/checkin/penthouse-interior.jpg"
-              alt="Penthouse 1 Innenansicht"
+              src="/images/checkin/wbadd9904-hero.jpg"
+              alt="Apartment Marienallee"
               fill
               className="object-cover"
               priority
