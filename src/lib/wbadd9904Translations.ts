@@ -49,7 +49,7 @@ export const t = {
       },
       {
         title: "Zur Wohnungstür",
-        description: "Gehen Sie in die Wohnungstür hinein. Geradezu befindet sich ein Fahrstuhl, dieser führt bis in den 2. Stock. Alternativ können Sie auch direkt die Treppen nutzen. Gehen Sie bis in den 3. Stock oder auf die 3. Etage, auf der rechten Seite mit der braunen Tür befindet sich der Eingang zur Ferienwohnung.",
+        description: "Gehen Sie in die Wohnungstür hinein. Geradezu befindet sich ein Fahrstuhl, dieser führt bis in den 2. Stock. Alternativ können Sie auch direkt die Treppen nutzen. Gehen Sie bis in den 3. Stock, auf der rechten Seite mit der braunen Tür befindet sich der Eingang zur Ferienwohnung.",
       }
     ],
 
