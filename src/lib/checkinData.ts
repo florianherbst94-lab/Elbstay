@@ -159,3 +159,9 @@ export const wbadd2703Data: ApartmentData = {
     languages: ["de", "en", "pl"],
   },
 };
+
+export const wbadd9904Data: ApartmentData = {
+  ...penthouse1Data,
+  id: "wbadd9904",
+  name: "ElbStay Apartment (wbadd9904)",
+};
