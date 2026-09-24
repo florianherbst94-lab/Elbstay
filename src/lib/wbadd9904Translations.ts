@@ -32,33 +32,25 @@ export const t = {
     // Step titles and descriptions
     steps: [
       {
-        title: "Anfahrt zum Innenhof",
-        description: "Biegen Sie in die Einfahrt Berliner Straße ein. Diese erkennen Sie mit dem Wandgemälde auf der linken Seite.",
+        title: "Zugang zum Gelände",
+        description: "Zugang Richtung Haustür, den die Gäste nehmen müssen, auf der Marienallee 2A.",
       },
       {
-        title: "Parkplatz finden",
-        description: "Biegen Sie rechts ab und suchen Sie sich den Parkplatz mit der Stellnummer WE 10 im Innenhof.",
+        title: "Weg über den Parkplatz",
+        description: "Am Ende, wo dieser kleine Parkplatz ist, bitte links abbiegen.",
       },
       {
-        title: "Stellplatz Schild",
-        description: "Suchen Sie das Schild mit der Aufschrift P WE 10 an der Umzäunung.",
+        title: "Briefkasten & Eingang",
+        description: "Dem Weg weiter folgen und rechts um die Ecke gehen. An der Stirnseite finden die Gäste dann den Briefkasten.",
       },
       {
-        title: "Eingang finden",
-        description: "Auf der rechten Seite das große Objekt, dort finden Sie den Eingang mit den Briefkästen.",
+        title: "Schlüsselkasten im Briefkasten",
+        description: "Den Briefkasten mit dem Namen ElbStay suchen. Dort befindet sich ein Zahlencode dran. Der Zahlencode für den Briefkasten ist 786. Diesen bitte einstellen und den Briefkasten öffnen. Darin befindet sich der Schlüssel zu der Wohnungstür. Danach den Briefkasten wieder verschließen und den Zahlencode verdrehen.",
       },
       {
-        title: "Briefkasten & Schlüsselkasten",
-        description: "Finden Sie den Briefkasten 'WE 10' neben dem Eingang. Öffnen Sie diesen mit dem Code 825. Darin befindet sich ein Schlüsselkasten, den Sie mit dem Code 2412 öffnen, um den Schlüssel zu entnehmen. Bitte danach den Briefkasten wieder schließen und den Code verstellen.",
-      },
-      {
-        title: "Fahrstuhl & Etage",
-        description: "Fahren Sie mit dem Fahrstuhl in den fünften Stock. Gehen Sie aus der Tür raus, den Gang entlang rechts. Am Ende des Flurs befindet sich der Eingang zur Wohnung.",
-      },
-      {
-        title: "Aufgang zur Dachterrasse",
-        description: "Nutzen Sie die Wendeltreppe, um zur Dachterrasse zu gelangen. Sie öffnen das Schloss mit dem Wohnungsschlüssel. Bitte respektieren Sie die Privatsphäre der Anwohner.",
-      },
+        title: "Zur Wohnungstür",
+        description: "Dann in die Wohnungstür hereintreten. Alternativ befindet sich geradezu ein Fahrstuhl, der fährt bis in die zweite Etage, dann muss noch ein Stock per Fuß gegangen werden. Oder als zweite Alternative einfach rechts direkt die Treppen hochgehen bis in die dritte Etage. Auf der rechten Seite befindet sich dann mit einer braunen Tür der Eingang zur Ferienwohnung.",
+      }
     ],
 
     // Info section
@@ -133,33 +125,25 @@ export const t = {
     // Step titles and descriptions
     steps: [
       {
-        title: "Drive to the Courtyard",
-        description: "Turn into the Berliner Straße driveway. You will recognize it by the mural on the left side.",
+        title: "Access to the Property",
+        description: "Access towards the front door, which guests must take, on Marienallee 2A.",
       },
       {
-        title: "Find Your Parking Spot",
-        description: "Turn right and find parking spot WE 10 in the courtyard.",
+        title: "Path across the Parking Lot",
+        description: "At the end, where this small parking lot is, please turn left.",
       },
       {
-        title: "Parking Sign",
-        description: "Look for the sign reading 'P WE 10' on the fence.",
+        title: "Mailbox & Entrance",
+        description: "Follow the path and go right around the corner. At the front, guests will find the mailbox.",
       },
       {
-        title: "Find the Entrance",
-        description: "The large building on the right is the entrance. You will find the mailboxes there.",
+        title: "Key Box inside the Mailbox",
+        description: "Look for the mailbox with the name ElbStay. There is a combination code on it. The code for the mailbox is 786. Please set this and open the mailbox. Inside is the key to the apartment door. Afterwards, please close the mailbox again and scramble the code.",
       },
       {
-        title: "Mailbox & Key Box",
-        description: "Locate mailbox 'WE 10' next to the entrance. Open it with code 825. Inside is a key box – open this with code 2412 to retrieve your key. Please close the mailbox and scramble the code afterwards.",
-      },
-      {
-        title: "Elevator & Floor",
-        description: "Take the elevator to the 5th floor. Exit the door, go down the hallway to the right. The entrance is at the end.",
-      },
-      {
-        title: "Roof Terrace Access",
-        description: "Use the spiral staircase to access the roof terrace. Open the lock with your apartment key. Please respect the privacy of neighbors.",
-      },
+        title: "To the Apartment Door",
+        description: "Then enter the apartment door. Alternatively, there is an elevator straight ahead that goes to the second floor, then you have to walk one more floor. Or as a second alternative, just go directly up the stairs on the right to the third floor. On the right side, you will find the entrance to the apartment with a brown door.",
+      }
     ],
 
     // Info section
