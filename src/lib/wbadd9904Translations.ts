@@ -33,23 +33,23 @@ export const t = {
     steps: [
       {
         title: "Zugang zum Gelände",
-        description: "Zugang Richtung Haustür, den die Gäste nehmen müssen, auf der Marienallee 2A.",
+        description: "Dies ist der Zugang Richtung Marienallee 2A.",
       },
       {
         title: "Weg über den Parkplatz",
-        description: "Am Ende, wo dieser kleine Parkplatz ist, bitte links abbiegen.",
+        description: "Bitte biegen Sie an der Kreuzung links ab und folgen Sie der Treppe.",
       },
       {
         title: "Briefkasten & Eingang",
-        description: "Dem Weg weiter folgen und rechts um die Ecke gehen. An der Stirnseite finden die Gäste dann den Briefkasten.",
+        description: "Den Weg weiter verfolgen und rechts um die Ecke gehen. An der Stirnseite finden Sie den Briefkasten mit dem Schild ElbStay.",
       },
       {
         title: "Schlüsselkasten im Briefkasten",
-        description: "Den Briefkasten mit dem Namen ElbStay suchen. Dort befindet sich ein Zahlencode dran. Der Zahlencode für den Briefkasten ist 786. Diesen bitte einstellen und den Briefkasten öffnen. Darin befindet sich der Schlüssel zu der Wohnungstür. Danach den Briefkasten wieder verschließen und den Zahlencode verdrehen.",
+        description: "Öffnen Sie den Briefkasten mit dem Zahlencode 786. Darin befindet sich der Schlüssel. Verschließen Sie den Briefkasten wieder und verstellen Sie den Zahlencode.",
       },
       {
         title: "Zur Wohnungstür",
-        description: "Dann in die Wohnungstür hereintreten. Alternativ befindet sich geradezu ein Fahrstuhl, der fährt bis in die zweite Etage, dann muss noch ein Stock per Fuß gegangen werden. Oder als zweite Alternative einfach rechts direkt die Treppen hochgehen bis in die dritte Etage. Auf der rechten Seite befindet sich dann mit einer braunen Tür der Eingang zur Ferienwohnung.",
+        description: "Gehen Sie in die Wohnungstür hinein. Geradezu befindet sich ein Fahrstuhl, dieser führt bis in den 2. Stock. Alternativ können Sie auch direkt die Treppen nutzen. Gehen Sie bis in den 3. Stock oder auf die 3. Etage, auf der rechten Seite mit der braunen Tür befindet sich der Eingang zur Ferienwohnung.",
       }
     ],
 
@@ -62,9 +62,9 @@ export const t = {
     wifiNetwork: "Netzwerk",
     wifiPassword: "Passwort",
     wifiCopy: "Passwort kopieren",
-    parking: "Parkplatz",
+    parking: "Parken",
     parkingDesc:
-      "Reservierter Stellplatz WE10 im Innenhof. Einfahrt über die Berliner Straße (beim großen Wandgemälde).",
+      "Kostenlose Parkplätze finden Sie in der unmittelbaren Umgebung des Apartments.",
     houseRules: "Hausregeln",
     houseRulesList: [
       "Ruhezeiten: 22:00 – 07:00 Uhr.",
@@ -126,23 +126,23 @@ export const t = {
     steps: [
       {
         title: "Access to the Property",
-        description: "Access towards the front door, which guests must take, on Marienallee 2A.",
+        description: "This is the access towards Marienallee 2A.",
       },
       {
         title: "Path across the Parking Lot",
-        description: "At the end, where this small parking lot is, please turn left.",
+        description: "Please turn left at the intersection and follow the stairs.",
       },
       {
         title: "Mailbox & Entrance",
-        description: "Follow the path and go right around the corner. At the front, guests will find the mailbox.",
+        description: "Follow the path and go right around the corner. At the front you will find the mailbox with the ElbStay sign.",
       },
       {
         title: "Key Box inside the Mailbox",
-        description: "Look for the mailbox with the name ElbStay. There is a combination code on it. The code for the mailbox is 786. Please set this and open the mailbox. Inside is the key to the apartment door. Afterwards, please close the mailbox again and scramble the code.",
+        description: "Open the mailbox with the code 786. The key is inside. Close the mailbox again and scramble the code.",
       },
       {
         title: "To the Apartment Door",
-        description: "Then enter the apartment door. Alternatively, there is an elevator straight ahead that goes to the second floor, then you have to walk one more floor. Or as a second alternative, just go directly up the stairs on the right to the third floor. On the right side, you will find the entrance to the apartment with a brown door.",
+        description: "Enter the apartment door. Straight ahead is an elevator, which goes to the 2nd floor. Alternatively, you can also use the stairs directly. Go up to the 3rd floor, on the right side with the brown door is the entrance to the apartment.",
       }
     ],
 
@@ -157,7 +157,7 @@ export const t = {
     wifiCopy: "Copy Password",
     parking: "Parking",
     parkingDesc:
-      "Reserved parking spot WE10 in the courtyard. Enter via Berliner Straße (look for the large mural).",
+      "Free parking is available in the immediate vicinity of the apartment.",
     houseRules: "House Rules",
     houseRulesList: [
       "Quiet hours: 10:00 PM – 7:00 AM.",
