@@ -174,22 +174,22 @@ export const wbadd9904Data: ApartmentData = {
     {
       title: "Zugang zum Gelände",
       description: "Zugang Richtung Haustür, den die Gäste nehmen müssen, auf der Marienallee 2A.",
-      imageUrl: "/images/checkin/wbadd9904-step1.jpg",
+      imageUrl: "/images/checkin/wbadd9904-step2.jpg",
     },
     {
       title: "Weg über den Parkplatz",
       description: "Am Ende, wo dieser kleine Parkplatz ist, bitte links abbiegen.",
-      imageUrl: "/images/checkin/wbadd9904-step2.jpg",
+      imageUrl: "/images/checkin/wbadd9904-step3.jpg",
     },
     {
       title: "Briefkasten & Eingang",
       description: "Dem Weg weiter folgen und rechts um die Ecke gehen. An der Stirnseite finden die Gäste dann den Briefkasten.",
-      imageUrl: "/images/checkin/wbadd9904-step3.jpg",
+      imageUrl: "/images/checkin/wbadd9904-step4.jpg",
     },
     {
       title: "Schlüsselkasten im Briefkasten",
       description: "Den Briefkasten mit dem Namen ElbStay suchen. Dort befindet sich ein Zahlencode dran. Der Zahlencode für den Briefkasten ist 786. Diesen bitte einstellen und den Briefkasten öffnen. Darin befindet sich der Schlüssel zu der Wohnungstür. Danach den Briefkasten wieder verschließen und den Zahlencode verdrehen.",
-      imageUrl: "/images/checkin/wbadd9904-step4.jpg",
+      imageUrl: "/images/checkin/wbadd9904-step1.jpg",
     },
     {
       title: "Zur Wohnungstür",
