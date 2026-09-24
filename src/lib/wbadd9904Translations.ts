@@ -10,7 +10,7 @@ export const t = {
     // Hero
     welcome: "Willkommen in Dresden",
     heroTitle: "Ihr Check-in zum",
-    heroSubtitle: "Apartment Marienallee",
+    heroSubtitle: "Boutique-Apartment nahe der Elbe",
     heroDesc:
       "Hier finden Sie alle Informationen für einen unkomplizierten Check-in sowie wichtige Details zu Ihrem Aufenthalt.",
 
@@ -111,7 +111,7 @@ export const t = {
     // Hero
     welcome: "Welcome to Dresden",
     heroTitle: "Your Check-in for",
-    heroSubtitle: "Apartment Marienallee",
+    heroSubtitle: "Boutique Apartment near the Elbe",
     heroDesc:
       "Here you will find all the information you need for a smooth check-in as well as important details about your stay.",
 
