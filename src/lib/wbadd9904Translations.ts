@@ -50,6 +50,10 @@ export const t = {
       {
         title: "Zur Wohnungstür",
         description: "Gehen Sie in die Wohnungstür hinein. Geradezu befindet sich ein Fahrstuhl, dieser führt bis in den 2. Stock. Alternativ können Sie auch direkt die Treppen nutzen. Gehen Sie bis in den 3. Stock, auf der rechten Seite mit der braunen Tür befindet sich der Eingang zur Ferienwohnung.",
+      },
+      {
+        title: "Wohnungstür",
+        description: "Dies ist die Wohnungstür zur Ferienwohnung, wir wünschen einen schönen Aufenthalt.",
       }
     ],
 
@@ -143,6 +147,10 @@ export const t = {
       {
         title: "To the Apartment Door",
         description: "Enter the apartment door. Straight ahead is an elevator, which goes to the 2nd floor. Alternatively, you can also use the stairs directly. Go up to the 3rd floor, on the right side with the brown door is the entrance to the apartment.",
+      },
+      {
+        title: "Apartment Door",
+        description: "This is the door to the apartment, we wish you a pleasant stay.",
       }
     ],
 
