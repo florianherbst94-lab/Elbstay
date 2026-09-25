@@ -168,7 +168,7 @@ export const wbadd9904Data: ApartmentData = {
   mapUrl: "https://www.google.com/maps/search/?api=1&query=Marienallee+2A,+01099+Dresden",
   wifi: {
     ssid: "Elbstay",
-    password: "elbstsy1.de",
+    password: "elbstay1.de",
   },
   steps: [
     {
