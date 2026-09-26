@@ -185,9 +185,8 @@ export default function GalleryEditor() {
             Laden Sie Bilder in die passenden Räume hoch, benennen Sie Kategorien (z.B. &quot;Schlafzimmer 1&quot;) und wählen Sie das <strong>Titelbild</strong> in der ersten Kategorie aus.
           </p>
         </div>
-        <Button onClick={saveChanges} disabled={saving} size="lg" className="gap-2 bg-green-600 hover:bg-green-700 text-white shrink-0 shadow-md">
-          {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-          {saving ? "Speichert & Pusht..." : "Speichern & Live schalten"}
+        <Button disabled={true} size="lg" className="gap-2 bg-gray-400 text-white shrink-0 shadow-md cursor-not-allowed">
+          Speichern in Vercel deaktiviert
         </Button>
       </div>
       
