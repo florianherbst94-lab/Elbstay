@@ -1,5 +1,10 @@
 import dotenv from 'dotenv'
-dotenv.config({ path: '.env' })
+import fs from 'fs'
+if (fs.existsSync('.env.local')) {
+  dotenv.config({ path: '.env.local' })
+} else {
+  dotenv.config({ path: '.env' })
+}
 import { syncProperties, syncReservations } from './src/lib/hospitable/sync'
 
 async function run() {
@@ -11,7 +16,7 @@ async function run() {
   d.setMonth(d.getMonth() - 6)
   
   console.log("Resyncing reservations since", d.toISOString())
-  const count = await syncReservations(d.toISOString())
-  console.log(`Synced ${count} properties' reservations.`)
+  const resCount = await syncReservations(d.toISOString())
+  console.log(`Synced ${resCount} properties' reservations.`)
 }
 run()
