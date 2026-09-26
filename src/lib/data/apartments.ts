@@ -159,7 +159,7 @@ export const APARTMENTS: ApartmentData[] = [
     bedrooms: 2,
     bathrooms: 2,
     size: 90,
-    imageUrl: boutique2Gallery[0]?.images[0] || "https://a0.muscache.com/im/pictures/hosting/Hosting-1781405111319682049/original/b7bf01d9-dea2-4143-823a-21afccc10266.png",
+    imageUrl: boutique2Gallery[0]?.images[0] || "/images/boutique-2/image-1.png",
     gallery: boutique2Gallery,
     priceFrom: 110,
     address: {
