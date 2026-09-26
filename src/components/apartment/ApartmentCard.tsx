@@ -53,7 +53,7 @@ export function ApartmentCard({
   const desc = shortDescription || description;
 
   return (
-    <Link onClick={handleCardClick} href={`/apartments/${type.toLowerCase()}`} className="group flex flex-col rounded-xl overflow-hidden border border-border/80 bg-background hover:shadow-xl transition-all duration-300 relative block h-full">
+    <Link onClick={handleCardClick} href={`/apartments/${id.replace('-1', '')}`} className="group flex flex-col rounded-xl overflow-hidden border border-border/80 bg-background hover:shadow-xl transition-all duration-300 relative block h-full">
       <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-muted">
         <Image
           src={imageUrl}
@@ -103,7 +103,7 @@ export function ApartmentCard({
             </Button>
           </div>
           <object className="flex-1">
-            <Link onClick={handleBookClick} href={`/apartments/${type.toLowerCase()}#book`} className="block w-full">
+            <Link onClick={handleBookClick} href={`/apartments/${id.replace('-1', '')}#book`} className="block w-full">
               <Button className="w-full group/btn pointer-events-auto">
                 Buchen
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
