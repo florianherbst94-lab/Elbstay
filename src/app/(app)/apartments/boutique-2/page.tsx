@@ -108,9 +108,9 @@ export default function BoutiqueApartment() {
             <span>·</span>
             <span className="flex items-center gap-1.5"><Users className="w-4 h-4" /> 8 Gäste</span>
             <span>·</span>
-            <span className="flex items-center gap-1.5"><Home className="w-4 h-4" /> 80 m²</span>
+            <span className="flex items-center gap-1.5"><Home className="w-4 h-4" /> 90 m²</span>
             <span className="hidden sm:inline">·</span>
-            <span className="hidden sm:flex items-center gap-1.5"><Bed className="w-4 h-4" /> 4 Betten</span>
+            <span className="hidden sm:flex items-center gap-1.5"><Bed className="w-4 h-4" /> 3 Betten + 1 Schlafcouch</span>
             <span className="hidden sm:inline">·</span>
             <span className="hidden sm:flex items-center gap-1.5"><Bath className="w-4 h-4" /> 2 Badezimmer</span>
           </div>
