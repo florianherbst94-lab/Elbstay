@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
+import { getGalleries } from "@/lib/galleryService";
 import Image from "next/image";
 import { MapPin, Users, Home, Bed, Bath } from "lucide-react";
 
 import { ApartmentGallery } from "@/components/apartment/ApartmentGallery";
 import { MapWidget } from "@/components/apartment/MapWidget";
-import { premiumGallery } from "@/lib/images";
 import { AmenitiesList } from "@/components/apartment/AmenitiesList";
 import { premiumAmenities } from "@/lib/amenities";
 import { ReviewsList } from "@/components/apartment/ReviewsList";
@@ -38,7 +38,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PremiumApartment() {
+export default async function PremiumApartment() {
+  const { urbanGallery, premiumGallery, boutiqueGallery, boutique2Gallery } = await getGalleries();
   const allImages = premiumGallery.flatMap(cat => cat.images).filter(Boolean);
 
   const jsonLd = {

@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { put } from '@vercel/blob';
 
 export async function POST(req: Request) {
   try {
@@ -16,27 +15,18 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid apartment type" }, { status: 400 });
     }
 
-    const buffer = Buffer.from(await file.arrayBuffer());
     // Create a safe, unique filename
-    const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+    const filename = `${type}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
     
-    // Save to public/images/[type]/
-    const publicDir = path.join(process.cwd(), 'public', 'images', type);
+    // Upload to Vercel Blob
+    const blob = await put(filename, file, {
+      access: 'public',
+      addRandomSuffix: false // We already added a timestamp
+    });
     
-    // Ensure directory exists
-    if (!fs.existsSync(publicDir)) {
-      fs.mkdirSync(publicDir, { recursive: true });
-    }
-    
-    const filePath = path.join(publicDir, filename);
-    fs.writeFileSync(filePath, buffer);
-
-    // Return the relative URL for use in the gallery
-    const fileUrl = `/images/${type}/${filename}`;
-    
-    return NextResponse.json({ success: true, url: fileUrl });
+    return NextResponse.json({ success: true, url: blob.url });
   } catch (error) {
     console.error("Error uploading file:", error);
-    return NextResponse.json({ error: "Error uploading file" }, { status: 500 });
+    return NextResponse.json({ error: "Error uploading file: " + String(error) }, { status: 500 });
   }
 }

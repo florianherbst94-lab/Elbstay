@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getGalleries } from "@/lib/galleryService";
 import { ApartmentCard } from "@/components/apartment/ApartmentCard";
 
 export const metadata: Metadata = {
@@ -16,12 +17,11 @@ export const metadata: Metadata = {
   },
 };
 
-import { urbanGallery, premiumGallery } from "@/lib/images";
 import { APARTMENTS } from "@/lib/data/apartments";
-import { boutiqueGallery } from "@/lib/boutique/images";
 
 
-export default function ApartmentsPage() {
+export default async function ApartmentsPage() {
+  const { urbanGallery, premiumGallery, boutiqueGallery, boutique2Gallery } = await getGalleries();
   return (
     <div className="flex-1 bg-background pt-16 pb-24">
       <div className="max-w-7xl mx-auto px-4 md:px-6">

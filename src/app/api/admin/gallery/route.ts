@@ -1,54 +1,26 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-import { exec } from 'child_process';
-import util from 'util';
-import { urbanGallery, premiumGallery } from '@/lib/images';
-import { boutiqueGallery } from '@/lib/boutique/images';
-import { boutique2Gallery } from '@/lib/boutique-2/images';
+import { put } from '@vercel/blob';
+import { getGalleries } from '@/lib/galleryService';
 
-const execAsync = util.promisify(exec);
+const CONFIG_FILENAME = 'gallery-config.json';
 
 export async function GET() {
-  return NextResponse.json({ urbanGallery, premiumGallery, boutiqueGallery, boutique2Gallery });
+  const galleries = await getGalleries();
+  return NextResponse.json(galleries);
 }
 
 export async function POST(req: Request) {
   try {
     const data = await req.json();
     
-    const filePath = path.join(process.cwd(), 'src', 'lib', 'images.ts');
+    // Save to Vercel Blob
+    const blob = await put(CONFIG_FILENAME, JSON.stringify(data), {
+      access: 'public',
+      addRandomSuffix: false, // Ensures the filename stays exactly 'gallery-config.json'
+      contentType: 'application/json'
+    });
     
-    let content = `export interface ImageCategory {\n  title: string;\n  images: string[];\n}\n\n`;
-    content += `export const urbanGallery: ImageCategory[] = ${JSON.stringify(data.urbanGallery, null, 2)};\n\n`;
-    content += `export const premiumGallery: ImageCategory[] = ${JSON.stringify(data.premiumGallery, null, 2)};\n`;
-
-    fs.writeFileSync(filePath, content, 'utf8');
-    
-    if (data.boutiqueGallery) {
-      const boutiquePath = path.join(process.cwd(), 'src', 'lib', 'boutique', 'images.ts');
-      let boutiqueContent = `import { ImageCategory } from "@/lib/images";\n\n`;
-      boutiqueContent += `export const boutiqueGallery: ImageCategory[] = ${JSON.stringify(data.boutiqueGallery, null, 2)};\n`;
-      fs.writeFileSync(boutiquePath, boutiqueContent, 'utf8');
-    }
-    
-    if (data.boutique2Gallery) {
-      const boutique2Path = path.join(process.cwd(), 'src', 'lib', 'boutique-2', 'images.ts');
-      let boutique2Content = `import { ImageCategory } from "@/lib/images";\n\n`;
-      boutique2Content += `export const boutique2Gallery: ImageCategory[] = ${JSON.stringify(data.boutique2Gallery, null, 2)};\n`;
-      fs.writeFileSync(boutique2Path, boutique2Content, 'utf8');
-    }
-    
-    try {
-      console.log("Committing and pushing gallery updates...");
-      await execAsync('git add src/lib/images.ts src/lib/boutique/images.ts src/lib/boutique-2/images.ts public/images && git commit -m "chore(gallery): Update images via admin interface" && git push origin main');
-      console.log("Push successful");
-    } catch (gitErr) {
-      console.error("Git push failed:", gitErr);
-      return NextResponse.json({ success: true, warning: "Files saved locally but Git push failed. Please push manually." });
-    }
-    
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, url: blob.url });
   } catch (err) {
     console.error("Failed to save gallery file:", err);
     return NextResponse.json({ success: false, error: String(err) }, { status: 500 });

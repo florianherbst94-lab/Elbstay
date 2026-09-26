@@ -13,9 +13,11 @@ import {
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useState, useRef } from "react";
 
-import { urbanGallery, premiumGallery } from "@/lib/images";
 import { APARTMENTS } from "@/lib/data/apartments";
+import { urbanGallery, premiumGallery } from "@/lib/images";
 import { boutiqueGallery } from "@/lib/boutique/images";
+import { boutique2Gallery } from "@/lib/boutique-2/images";
+
 
 /* ═══════════════════════════════════════════════
    DATA
@@ -199,7 +201,7 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
 ═══════════════════════════════════════════════ */
 
 export default function Home() {
-  // Parallax refs
+    // Parallax refs
   const heroRef = useRef(null);
   const locationImageRef = useRef(null);
 
