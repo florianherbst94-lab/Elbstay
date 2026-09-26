@@ -1,4 +1,6 @@
-import { NextResponse } from 'next/server';
+const fs = require('fs');
+
+const routeContent = `import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import { exec } from 'child_process';
@@ -19,23 +21,23 @@ export async function POST(req: Request) {
     
     const filePath = path.join(process.cwd(), 'src', 'lib', 'images.ts');
     
-    let content = `export interface ImageCategory {\n  title: string;\n  images: string[];\n}\n\n`;
-    content += `export const urbanGallery: ImageCategory[] = ${JSON.stringify(data.urbanGallery, null, 2)};\n\n`;
-    content += `export const premiumGallery: ImageCategory[] = ${JSON.stringify(data.premiumGallery, null, 2)};\n`;
+    let content = \`export interface ImageCategory {\\n  title: string;\\n  images: string[];\\n}\\n\\n\`;
+    content += \`export const urbanGallery: ImageCategory[] = \${JSON.stringify(data.urbanGallery, null, 2)};\\n\\n\`;
+    content += \`export const premiumGallery: ImageCategory[] = \${JSON.stringify(data.premiumGallery, null, 2)};\\n\`;
 
     fs.writeFileSync(filePath, content, 'utf8');
     
     if (data.boutiqueGallery) {
       const boutiquePath = path.join(process.cwd(), 'src', 'lib', 'boutique', 'images.ts');
-      let boutiqueContent = `import { ImageCategory } from "@/lib/images";\n\n`;
-      boutiqueContent += `export const boutiqueGallery: ImageCategory[] = ${JSON.stringify(data.boutiqueGallery, null, 2)};\n`;
+      let boutiqueContent = \`import { ImageCategory } from "@/lib/images";\\n\\n\`;
+      boutiqueContent += \`export const boutiqueGallery: ImageCategory[] = \${JSON.stringify(data.boutiqueGallery, null, 2)};\\n\`;
       fs.writeFileSync(boutiquePath, boutiqueContent, 'utf8');
     }
     
     if (data.boutique2Gallery) {
       const boutique2Path = path.join(process.cwd(), 'src', 'lib', 'boutique-2', 'images.ts');
-      let boutique2Content = `import { ImageCategory } from "@/lib/images";\n\n`;
-      boutique2Content += `export const boutique2Gallery: ImageCategory[] = ${JSON.stringify(data.boutique2Gallery, null, 2)};\n`;
+      let boutique2Content = \`import { ImageCategory } from "@/lib/images";\\n\\n\`;
+      boutique2Content += \`export const boutique2Gallery: ImageCategory[] = \${JSON.stringify(data.boutique2Gallery, null, 2)};\\n\`;
       fs.writeFileSync(boutique2Path, boutique2Content, 'utf8');
     }
     
@@ -54,3 +56,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, error: String(err) }, { status: 500 });
   }
 }
+`;
+
+fs.writeFileSync('src/app/api/admin/gallery/route.ts', routeContent);

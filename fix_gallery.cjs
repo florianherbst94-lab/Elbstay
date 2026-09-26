@@ -1,4 +1,6 @@
-"use client";
+const fs = require('fs');
+
+const galleryContent = `"use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -131,12 +133,12 @@ export default function GalleryEditor() {
       const data = await res.json();
       if (res.ok) {
         if (data.warning) {
-          alert(`Galerie gespeichert, aber: ${data.warning}`);
+          alert(\`Galerie gespeichert, aber: \${data.warning}\`);
         } else {
           alert("Galerie erfolgreich gespeichert und live geschaltet!");
         }
       } else {
-        alert(`Fehler beim Speichern: ${data.error || "Unbekannter Fehler"}`);
+        alert(\`Fehler beim Speichern: \${data.error || "Unbekannter Fehler"}\`);
       }
     } catch (e) {
       alert("Fehler bei der Anfrage!");
@@ -276,7 +278,7 @@ function EditorSection({ title, categories, type, onDragStart, onDrop, onSetCove
       if (res.ok && data.url) {
         onUploadComplete(data.url);
       } else {
-        alert(`Fehler beim Upload: ${data.error || 'Unbekannt'}`);
+        alert(\`Fehler beim Upload: \${data.error || 'Unbekannt'}\`);
       }
     } catch (err) {
       alert("Fehler beim Hochladen.");
@@ -324,11 +326,11 @@ function EditorSection({ title, categories, type, onDragStart, onDrop, onSetCove
           return (
             <div
               key={i}
-              className={`border-2 border-dashed rounded-2xl p-6 min-h-[220px] transition-colors ${
+              className={\`border-2 border-dashed rounded-2xl p-6 min-h-[220px] transition-colors \${
                 isHighlightCategory
                   ? "border-amber-400/50 bg-amber-50/20 dark:bg-amber-950/10"
                   : "border-border/60 bg-muted/20"
-              }`}
+              }\`}
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => onDrop(e, i, type)}
             >
@@ -363,11 +365,11 @@ function EditorSection({ title, categories, type, onDragStart, onDrop, onSetCove
                         e.stopPropagation();
                       }}
                       onDrop={(e) => onDrop(e, i, type, imgIdx)}
-                      className={`relative group w-36 h-28 rounded-xl overflow-hidden border cursor-grab active:cursor-grabbing shadow-xs transition-all ${
+                      className={\`relative group w-36 h-28 rounded-xl overflow-hidden border cursor-grab active:cursor-grabbing shadow-xs transition-all \${
                         isCover
                           ? "ring-2 ring-amber-500 border-amber-400 shadow-md"
                           : "border-border hover:ring-2 hover:ring-primary"
-                      }`}
+                      }\`}
                     >
                       <Image src={src} alt="" fill className="object-cover" />
 
@@ -423,3 +425,6 @@ function EditorSection({ title, categories, type, onDragStart, onDrop, onSetCove
     </div>
   );
 }
+`;
+
+fs.writeFileSync('src/app/(app)/admin/gallery/page.tsx', galleryContent);

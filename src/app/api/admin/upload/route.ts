@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
-    if (!['urban', 'premium', 'boutique'].includes(type)) {
+    if (!['urban', 'premium', 'boutique', 'boutique-2'].includes(type)) {
       return NextResponse.json({ error: "Invalid apartment type" }, { status: 400 });
     }
 
