@@ -139,10 +139,6 @@ export default function RootLayout({
         <Script 
           src="https://hospitable.b-cdn.net/direct-property-search-widget/hospitable-search-widget.prod.js"
         />
-        <Script 
-          strategy="lazyOnload"
-          src="https://hospitable.b-cdn.net/direct-property-widget/hospitable-property-widget.prod.js"
-        />
       </body>
     </html>
   );

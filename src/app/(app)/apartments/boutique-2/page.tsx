@@ -200,8 +200,13 @@ export default async function BoutiqueApartment() {
             <div className="sticky top-32 z-20 h-fit">
               {/* @ts-ignore */}
               {/* TODO: HIER DIE HOSPITABLE PROPERTY ID FÜR DIE NEUE WOHNUNG EINTRAGEN */}
-              {/* @ts-ignore */}
-              <hospitable-direct-property identifier="a20a137a-0c7e-42ba-8aa6-9c47accca90f" property="NEUE_PROPERTY_ID_HIER_EINTRAGEN"></hospitable-direct-property>
+              <iframe 
+                id="booking-iframe" 
+                sandbox="allow-top-navigation allow-scripts allow-same-origin allow-popups" 
+                style={{ width: "100%", height: "900px" }} 
+                frameBorder="0" 
+                src={`https://booking.hospitable.com/widget/a20a137a-0c7e-42ba-8aa6-9c47accca90f/${"NEUE_PROPERTY_ID_HIER_EINTRAGEN"}`}
+              ></iframe>
             </div>
           </div>
         </div>
