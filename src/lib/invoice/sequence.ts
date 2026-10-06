@@ -1,27 +1,19 @@
-import { PrismaClient } from "@/generated/prisma";
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
 
 export async function getNextInvoiceNumber(year: number): Promise<string> {
-  // Use a transaction to safely increment the sequence
+  // Use upsert inside a transaction to guarantee atomic increment without race conditions.
   return await prisma.$transaction(async (tx) => {
-    let sequence = await tx.invoiceSequence.findUnique({
-      where: { year }
+    const sequence = await tx.invoiceSequence.upsert({
+      where: { year },
+      update: {
+        currentNumber: { increment: 1 }
+      },
+      create: {
+        year,
+        currentNumber: 1, // Start with 1 if no starting number was set in settings
+        format: "{YEAR}-{NUMBER:4}"
+      }
     });
-
-    if (!sequence) {
-      sequence = await tx.invoiceSequence.create({
-        data: {
-          year,
-          currentNumber: 1, // Start with 1 if no starting number was set in settings
-          format: "{YEAR}-{NUMBER:4}"
-        }
-      });
-    } else {
-      sequence = await tx.invoiceSequence.update({
-        where: { year },
-        data: { currentNumber: { increment: 1 } }
-      });
-    }
 
     // Format the number
     // E.g., "{YEAR}-{NUMBER:4}"

@@ -1,12 +1,17 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@/generated/prisma";
+import prisma from "@/lib/prisma";
 import { generateInvoicePdf, InvoiceData } from "@/lib/invoice/pdf-generator";
 import { getNextInvoiceNumber } from "@/lib/invoice/sequence";
+import { auth } from "@/auth";
 
-const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
+    const session = await auth();
+    if (!session || !session.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const body = await req.json();
     const { invoiceId, isDraft } = body;
 
@@ -19,8 +24,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invoice not found" }, { status: 404 });
     }
 
-    if (!isDraft && invoice.status !== "OPEN" && invoice.status !== "DRAFT") {
-      return NextResponse.json({ error: "Invoice already finalized" }, { status: 400 });
+    const isFinalized = ["CREATED", "SENT", "CANCELLATION_INVOICE", "CANCELLED"].includes(invoice.status);
+    
+    // We only finalize if it's explicitly requested (isDraft=false) AND it's currently OPEN/DRAFT.
+    const shouldFinalizeNow = !isDraft && (invoice.status === "OPEN" || invoice.status === "DRAFT");
+
+    if (!isDraft && !shouldFinalizeNow && !isFinalized) {
+      return NextResponse.json({ error: "Invalid state for invoice generation" }, { status: 400 });
     }
 
     const settings = await prisma.invoiceSetting.findFirst();
@@ -32,7 +42,7 @@ export async function POST(req: Request) {
     let invoiceNumber = invoice.invoiceNumber;
     let invoiceDate = invoice.invoiceDate || new Date();
 
-    if (!isDraft && !invoiceNumber) {
+    if (shouldFinalizeNow) {
       // It's the real deal, get a number
       invoiceNumber = await getNextInvoiceNumber(invoiceDate.getFullYear());
       
@@ -51,10 +61,13 @@ export async function POST(req: Request) {
           invoiceId,
           action: "CREATED",
           details: `Invoice finalized with number ${invoiceNumber}`,
-          adminUser: "Admin" // Replace with actual user from session
+          adminUser: session.user.email || "Admin"
         }
       });
     }
+
+    const isStorno = invoice.status === "CANCELLATION_INVOICE";
+    const waterMarkDraft = isDraft && !isFinalized;
 
     // Build payload for PDF generator
     const pdfData: InvoiceData = {
@@ -64,7 +77,7 @@ export async function POST(req: Request) {
       bookingPlatform: invoice.bookingPlatform,
       serviceStartDate: invoice.serviceStartDate,
       serviceEndDate: invoice.serviceEndDate,
-      isDraft: isDraft,
+      isDraft: waterMarkDraft,
       invoiceReference: invoice.invoiceReference,
       invoiceNote: invoice.invoiceNote,
       recipient: {

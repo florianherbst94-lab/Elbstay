@@ -1,10 +1,13 @@
-import { PrismaClient } from "@/generated/prisma";
-import { notFound } from "next/navigation";
+import prisma from "@/lib/prisma";
+import { notFound, redirect } from "next/navigation";
 import InvoiceEditor from "./InvoiceEditor";
+import { auth } from "@/auth";
 
-const prisma = new PrismaClient();
 
 export default async function InvoiceDetailPage({ params }: { params: { id: string } }) {
+  const session = await auth();
+  if (!session?.user) redirect("/admin/login");
+
   const invoice = await prisma.invoice.findUnique({
     where: { id: params.id },
     include: {

@@ -73,8 +73,7 @@ export async function submitInvoiceRequest(formData: FormData) {
 
   // Save to database
   try {
-    const { PrismaClient } = await import("@/generated/prisma");
-    const prisma = new PrismaClient();
+    const prisma = (await import("@/lib/prisma")).default;
     
     await prisma.invoice.create({
       data: {

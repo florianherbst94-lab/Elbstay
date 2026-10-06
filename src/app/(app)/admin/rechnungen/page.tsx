@@ -1,11 +1,15 @@
-import { PrismaClient } from "@/generated/prisma";
+import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/Button";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-const prisma = new PrismaClient();
 
 export default async function RechnungenPage({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
+  const session = await auth();
+  if (!session?.user) redirect("/admin/login");
+
   const statusFilter = searchParams.status;
   
   const whereClause: any = {};

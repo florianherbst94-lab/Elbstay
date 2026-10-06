@@ -59,6 +59,59 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
     setIsGenerating(false);
   };
 
+  const handleDownload = async () => {
+    setIsGenerating(true);
+    try {
+      const res = await fetch("/api/invoice/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ invoiceId: invoice.id, isDraft: false })
+      });
+      
+      if (!res.ok) throw new Error("Failed to download PDF");
+      
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    } catch (error) {
+      console.error(error);
+      alert("Fehler beim Herunterladen der Rechnung.");
+    }
+    setIsGenerating(false);
+  };
+
+  const handleCancel = async () => {
+    const reason = prompt("Bitte geben Sie einen Stornierungsgrund ein:");
+    if (!reason || reason.trim() === "") {
+      alert("Ein Stornierungsgrund ist zwingend erforderlich.");
+      return;
+    }
+    
+    setIsGenerating(true);
+    try {
+      const res = await fetch("/api/invoice/cancel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ invoiceId: invoice.id, reason: reason.trim() })
+      });
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Fehler beim Stornieren");
+      }
+      
+      const data = await res.json();
+      alert(data.isStorno ? "Stornorechnung wurde erfolgreich erstellt." : "Anfrage wurde storniert.");
+      
+      // Navigate to the list or reload
+      window.location.href = "/admin/rechnungen";
+    } catch (error: any) {
+      console.error(error);
+      alert(error.message);
+    }
+    setIsGenerating(false);
+  };
+
   return (
     <div>
       <div className="flex items-center gap-4 mb-6">
@@ -75,6 +128,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
               invoice.status === 'CREATED' ? 'bg-amber-100 text-amber-800' :
               invoice.status === 'SENT' ? 'bg-green-100 text-green-800' :
               invoice.status === 'CANCELLED' ? 'bg-red-100 text-red-800' :
+              invoice.status === 'CANCELLATION_INVOICE' ? 'bg-purple-100 text-purple-800' :
               'bg-gray-100 text-gray-800'
             }`}>
               {invoice.status}
@@ -94,7 +148,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1">Empfänger (Firma/Name)</label>
-                <input type="text" className="w-full bg-muted border border-border rounded-lg px-4 py-2 text-sm" value={invoice.companyName || `${invoice.firstName} ${invoice.lastName}`} readOnly />
+                <input type="text" className="w-full bg-muted border border-border rounded-lg px-4 py-2 text-sm" value={invoice.companyName || `${invoice.firstName || ''} ${invoice.lastName || ''}`.trim()} readOnly />
               </div>
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1">E-Mail</label>
@@ -146,23 +200,31 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
             <div className="space-y-3">
               {!isFinalized ? (
                 <>
-                  <Button variant="outline" className="w-full justify-start gap-2" onClick={handlePreview} disabled={isGenerating}>
+                  <Button variant="outline" className="w-full justify-start gap-2" onClick={handlePreview} disabled={isGenerating || invoice.status === 'CANCELLED'}>
                     <Eye className="w-4 h-4" /> Entwurf ansehen (PDF)
                   </Button>
-                  <Button className="w-full justify-start gap-2" onClick={handleFinalize} disabled={isGenerating || invoice.items.length === 0}>
+                  <Button className="w-full justify-start gap-2" onClick={handleFinalize} disabled={isGenerating || invoice.items.length === 0 || invoice.status === 'CANCELLED'}>
                     <FileText className="w-4 h-4" /> Rechnung verbindlich erstellen
                   </Button>
+                  
+                  {invoice.status !== 'CANCELLED' && (
+                    <div className="pt-4 border-t border-border/50">
+                      <Button onClick={handleCancel} disabled={isGenerating} variant="destructive" className="w-full justify-start gap-2 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700">
+                        <XCircle className="w-4 h-4" /> Anfrage abweisen
+                      </Button>
+                    </div>
+                  )}
                 </>
               ) : (
                 <>
-                  <Button variant="outline" className="w-full justify-start gap-2" onClick={() => window.open(pdfUrl || '#', '_blank')} disabled={!pdfUrl && invoice.status !== 'CREATED'}>
+                  <Button variant="outline" className="w-full justify-start gap-2" onClick={handleDownload} disabled={isGenerating}>
                     <FileText className="w-4 h-4" /> PDF herunterladen
                   </Button>
                   <Button className="w-full justify-start gap-2" disabled={invoice.status === 'SENT'}>
                     <Send className="w-4 h-4" /> Per E-Mail versenden
                   </Button>
                   <div className="pt-4 border-t border-border/50">
-                    <Button variant="destructive" className="w-full justify-start gap-2 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700">
+                    <Button onClick={handleCancel} disabled={isGenerating} variant="destructive" className="w-full justify-start gap-2 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700">
                       <XCircle className="w-4 h-4" /> Rechnung stornieren
                     </Button>
                   </div>
