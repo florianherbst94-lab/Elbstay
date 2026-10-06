@@ -242,3 +242,135 @@ model WebhookEvent {
   receivedAt      DateTime @default(now())
   processedAt     DateTime?
 }
+
+// ==========================================
+// Invoicing Module
+// ==========================================
+
+model Invoice {
+  id                  String        @id @default(cuid())
+  
+  // Status & Metadata
+  status              String        @default("OPEN") // OPEN, DRAFT, CREATED, SENT, CANCELLED, CANCELLATION_INVOICE
+  invoiceNumber       String?       @unique
+  invoiceDate         DateTime?
+  
+  // Core Booking Info
+  reservationCode     String?
+  bookingPlatform     String?
+  bookingGuestName    String?
+  propertyName        String?
+  serviceStartDate    DateTime?
+  serviceEndDate      DateTime?
+  
+  // Customer Details (from request form)
+  invoiceEmail        String
+  invoiceType         String        // Privatperson, Unternehmen
+  companyName         String?
+  firstName           String?
+  lastName            String?
+  contactPerson       String?
+  street              String?
+  postalCode          String?
+  city                String?
+  country             String?
+  vatId               String?
+  
+  // Additional references
+  invoiceReference    String?
+  invoiceNote         String?
+  
+  // Financials (in Cents to avoid floating point issues, although frontend can display EUR)
+  grossAmountCent     Int           @default(0)
+  netAmountCent       Int           @default(0)
+  taxAmountCent       Int           @default(0)
+  taxRate             Float         @default(19.0) // General tax rate (or can be inferred from items)
+  
+  // Related documents and status
+  pdfPath             String?
+  paymentStatus       String?       @default("PAID")
+  
+  // Hospitable integration prep
+  hospitableReservationId String?
+  propertyId          String?
+  checkIn             DateTime?
+  checkOut            DateTime?
+  
+  // Cancellation handling
+  cancelledAt         DateTime?
+  cancelReason        String?
+  originalInvoiceId   String?       // Self-relation for cancellation invoices
+  originalInvoice     Invoice?      @relation("InvoiceCancellations", fields: [originalInvoiceId], references: [id])
+  cancellations       Invoice[]     @relation("InvoiceCancellations")
+  
+  // Timestamps
+  submittedAt         DateTime      @default(now()) // When the request came in
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  sentAt              DateTime?
+
+  items               InvoiceItem[]
+  auditLogs           InvoiceAuditLog[]
+}
+
+model InvoiceItem {
+  id              String   @id @default(cuid())
+  invoiceId       String
+  description     String
+  quantity        Float    @default(1)
+  unit            String?  @default("Nächte")
+  unitPriceCent   Int      @default(0) // Note: user said unit_price is optional, but for calculation we need it or derived from total
+  taxRate         Float    @default(19.0)
+  totalNetCent    Int      @default(0)
+  totalTaxCent    Int      @default(0)
+  totalGrossCent  Int      @default(0)
+  
+  invoice         Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
+
+model InvoiceSequence {
+  id              String   @id @default(cuid())
+  year            Int      @unique
+  currentNumber   Int      @default(0)
+  format          String   @default("{YEAR}-{NUMBER:4}") // E.g., 2026-0001
+  
+  updatedAt       DateTime @updatedAt
+}
+
+model InvoiceSetting {
+  id                  String   @id @default(cuid()) // Typically just one row
+  companyName         String   @default("Elbstay")
+  companyDescription  String?
+  street              String?
+  postalCode          String?
+  city                String?
+  country             String?  @default("Deutschland")
+  phone               String?
+  email               String?
+  website             String?  @default("www.elbstay.de")
+  taxNumber           String?
+  vatId               String?
+  bankName            String?
+  iban                String?
+  bic                 String?
+  owner               String?
+  
+  defaultTaxRate      Float    @default(19.0)
+  defaultPaymentNote  String?  @default("Der Rechnungsbetrag wurde bereits im Rahmen Ihrer Buchung entrichtet. Diese Rechnung stellt keine erneute Zahlungsaufforderung dar.")
+  footerText          String?
+  logoUrl             String?
+  emailTemplate       String?
+  
+  updatedAt           DateTime @updatedAt
+}
+
+model InvoiceAuditLog {
+  id              String   @id @default(cuid())
+  invoiceId       String
+  action          String   // "CREATED", "GENERATED_PDF", "SENT_EMAIL", "CANCELLED", etc.
+  adminUser       String?  // Name or ID of the admin
+  details         String?  // JSON string or extra text
+  timestamp       DateTime @default(now())
+  
+  invoice         Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}

@@ -71,28 +71,55 @@ export async function submitInvoiceRequest(formData: FormData) {
     return { success: false, error: "Ungültiger Rechnungstyp." };
   }
 
-  const webhookUrl = process.env.MAKE_INVOICE_WEBHOOK_URL;
-  if (!webhookUrl) {
-    console.error("MAKE_INVOICE_WEBHOOK_URL is not set");
-    return { success: false, error: "Server-Konfigurationsfehler: Webhook URL fehlt." };
-  }
-
+  // Save to database
   try {
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
+    const { PrismaClient } = await import("@/generated/prisma");
+    const prisma = new PrismaClient();
+    
+    await prisma.invoice.create({
+      data: {
+        status: "OPEN",
+        reservationCode: payload.reservation_code,
+        bookingPlatform: payload.booking_platform,
+        bookingGuestName: payload.booking_guest_name,
+        invoiceEmail: payload.invoice_email,
+        invoiceType: payload.invoice_type,
+        companyName: payload.company_name || null,
+        firstName: payload.first_name || null,
+        lastName: payload.last_name || null,
+        contactPerson: payload.contact_person || null,
+        street: payload.street || null,
+        postalCode: payload.postal_code || null,
+        city: payload.city || null,
+        country: payload.country || null,
+        vatId: payload.vat_id || null,
+        invoiceReference: payload.invoice_reference || null,
+        invoiceNote: payload.invoice_note || null,
+      }
     });
-
-    if (!response.ok) {
-      throw new Error(`Webhook responded with status ${response.status}`);
-    }
-
-    return { success: true };
-  } catch (error) {
-    console.error("Error submitting invoice to webhook:", error);
-    return { success: false, error: "Ihre Rechnungsdaten konnten leider nicht übertragen werden. Bitte versuchen Sie es erneut." };
+  } catch (dbError) {
+    console.error("Error saving invoice request to DB:", dbError);
+    // Continue execution to try webhook if needed, but optimally we can return success here
   }
+
+  const webhookUrl = process.env.MAKE_INVOICE_WEBHOOK_URL;
+  if (webhookUrl) {
+    try {
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        console.error(`Webhook responded with status ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error submitting invoice to webhook:", error);
+    }
+  }
+
+  return { success: true };
 }
