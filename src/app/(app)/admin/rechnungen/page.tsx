@@ -6,11 +6,12 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
 
-export default async function RechnungenPage({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
+export default async function RechnungenPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
   const session = await auth();
   if (!session?.user) redirect("/admin/login");
 
-  const statusFilter = searchParams.status;
+  const resolvedSearchParams = await searchParams;
+  const statusFilter = resolvedSearchParams.status;
   
   const whereClause: any = {};
   if (statusFilter) {

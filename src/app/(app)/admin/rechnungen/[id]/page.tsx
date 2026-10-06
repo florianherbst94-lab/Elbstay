@@ -4,12 +4,13 @@ import InvoiceEditor from "./InvoiceEditor";
 import { auth } from "@/auth";
 
 
-export default async function InvoiceDetailPage({ params }: { params: { id: string } }) {
+export default async function InvoiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth();
   if (!session?.user) redirect("/admin/login");
 
+  const resolvedParams = await params;
   const invoice = await prisma.invoice.findUnique({
-    where: { id: params.id },
+    where: { id: resolvedParams.id },
     include: {
       items: true,
       auditLogs: {
