@@ -58,6 +58,4 @@ export async function saveInvoiceSettings(formData: FormData) {
       }
     });
   }
-
-  return { success: true };
 }
