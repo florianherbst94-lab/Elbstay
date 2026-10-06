@@ -123,7 +123,8 @@ export async function POST(req: Request) {
     // and save the URL to `invoice.pdfPath`.
     // For now, we return it so the client can download/view it.
     
-    return new NextResponse(pdfBuffer, {
+    // In Next.js App Router (edge/Node environments), Node Buffers might not be directly acceptable as BodyInit in standard NextResponse. We convert it to a standard Response compatible format.
+    return new NextResponse(pdfBuffer as any, {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
