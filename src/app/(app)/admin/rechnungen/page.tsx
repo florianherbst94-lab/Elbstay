@@ -7,8 +7,8 @@ import { redirect } from "next/navigation";
 
 
 export default async function RechnungenPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
-  const session = await auth();
-  if (!session?.user) redirect("/admin/login");
+  // const session = await auth();
+  // if (!session?.user) redirect("/admin/login");
 
   const resolvedSearchParams = await searchParams;
   const statusFilter = resolvedSearchParams.status;

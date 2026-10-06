@@ -196,13 +196,15 @@ export default async function UrbanApartment() {
           {/* Right Sidebar - Hospitable Booking Widget */}
           <div className="lg:w-1/3 relative mt-8 lg:mt-0">
             <div className="sticky top-32 z-20 h-fit">
-              <iframe 
-                id="booking-iframe" 
-                sandbox="allow-top-navigation allow-scripts allow-same-origin allow-popups" 
-                style={{ width: "100%", height: "900px" }} 
-                frameBorder="0" 
-                src={`https://booking.hospitable.com/widget/a20a137a-0c7e-42ba-8aa6-9c47accca90f/${"2302773"}`}
-              ></iframe>
+              <div id="hospitable-widget-container">
+                <script
+                  src="https://cdn.hsptb.com/direct-booking-widget/widget-loader.prod.js"
+                  data-site-uuid="a20a137a-0c7e-42ba-8aa6-9c47accca90f"
+                  data-property-id="2302773"
+                  data-theme="boutique"
+                  async
+                ></script>
+              </div>
             </div>
           </div>
         </div>
