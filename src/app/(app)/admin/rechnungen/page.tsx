@@ -7,6 +7,8 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
 
+import { ExportButton } from "./ExportButton";
+
 export default async function RechnungenPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
   // // const session = await auth();
   // // if (!session?.user) redirect("/admin/login");
@@ -51,14 +53,17 @@ export default async function RechnungenPage({ searchParams }: { searchParams: P
         Zurück zur Übersicht
       </Link>
       
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold font-serif">Rechnungen</h1>
           <p className="text-muted-foreground mt-1">Rechnungsanfragen bearbeiten und PDFs generieren</p>
         </div>
-        <Link href="/admin/reinstellungen">
-          <Button variant="outline">Einstellungen</Button>
-        </Link>
+        <div className="flex gap-2">
+          <ExportButton />
+          <Link href="/admin/reinstellungen">
+            <Button variant="outline">Einstellungen</Button>
+          </Link>
+        </div>
       </div>
 
       {/* KPIs Dashboard */}
