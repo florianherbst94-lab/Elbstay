@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import * as archiverModule from "archiver";
+// @ts-ignore
 const archiver = archiverModule.default || archiverModule;
 import { generateInvoicePdf, InvoiceData } from "@/lib/invoice/pdf-generator";
 import { format } from "date-fns";
