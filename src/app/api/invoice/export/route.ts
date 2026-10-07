@@ -60,7 +60,7 @@ export async function GET(req: Request) {
 
     archive.on('data', (chunk: any) => writer.write(chunk));
     archive.on('end', () => writer.close());
-    archive.on('error', (err) => {
+    archive.on('error', (err: any) => {
       console.error('Archiver error:', err);
       writer.abort(err);
     });
