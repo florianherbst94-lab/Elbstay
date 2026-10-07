@@ -12,6 +12,27 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
+  const handlePullFromHospitable = async () => {
+    setIsGenerating(true);
+    try {
+      const res = await fetch("/api/invoice/pull-hospitable", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ invoiceId: invoice.id })
+      });
+      
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to pull data");
+      
+      // Reload page to reflect new items
+      window.location.reload();
+    } catch (error: any) {
+      console.error(error);
+      alert("Fehler beim Abrufen der Buchungsdaten: " + error.message);
+    }
+    setIsGenerating(false);
+  };
+
   const handlePreview = async () => {
     setIsGenerating(true);
     try {
@@ -167,12 +188,28 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
           </div>
 
           <div className="bg-background border border-border rounded-xl p-6">
-             <h2 className="text-xl font-bold mb-4 font-serif">Positionen</h2>
+             <div className="flex justify-between items-center mb-4">
+               <h2 className="text-xl font-bold font-serif">Positionen</h2>
+               {!isFinalized && invoice.reservationCode && (
+                 <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={handlePullFromHospitable}
+                    disabled={isGenerating}
+                  >
+                    Aus Buchung (Hospitable) laden
+                 </Button>
+               )}
+             </div>
              {invoice.items.length === 0 ? (
                <div className="text-center p-6 text-muted-foreground border border-dashed border-border rounded-lg">
-                 Keine Positionen hinterlegt. Bitte füge eine Beherbergungsleistung hinzu.
+                 Keine Positionen hinterlegt.
                  <br/><br/>
-                 <Button variant="outline" size="sm" disabled>Position hinzufügen</Button>
+                 {invoice.reservationCode ? (
+                   <Button variant="secondary" size="sm" onClick={handlePullFromHospitable} disabled={isGenerating}>Daten für Code {invoice.reservationCode} abrufen</Button>
+                 ) : (
+                   <Button variant="outline" size="sm" disabled>Kein Reservierungscode vorhanden</Button>
+                 )}
                </div>
              ) : (
                <div className="space-y-2">

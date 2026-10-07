@@ -1,0 +1,133 @@
+import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
+import { auth } from "@/auth";
+
+export async function POST(req: Request) {
+  try {
+    const session = await auth();
+    if (!session || !session.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { invoiceId } = await req.json();
+    if (!invoiceId) {
+      return NextResponse.json({ error: "Missing invoiceId" }, { status: 400 });
+    }
+
+    const invoice = await prisma.invoice.findUnique({
+      where: { id: invoiceId },
+      include: { items: true }
+    });
+
+    if (!invoice) {
+      return NextResponse.json({ error: "Invoice not found" }, { status: 404 });
+    }
+    
+    if (invoice.status !== "OPEN") {
+       return NextResponse.json({ error: "Invoice is finalized and cannot be modified" }, { status: 400 });
+    }
+
+    const reservationCode = invoice.reservationCode;
+    if (!reservationCode) {
+      return NextResponse.json({ error: "No reservation code provided in invoice" }, { status: 400 });
+    }
+
+    // Try to find the reservation locally
+    const reservation = await prisma.reservation.findFirst({
+      where: { code: reservationCode },
+      include: { financials: true, property: true }
+    });
+
+    if (!reservation || !reservation.financials) {
+      return NextResponse.json({ error: "Reservation or financial data not found in local Hospitable sync" }, { status: 404 });
+    }
+
+    const fin = reservation.financials;
+    const isBookingCom = reservation.platform?.toLowerCase().includes("booking");
+    const isAirbnb = reservation.platform?.toLowerCase().includes("airbnb");
+
+    // Clean up existing items to replace them
+    await prisma.invoiceItem.deleteMany({
+      where: { invoiceId }
+    });
+
+    const newItems = [];
+    let netTotal = 0;
+    let taxTotal = 0;
+    let grossTotal = 0;
+
+    // Accommodation (7% tax)
+    if (fin.accommodationCent > 0) {
+      // Calculate net from gross assuming 7% VAT (Gross = Net * 1.07 -> Net = Gross / 1.07)
+      const gross = fin.accommodationCent;
+      const net = Math.round(gross / 1.07);
+      const tax = gross - net;
+
+      newItems.push({
+        invoiceId,
+        description: `Übernachtung (${reservation.nights} Nächte, ${reservation.property?.name || 'Elbstay'})`,
+        quantity: 1,
+        unitPriceCent: net,
+        taxRate: 7,
+        totalNetCent: net,
+        totalTaxCent: tax,
+        totalGrossCent: gross
+      });
+      netTotal += net;
+      taxTotal += tax;
+      grossTotal += gross;
+    }
+
+    // Cleaning Fee (19% tax)
+    if (fin.cleaningFeeCent > 0) {
+      const gross = fin.cleaningFeeCent;
+      const net = Math.round(gross / 1.19);
+      const tax = gross - net;
+
+      newItems.push({
+        invoiceId,
+        description: "Reinigungsgebühr",
+        quantity: 1,
+        unitPriceCent: net,
+        taxRate: 19,
+        totalNetCent: net,
+        totalTaxCent: tax,
+        totalGrossCent: gross
+      });
+      netTotal += net;
+      taxTotal += tax;
+      grossTotal += gross;
+    }
+
+    // Airbnb Service Fee (not subject to our tax usually, or 0% or handled differently depending on the region)
+    // Often we don't bill the Airbnb Guest Service Fee because Airbnb bills that to the guest directly!
+    // But for Booking.com, we collect everything. 
+    // Let's use totalPaidByGuestCent to decide if we need to add other fees or if we just bill Accommodation + Cleaning.
+    // For simplicity, we just insert the items into the DB.
+    
+    // In Germany, City Tax (Beherbergungssteuer) is often collected for Booking.com. 
+    // It's 6% in Dresden. It was deducted in sync.ts. We could add it as a 0% tax item.
+    // For now we stick to Accommodation and Cleaning as they are the primary taxable items.
+
+    await prisma.invoiceItem.createMany({
+      data: newItems
+    });
+
+    // Update invoice totals
+    await prisma.invoice.update({
+      where: { id: invoiceId },
+      data: {
+        netAmountCent: netTotal,
+        taxAmountCent: taxTotal,
+        grossAmountCent: grossTotal,
+        // Calculate blended tax rate (not strictly correct as a single field, but useful for DB)
+        taxRate: 0 // We have mixed rates, so leave 0 or calculate average
+      }
+    });
+
+    return NextResponse.json({ success: true, itemsAdded: newItems.length });
+  } catch (error: any) {
+    console.error("Pull hospitable error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
