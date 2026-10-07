@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { revalidatePath } from "next/cache";
 
 export async function saveInvoiceSettings(formData: FormData) {
   const session = await auth();
@@ -58,4 +59,7 @@ export async function saveInvoiceSettings(formData: FormData) {
       }
     });
   }
+
+  revalidatePath("/admin/reinstellungen");
 }
+

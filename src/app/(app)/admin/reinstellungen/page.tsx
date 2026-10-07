@@ -3,6 +3,8 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { saveInvoiceSettings } from "./actions";
 import { SubmitButton } from "./SubmitButton";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 
 export default async function SettingsPage() {
@@ -17,6 +19,11 @@ export default async function SettingsPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-10 min-h-screen">
+      <Link href="/admin/rechnungen" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-6 transition-colors">
+        <ArrowLeft className="w-4 h-4 mr-2" />
+        Zurück zu Rechnungen
+      </Link>
+      
       <div className="mb-8">
         <h1 className="text-3xl font-bold font-serif">Rechnungseinstellungen</h1>
         <p className="text-muted-foreground mt-1">Firmenadresse, Texte und Nummernkreise verwalten</p>
