@@ -107,7 +107,37 @@ export async function POST(req: Request) {
     
     // In Germany, City Tax (Beherbergungssteuer) is often collected for Booking.com. 
     // It's 6% in Dresden. It was deducted in sync.ts. We could add it as a 0% tax item.
-    // For now we stick to Accommodation and Cleaning as they are the primary taxable items.
+    if (fin.taxCent > 0) {
+      const gross = fin.taxCent;
+      newItems.push({
+        invoiceId,
+        description: "Beherbergungssteuer / Steuern der Buchungsplattform",
+        quantity: 1,
+        unitPriceCent: gross,
+        taxRate: 0,
+        totalNetCent: gross,
+        totalTaxCent: 0,
+        totalGrossCent: gross
+      });
+      netTotal += gross;
+      grossTotal += gross;
+    }
+
+    if (fin.otherGuestFeeCent > 0) {
+      const gross = fin.otherGuestFeeCent;
+      newItems.push({
+        invoiceId,
+        description: "Servicegebühr für Gäste",
+        quantity: 1,
+        unitPriceCent: gross,
+        taxRate: 0,
+        totalNetCent: gross,
+        totalTaxCent: 0,
+        totalGrossCent: gross
+      });
+      netTotal += gross;
+      grossTotal += gross;
+    }
 
     await prisma.invoiceItem.createMany({
       data: newItems
