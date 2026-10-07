@@ -101,6 +101,36 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
     setIsGenerating(false);
   };
 
+  const handleSendEmail = async () => {
+    if (!invoice.invoiceEmail) {
+      alert("Es ist keine E-Mail-Adresse für diesen Gast hinterlegt.");
+      return;
+    }
+    
+    if (!confirm(`Möchtest du diese Rechnung wirklich an ${invoice.invoiceEmail} senden?`)) return;
+
+    setIsGenerating(true);
+    try {
+      const res = await fetch("/api/invoice/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ invoiceId: invoice.id, toEmail: invoice.invoiceEmail })
+      });
+      
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "Failed to send email");
+      }
+      
+      alert("E-Mail wurde erfolgreich versendet!");
+      window.location.reload();
+    } catch (error: any) {
+      console.error(error);
+      alert(`Fehler beim Senden: ${error.message}`);
+    }
+    setIsGenerating(false);
+  };
+
   const handleCancel = async () => {
     const reason = prompt("Bitte geben Sie einen Stornierungsgrund ein:");
     if (!reason || reason.trim() === "") {
@@ -257,7 +287,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                   <Button variant="outline" className="w-full justify-start gap-2" onClick={handleDownload} disabled={isGenerating}>
                     <FileText className="w-4 h-4" /> PDF herunterladen
                   </Button>
-                  <Button className="w-full justify-start gap-2" disabled={invoice.status === 'SENT'}>
+                  <Button className="w-full justify-start gap-2" disabled={invoice.status === 'SENT' || isGenerating} onClick={handleSendEmail}>
                     <Send className="w-4 h-4" /> Per E-Mail versenden
                   </Button>
                   <div className="pt-4 border-t border-border/50">
