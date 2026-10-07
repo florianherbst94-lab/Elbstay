@@ -63,9 +63,12 @@ export async function POST(req: Request) {
       const net = Math.round(gross / 1.07);
       const tax = gross - net;
 
+      const checkInFormat = new Date(reservation.checkIn).toLocaleDateString("de-DE");
+      const checkOutFormat = new Date(reservation.checkOut).toLocaleDateString("de-DE");
+
       newItems.push({
         invoiceId,
-        description: `Übernachtung (${reservation.nights} Nächte, ${reservation.property?.name || 'Elbstay'})`,
+        description: `Übernachtung (${checkInFormat} - ${checkOutFormat}, ${reservation.property?.name || 'Elbstay'})`,
         quantity: 1,
         unitPriceCent: net,
         taxRate: 7,
