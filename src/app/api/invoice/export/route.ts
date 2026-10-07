@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import archiver from "archiver";
+import * as archiverModule from "archiver";
+const archiver = archiverModule.default || archiverModule;
 import { generateInvoicePdf, InvoiceData } from "@/lib/invoice/pdf-generator";
 import { format } from "date-fns";
 
