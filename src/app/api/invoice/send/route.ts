@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { generateInvoicePdf, InvoiceData } from "@/lib/invoice/pdf-generator";
 import { auth } from "@/auth";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 export async function POST(req: Request) {
   try {
@@ -84,24 +84,14 @@ export async function POST(req: Request) {
 
     const pdfBuffer = await generateInvoicePdf(pdfData);
 
-    // Setup Nodemailer
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT) || 465,
-      secure: Number(process.env.SMTP_PORT) === 465,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-
-    const fromAddress = process.env.SMTP_FROM || settings.email || "info@elbstay.de";
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const fromAddress = "ElbStay <rechnung@elbstay.de>";
     const guestName = invoice.firstName ? `${invoice.firstName} ${invoice.lastName}` : invoice.companyName;
 
-    // Send email
-    await transporter.sendMail({
-      from: `"ElbStay" <${fromAddress}>`,
-      to: toEmail,
+    // Send email using Resend
+    const { data, error } = await resend.emails.send({
+      from: fromAddress,
+      to: [toEmail],
       subject: `Ihre Rechnung ${invoice.invoiceNumber} von ElbStay`,
       text: `Hallo ${guestName},\n\nvielen Dank für Ihren Aufenthalt bei ElbStay.\n\nAnbei erhalten Sie Ihre Rechnung (Nr. ${invoice.invoiceNumber}) im PDF-Format.\n\nBei Fragen stehen wir Ihnen jederzeit gerne zur Verfügung.\n\nViele Grüße\nIhr ElbStay Team\n${settings.website || 'www.elbstay.de'}`,
       html: `
@@ -123,10 +113,14 @@ export async function POST(req: Request) {
         {
           filename: `Elbstay_Rechnung_${invoice.invoiceNumber}.pdf`,
           content: pdfBuffer,
-          contentType: 'application/pdf'
         }
       ]
     });
+
+    if (error) {
+      console.error("Resend API error:", error);
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
 
     // Update status to SENT
     await prisma.invoice.update({
