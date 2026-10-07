@@ -247,9 +247,8 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
         // Column 1: Company & Address
         doc.font('Helvetica-Bold').text(data.settings.companyName, 50, footerTop);
         doc.font('Helvetica');
-        if (data.settings.owner) doc.text(`Inh. ${data.settings.owner}`, 50, footerTop + 10);
-        doc.text(data.settings.street, 50, footerTop + 20);
-        doc.text(`${data.settings.postalCode} ${data.settings.city}`, 50, footerTop + 30);
+        doc.text(data.settings.street, 50, footerTop + 10);
+        doc.text(`${data.settings.postalCode} ${data.settings.city}`, 50, footerTop + 20);
         
         // Column 2: Contact
         doc.font('Helvetica-Bold').text("Kontakt", 200, footerTop);
