@@ -58,7 +58,7 @@ export async function GET(req: Request) {
       zlib: { level: 5 }
     });
 
-    archive.on('data', (chunk) => writer.write(chunk));
+    archive.on('data', (chunk: any) => writer.write(chunk));
     archive.on('end', () => writer.close());
     archive.on('error', (err) => {
       console.error('Archiver error:', err);
