@@ -193,11 +193,23 @@ export default async function RevenueDashboard(props: {
   const totalAvailableNights = activePropertiesCount * daysInMonth
   const occupancyPercentage = totalAvailableNights > 0 ? (occupiedNights / totalAvailableNights) * 100 : 0
 
+  // Check for open invoices to display alert
+  const openInvoicesCount = await prisma.invoice.count({
+    where: { status: "OPEN" }
+  })
+
   return (
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold font-serif">Portfolio Übersicht</h1>
+          <h1 className="text-3xl font-bold font-serif flex items-center gap-3">
+            Portfolio Übersicht
+            {openInvoicesCount > 0 && (
+              <Link href="/admin/rechnungen" className="inline-flex items-center justify-center bg-red-100 text-red-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-red-200 hover:bg-red-200 transition-colors">
+                {openInvoicesCount} offene Rechnung{openInvoicesCount !== 1 && 'en'}
+              </Link>
+            )}
+          </h1>
           <p className="text-muted-foreground mt-1">Auswertung für {currentMonth}</p>
         </div>
         <div className="pt-2 md:pt-0">
