@@ -57,11 +57,22 @@ export async function POST(req: Request) {
     let grossTotal = 0;
 
     // Accommodation (7% tax)
-    if (fin.accommodationCent > 0) {
+    // For Airbnb, hospitable's accommodationCent is what the HOST gets.
+    // The guest actually pays the Total Paid by Guest, which includes the Airbnb Service Fee (typically 15-17%).
+    // If the invoice is 1:1 what the guest paid, we need to calculate the missing gap and add it to the accommodation cost!
+    
+    // We do this by taking the totalPaidByGuest and subtracting cleaning fee, other fees, and taxes. The rest MUST be the accommodation + service fee total.
+    let accommodationGross = fin.totalPaidByGuestCent - (fin.cleaningFeeCent + fin.otherGuestFeeCent + fin.taxCent);
+    
+    // Fallback just in case totalPaidByGuestCent is 0 or missing
+    if (accommodationGross <= 0 && fin.accommodationCent > 0) {
+        accommodationGross = fin.accommodationCent;
+    }
+
+    if (accommodationGross > 0) {
       // Calculate net from gross assuming 7% VAT (Gross = Net * 1.07 -> Net = Gross / 1.07)
-      const gross = fin.accommodationCent;
-      const net = Math.round(gross / 1.07);
-      const tax = gross - net;
+      const net = Math.round(accommodationGross / 1.07);
+      const tax = accommodationGross - net;
 
       const checkInFormat = new Date(reservation.checkIn).toLocaleDateString("de-DE");
       const checkOutFormat = new Date(reservation.checkOut).toLocaleDateString("de-DE");
@@ -74,11 +85,11 @@ export async function POST(req: Request) {
         taxRate: 7,
         totalNetCent: net,
         totalTaxCent: tax,
-        totalGrossCent: gross
+        totalGrossCent: accommodationGross
       });
       netTotal += net;
       taxTotal += tax;
-      grossTotal += gross;
+      grossTotal += accommodationGross;
     }
 
     // Cleaning Fee (19% tax)
