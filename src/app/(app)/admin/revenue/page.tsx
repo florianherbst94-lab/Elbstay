@@ -217,51 +217,51 @@ export default async function RevenueDashboard(props: {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-        <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">Erwartete Auszahlung (Monat)</h3>
-          <p className="text-4xl font-bold">€ {(monthlyPayoutCent / 100).toFixed(2)}</p>
-          <div className="mt-2 text-sm text-muted-foreground">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6">
+        <div className="bg-background border border-border p-4 md:p-6 rounded-2xl shadow-sm">
+          <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1 md:mb-2">Erwartete Auszahlung (Monat)</h3>
+          <p className="text-2xl md:text-4xl font-bold">€ {(monthlyPayoutCent / 100).toFixed(2)}</p>
+          <div className="mt-1 md:mt-2 text-xs md:text-sm text-muted-foreground">
             Netto: € {(monthlyNetPayoutCent / 100).toFixed(2)}
           </div>
           {monthlyPayoutCent === 0 && (
-            <div className="mt-2 text-sm text-yellow-600 font-medium bg-yellow-100/50 inline-block px-2 py-0.5 rounded-full">
+            <div className="mt-1 md:mt-2 text-[10px] md:text-sm text-yellow-600 font-medium bg-yellow-100/50 inline-block px-2 py-0.5 rounded-full">
               Noch keine Finanzdaten / Buchungen
             </div>
           )}
         </div>
 
-        <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">Auslastung (Monat)</h3>
-          <p className="text-4xl font-bold">{occupancyPercentage.toFixed(1)}%</p>
-          <div className="mt-2 text-sm text-muted-foreground">
+        <div className="bg-background border border-border p-4 md:p-6 rounded-2xl shadow-sm">
+          <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1 md:mb-2">Auslastung (Monat)</h3>
+          <p className="text-2xl md:text-4xl font-bold">{occupancyPercentage.toFixed(1)}%</p>
+          <div className="mt-1 md:mt-2 text-xs md:text-sm text-muted-foreground">
             {occupiedNights} von {totalAvailableNights} Nächten belegt
           </div>
         </div>
 
-        <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">Nettogewinn</h3>
-          <p className={`text-4xl font-bold ${profitCent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+        <div className="bg-background border border-border p-4 md:p-6 rounded-2xl shadow-sm">
+          <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1 md:mb-2">Nettogewinn</h3>
+          <p className={`text-2xl md:text-4xl font-bold ${profitCent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             € {(profitCent / 100).toFixed(2)}
           </p>
-          <div className="mt-2 text-sm text-muted-foreground flex justify-between">
+          <div className="mt-1 md:mt-2 text-xs md:text-sm text-muted-foreground flex justify-between">
             <span>Netto-Kosten: € {(monthlyNetCostsCent / 100).toFixed(2)}</span>
           </div>
         </div>
 
-        <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">ADR / Durchschnittsrate</h3>
-          <p className="text-4xl font-bold">
+        <div className="bg-background border border-border p-4 md:p-6 rounded-2xl shadow-sm">
+          <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1 md:mb-2">ADR / Durchschnittsrate</h3>
+          <p className="text-2xl md:text-4xl font-bold">
             € {occupiedNights > 0 ? (monthlyNetPayoutCent / occupiedNights / 100).toFixed(2) : "0.00"}
           </p>
-          <div className="mt-2 text-sm text-muted-foreground">
-            Umsatz pro gebuchter Nacht (Netto)
+          <div className="mt-1 md:mt-2 text-xs md:text-sm text-muted-foreground">
+            Umsatz pro gebuchter Nacht
           </div>
         </div>
 
-        <div className="bg-background border border-border p-6 rounded-2xl shadow-sm">
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">RevPAR</h3>
-          <p className="text-4xl font-bold">
+        <div className="bg-background border border-border p-4 md:p-6 rounded-2xl shadow-sm col-span-2 lg:col-span-1">
+          <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1 md:mb-2">RevPAR</h3>
+          <p className="text-2xl md:text-4xl font-bold">
             € {totalAvailableNights > 0 ? (monthlyNetPayoutCent / totalAvailableNights / 100).toFixed(2) : "0.00"}
           </p>
           <div className="mt-2 text-sm text-muted-foreground">
