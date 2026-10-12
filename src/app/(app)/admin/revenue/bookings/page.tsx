@@ -46,6 +46,7 @@ export default async function BookingsPage(props: { searchParams?: Promise<{ pro
             <thead>
               <tr className="border-b border-border bg-muted/50 text-muted-foreground">
                 <th className="p-4 font-medium">Zeitraum</th>
+                <th className="p-4 font-medium">Gast</th>
                 <th className="p-4 font-medium">Wohnung</th>
                 <th className="p-4 font-medium">Plattform</th>
                 <th className="p-4 font-medium">Status</th>
@@ -56,7 +57,7 @@ export default async function BookingsPage(props: { searchParams?: Promise<{ pro
             <tbody>
               {reservations.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="p-8 text-center text-muted-foreground">Keine Buchungen gefunden.</td>
+                  <td colSpan={7} className="p-8 text-center text-muted-foreground">Keine Buchungen gefunden.</td>
                 </tr>
               ) : (
                 reservations.map(res => (
@@ -67,6 +68,7 @@ export default async function BookingsPage(props: { searchParams?: Promise<{ pro
                       </div>
                       <div className="text-xs text-muted-foreground">{res.nights} Nächte, {res.totalGuests} Gäste</div>
                     </td>
+                    <td className="p-4 font-medium">{res.guestName || '-'}</td>
                     <td className="p-4 font-medium">{res.property.name}</td>
                     <td className="p-4">{res.platform || '-'}</td>
                     <td className="p-4">

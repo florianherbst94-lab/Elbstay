@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { AddPropertyCostForm } from "@/components/admin/revenue/AddPropertyCostForm"
+import { AddPrivateBookingForm } from "@/components/admin/revenue/AddPrivateBookingForm"
 import { CostActionButtons } from "@/components/admin/revenue/CostActionButtons"
 import { MonthSelector } from "@/components/admin/revenue/MonthSelector"
 import { getMonthYear, splitReservationNightsByMonth } from "@/lib/revenue/calculations"
@@ -227,6 +228,10 @@ export default async function PropertyDetailPage(props: {
           <AddPropertyCostForm propertyId={property.id} categories={categories} />
         </div>
       </div>
+      
+      <div className="mb-8">
+        <AddPrivateBookingForm propertyId={property.id} />
+      </div>
 
       <div className="bg-background border border-border rounded-2xl shadow-sm overflow-hidden p-6">
         <div className="flex justify-between items-center mb-4">
@@ -240,6 +245,7 @@ export default async function PropertyDetailPage(props: {
             <thead>
               <tr className="border-b border-border text-muted-foreground">
                 <th className="pb-3 font-medium">Datum</th>
+                <th className="pb-3 font-medium">Gast</th>
                 <th className="pb-3 font-medium">Plattform</th>
                 <th className="pb-3 font-medium">Status</th>
                 <th className="pb-3 font-medium text-right">Auszahlung</th>
@@ -248,7 +254,7 @@ export default async function PropertyDetailPage(props: {
             <tbody>
               {activeReservations.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="py-4 text-center text-muted-foreground">Keine Buchungen in diesem Monat.</td>
+                  <td colSpan={5} className="py-4 text-center text-muted-foreground">Keine Buchungen in diesem Monat.</td>
                 </tr>
               ) : (
                 activeReservations.map(res => (
@@ -257,6 +263,7 @@ export default async function PropertyDetailPage(props: {
                       {res.checkIn.toLocaleDateString('de-DE')} - {res.checkOut.toLocaleDateString('de-DE')}
                       <div className="text-xs text-muted-foreground">{res.nights} Nächte</div>
                     </td>
+                    <td className="py-3 font-medium">{res.guestName || '-'}</td>
                     <td className="py-3">{res.platform || '-'}</td>
                     <td className="py-3">
                       <span className={`inline-flex px-2 py-0.5 rounded text-xs ${

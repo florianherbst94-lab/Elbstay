@@ -118,6 +118,7 @@ model Reservation {
   checkIn             DateTime
   checkOut            DateTime
   nights              Int
+  guestName           String?
   adults              Int      @default(0)
   children            Int      @default(0)
   totalGuests         Int      @default(0)
