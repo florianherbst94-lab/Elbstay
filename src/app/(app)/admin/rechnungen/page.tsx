@@ -9,6 +9,7 @@ import { redirect } from "next/navigation";
 
 import { ExportButton } from "./ExportButton";
 import { DeleteInvoiceButton } from "./DeleteInvoiceButton";
+import { CreateManualInvoiceButton } from "./CreateManualInvoiceButton";
 
 export default async function RechnungenPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
   // // const session = await auth();
@@ -60,6 +61,7 @@ export default async function RechnungenPage({ searchParams }: { searchParams: P
           <p className="text-muted-foreground mt-1">Rechnungsanfragen bearbeiten und PDFs generieren</p>
         </div>
         <div className="flex gap-2">
+          <CreateManualInvoiceButton />
           <ExportButton />
           <Link href="/admin/reinstellungen">
             <Button variant="outline">Einstellungen</Button>
