@@ -19,6 +19,13 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
   const [companyName, setCompanyName] = useState(invoice.companyName || "");
   const [firstName, setFirstName] = useState(invoice.firstName || "");
   const [lastName, setLastName] = useState(invoice.lastName || "");
+  
+  // Address fields
+  const [street, setStreet] = useState(invoice.street || "");
+  const [postalCode, setPostalCode] = useState(invoice.postalCode || "");
+  const [city, setCity] = useState(invoice.city || "");
+  const [country, setCountry] = useState(invoice.country || "");
+  
   const [invoiceEmail, setInvoiceEmail] = useState(invoice.invoiceEmail || "");
   const [language, setLanguage] = useState(invoice.language || "de");
 
@@ -63,6 +70,10 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
     companyName,
     firstName,
     lastName,
+    street,
+    postalCode,
+    city,
+    country,
     invoiceEmail,
     language
   });
@@ -288,7 +299,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
         <div className="md:col-span-2 space-y-6">
           
           <div className="bg-background border border-border rounded-xl p-6">
-            <h2 className="text-xl font-bold mb-4 font-serif">Rechnungsdetails</h2>
+            <h2 className="text-xl font-bold mb-4 font-serif">Empfänger & Details</h2>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1">Firma</label>
@@ -322,7 +333,54 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                   />
                 </div>
               </div>
-              <div>
+
+              {/* Address Fields */}
+              <div className="col-span-2">
+                <label className="block text-sm font-medium text-foreground mb-1">Straße & Hausnummer</label>
+                <input 
+                  type="text" 
+                  className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
+                  value={street}
+                  onChange={e => setStreet(e.target.value)}
+                  readOnly={isFinalized}
+                />
+              </div>
+              
+              <div className="grid grid-cols-3 gap-2 col-span-2">
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-1">PLZ</label>
+                  <input 
+                    type="text" 
+                    className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
+                    value={postalCode} 
+                    onChange={e => setPostalCode(e.target.value)}
+                    readOnly={isFinalized}
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-foreground mb-1">Stadt</label>
+                  <input 
+                    type="text" 
+                    className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
+                    value={city} 
+                    onChange={e => setCity(e.target.value)}
+                    readOnly={isFinalized}
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-2 sm:col-span-1">
+                <label className="block text-sm font-medium text-foreground mb-1">Land</label>
+                <input 
+                  type="text" 
+                  className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
+                  value={country} 
+                  onChange={e => setCountry(e.target.value)}
+                  readOnly={isFinalized}
+                />
+              </div>
+
+              <div className="col-span-2 sm:col-span-1">
                 <label className="block text-sm font-medium text-foreground mb-1">E-Mail</label>
                 <input 
                   type="text" 
@@ -332,10 +390,9 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                   readOnly={isFinalized} 
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-1">Buchungsplattform</label>
-                <input type="text" className="w-full bg-muted border border-border rounded-lg px-4 py-2 text-sm" value={invoice.bookingPlatform || ""} readOnly />
-              </div>
+
+              <div className="col-span-2 border-t border-border mt-2 pt-4"></div>
+
               <div className="col-span-2">
                 <label className="block text-sm font-medium text-foreground mb-1">Zusatzbemerkung (z.B. Projektnummer, Referenz)</label>
                 <textarea 
