@@ -15,6 +15,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
 
   // Editable state
   const [invoiceNote, setInvoiceNote] = useState(invoice.invoiceNote || "");
+  const [paymentNote, setPaymentNote] = useState(invoice.paymentNote ?? "Der Rechnungsbetrag wurde bereits im Rahmen Ihrer Buchung entrichtet. Diese Rechnung stellt keine erneute Zahlungsaufforderung dar.");
   const [companyName, setCompanyName] = useState(invoice.companyName || "");
   const [firstName, setFirstName] = useState(invoice.firstName || "");
   const [lastName, setLastName] = useState(invoice.lastName || "");
@@ -57,6 +58,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
 
   const getSaveData = () => ({
     invoiceNote,
+    paymentNote,
     companyName,
     firstName,
     lastName,
@@ -308,16 +310,27 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                 <input type="text" className="w-full bg-muted border border-border rounded-lg px-4 py-2 text-sm" value={invoice.bookingPlatform || ""} readOnly />
               </div>
               <div className="col-span-2">
-                <label className="block text-sm font-medium text-foreground mb-1">Zusatzbemerkung / Zahlungshinweis</label>
+                <label className="block text-sm font-medium text-foreground mb-1">Zusatzbemerkung (z.B. Projektnummer, Referenz)</label>
                 <textarea 
                   className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
                   value={invoiceNote}
                   onChange={(e) => setInvoiceNote(e.target.value)}
-                  placeholder="z.B. Bitte überweisen Sie den offenen Betrag innerhalb von 7 Tagen..."
-                  rows={3}
+                  placeholder="z.B. Projekt ABC / Bitte überweisen Sie den offenen Betrag..."
+                  rows={2}
                   readOnly={isFinalized}
                 />
-                <p className="text-xs text-muted-foreground mt-1">Dieser Text wird unten auf der Rechnung angedruckt.</p>
+              </div>
+              <div className="col-span-2">
+                <label className="block text-sm font-medium text-foreground mb-1">Zahlungshinweis (Standard: Bereits bezahlt)</label>
+                <textarea 
+                  className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
+                  value={paymentNote}
+                  onChange={(e) => setPaymentNote(e.target.value)}
+                  placeholder="Der Rechnungsbetrag wurde bereits im Rahmen Ihrer Buchung entrichtet..."
+                  rows={2}
+                  readOnly={isFinalized}
+                />
+                <p className="text-xs text-muted-foreground mt-1">Dieser Text erscheint unten auf der Rechnung (z.B. wenn jemand noch überweisen muss).</p>
               </div>
             </div>
             

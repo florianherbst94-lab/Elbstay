@@ -280,6 +280,7 @@ model Invoice {
   // Additional references
   invoiceReference    String?
   invoiceNote         String?
+  paymentNote         String?
   
   // Financials (in Cents to avoid floating point issues, although frontend can display EUR)
   grossAmountCent     Int           @default(0)

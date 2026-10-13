@@ -99,7 +99,7 @@ export async function POST(req: Request) {
         bankName: settings.bankName,
         email: settings.email,
         website: settings.website,
-        defaultPaymentNote: settings.defaultPaymentNote
+        defaultPaymentNote: invoice.paymentNote || settings.defaultPaymentNote
       },
       items: invoice.items.map(item => ({
         description: item.description,
