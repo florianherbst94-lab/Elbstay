@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
-import { ArrowLeft, FileText, Send, Eye, XCircle, Save, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, FileText, Send, Eye, XCircle, Save, Plus, Trash2, Globe } from "lucide-react";
 import { saveInvoiceData } from "../actions";
 
 export default function InvoiceEditor({ invoice }: { invoice: any }) {
@@ -20,6 +20,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
   const [firstName, setFirstName] = useState(invoice.firstName || "");
   const [lastName, setLastName] = useState(invoice.lastName || "");
   const [invoiceEmail, setInvoiceEmail] = useState(invoice.invoiceEmail || "");
+  const [language, setLanguage] = useState(invoice.language || "de");
 
   const [items, setItems] = useState<any[]>(invoice.items || []);
 
@@ -62,7 +63,8 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
     companyName,
     firstName,
     lastName,
-    invoiceEmail
+    invoiceEmail,
+    language
   });
 
   const handleSave = async () => {
@@ -221,6 +223,15 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
     setIsGenerating(false);
   };
 
+  const handleLanguageChange = (lang: string) => {
+    setLanguage(lang);
+    if (lang === "en" && paymentNote === "Der Rechnungsbetrag wurde bereits im Rahmen Ihrer Buchung entrichtet. Diese Rechnung stellt keine erneute Zahlungsaufforderung dar.") {
+      setPaymentNote("The invoice amount has already been paid as part of your booking. This invoice does not constitute a new request for payment.");
+    } else if (lang === "de" && paymentNote === "The invoice amount has already been paid as part of your booking. This invoice does not constitute a new request for payment.") {
+      setPaymentNote("Der Rechnungsbetrag wurde bereits im Rahmen Ihrer Buchung entrichtet. Diese Rechnung stellt keine erneute Zahlungsaufforderung dar.");
+    }
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">
       <div className="mb-8">
@@ -237,7 +248,23 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
         <div className="flex justify-between items-end">
           <div>
             <h1 className="text-3xl font-bold font-serif mb-2">Rechnung bearbeiten</h1>
-            <p className="text-muted-foreground">ID: <span className="font-mono">{invoice.id}</span></p>
+            <div className="flex items-center gap-4 text-muted-foreground">
+              <span>ID: <span className="font-mono">{invoice.id}</span></span>
+              
+              {!isFinalized && (
+                <div className="flex items-center gap-2 bg-muted/50 px-3 py-1 rounded-full text-sm">
+                  <Globe className="w-4 h-4" />
+                  <select 
+                    value={language}
+                    onChange={e => handleLanguageChange(e.target.value)}
+                    className="bg-transparent border-none focus:outline-none font-medium text-foreground cursor-pointer"
+                  >
+                    <option value="de">Deutsch</option>
+                    <option value="en">Englisch</option>
+                  </select>
+                </div>
+              )}
+            </div>
           </div>
           <div className="flex flex-col items-end gap-2">
             <span className={`px-2 py-0.5 text-xs rounded-md ${
@@ -315,7 +342,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                   className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
                   value={invoiceNote}
                   onChange={(e) => setInvoiceNote(e.target.value)}
-                  placeholder="z.B. Projekt ABC / Bitte überweisen Sie den offenen Betrag..."
+                  placeholder={language === 'en' ? "e.g. Project ABC / Please note..." : "z.B. Projekt ABC / Bitte überweisen Sie den offenen Betrag..."}
                   rows={2}
                   readOnly={isFinalized}
                 />
@@ -326,7 +353,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                   className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
                   value={paymentNote}
                   onChange={(e) => setPaymentNote(e.target.value)}
-                  placeholder="Der Rechnungsbetrag wurde bereits im Rahmen Ihrer Buchung entrichtet..."
+                  placeholder={language === 'en' ? "The invoice amount has already been paid..." : "Der Rechnungsbetrag wurde bereits im Rahmen Ihrer Buchung entrichtet..."}
                   rows={2}
                   readOnly={isFinalized}
                 />

@@ -78,6 +78,7 @@ export async function POST(req: Request) {
       serviceStartDate: invoice.serviceStartDate,
       serviceEndDate: invoice.serviceEndDate,
       isDraft: waterMarkDraft,
+      language: invoice.language,
       invoiceReference: invoice.invoiceReference,
       invoiceNote: invoice.invoiceNote,
       recipient: {

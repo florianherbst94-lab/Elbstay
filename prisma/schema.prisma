@@ -281,6 +281,7 @@ model Invoice {
   invoiceReference    String?
   invoiceNote         String?
   paymentNote         String?
+  language            String        @default("de")
   
   // Financials (in Cents to avoid floating point issues, although frontend can display EUR)
   grossAmountCent     Int           @default(0)

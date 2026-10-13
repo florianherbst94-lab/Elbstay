@@ -51,11 +51,41 @@ export interface InvoiceData {
   };
   
   isDraft: boolean;
+  language?: string;
   invoiceReference?: string | null;
   invoiceNote?: string | null;
 }
 
 export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
+
+  const isEn = data.language === 'en';
+  
+  const t = {
+    DRAFT: isEn ? 'DRAFT' : 'ENTWURF',
+    INVOICE: isEn ? 'INVOICE' : 'RECHNUNG',
+    invoiceNo: isEn ? 'Invoice No.' : 'Rechnung Nr.',
+    date: isEn ? 'Date' : 'Datum',
+    bookingCode: isEn ? 'Booking Code' : 'Buchungscode',
+    platform: isEn ? 'Platform' : 'Plattform',
+    reference: isEn ? 'Reference' : 'Referenz',
+    pos: isEn ? 'Pos.' : 'Pos.',
+    description: isEn ? 'Description' : 'Beschreibung',
+    vat: isEn ? 'VAT' : 'MwSt.',
+    netAmount: isEn ? 'Net Amount' : 'Nettobetrag',
+    total: isEn ? 'Total' : 'Gesamt',
+    subtotalNet: isEn ? 'Subtotal (Net):' : 'Zwischensumme (Netto):',
+    plusVat: isEn ? 'plus VAT:' : 'zzgl. Umsatzsteuer:',
+    invoiceTotal: isEn ? 'Invoice Total:' : 'Rechnungsbetrag:',
+    servicePeriod: isEn ? 'Service Period:' : 'Leistungszeitraum:',
+    paymentNote: isEn ? 'Payment Note:' : 'Zahlungshinweis:',
+    note: isEn ? 'Note:' : 'Anmerkung:',
+    contact: isEn ? 'Contact' : 'Kontakt',
+    taxData: isEn ? 'Tax Info' : 'Steuerdaten',
+    bankData: isEn ? 'Bank Details' : 'Bankverbindung',
+    vatId: isEn ? 'VAT ID:' : 'USt-IdNr.:',
+    taxNo: isEn ? 'Tax No.:' : 'Steuernummer:'
+  };
+
   return new Promise((resolve, reject) => {
     try {
       const doc = new PDFDocument({ margin: 50, size: 'A4', bufferPages: true });
@@ -130,7 +160,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
 
       // Invoice Meta Info (Right side)
       let rightY = currentY - 10;
-      doc.fontSize(18).font('Helvetica-Bold').fillColor(primaryColor).text(`RECHNUNG`, rightColX, rightY);
+      doc.fontSize(18).font('Helvetica-Bold').fillColor(primaryColor).text(t.INVOICE, rightColX, rightY);
       rightY += 25;
       
       doc.fontSize(9).fillColor(mutedColor).font('Helvetica');
@@ -143,12 +173,12 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
         rightY += 14;
       };
 
-      addMetaRow("Rechnung Nr.", data.invoiceNumber);
-      addMetaRow("Datum", format(data.invoiceDate, 'dd.MM.yyyy'));
+      addMetaRow(t.invoiceNo, data.invoiceNumber);
+      addMetaRow(t.date, format(data.invoiceDate, 'dd.MM.yyyy'));
       
-      if (data.reservationCode) addMetaRow("Buchungscode", data.reservationCode);
-      if (data.bookingPlatform) addMetaRow("Plattform", data.bookingPlatform);
-      if (data.invoiceReference) addMetaRow("Referenz", data.invoiceReference);
+      if (data.reservationCode) addMetaRow(t.bookingCode, data.reservationCode);
+      if (data.bookingPlatform) addMetaRow(t.platform, data.bookingPlatform);
+      if (data.invoiceReference) addMetaRow(t.reference, data.invoiceReference);
 
       currentY = Math.max(leftY + 60, rightY + 20);
 
@@ -160,11 +190,11 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       
       const tableTop = currentY + 7;
       doc.fontSize(9).font('Helvetica-Bold').fillColor('#ffffff');
-      doc.text('Pos.', 60, tableTop);
-      doc.text('Beschreibung', 100, tableTop);
-      doc.text('MwSt.', 380, tableTop);
-      doc.text('Nettobetrag', 430, tableTop);
-      doc.text('Gesamt', 490, tableTop, { width: 45, align: 'right' });
+      doc.text(t.pos, 60, tableTop);
+      doc.text(t.description, 100, tableTop);
+      doc.text(t.vat, 380, tableTop);
+      doc.text(t.netAmount, 430, tableTop);
+      doc.text(t.total, 490, tableTop, { width: 45, align: 'right' });
       
       // ---- Table Rows ----
       let rowTop = currentY + 25;
@@ -195,7 +225,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       const totalsRightX = 450;
       
       doc.fontSize(9).font('Helvetica').fillColor(mutedColor);
-      doc.text('Zwischensumme (Netto):', totalsLeftX, rowTop);
+      doc.text(t.subtotalNet, totalsLeftX, rowTop);
       doc.font('Helvetica').fillColor(textColor).text(`${(data.totals.net / 100).toFixed(2)} €`, totalsRightX, rowTop, { width: 85, align: 'right' });
       
       rowTop += 15;
@@ -208,7 +238,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       // Gross Total - Big & Bold
       doc.rect(totalsLeftX - 10, rowTop, 205.28, 25).fill(secondaryColor);
       doc.fontSize(11).font('Helvetica-Bold').fillColor(primaryColor);
-      doc.text('Rechnungsbetrag:', totalsLeftX, rowTop + 7);
+      doc.text(t.invoiceTotal, totalsLeftX, rowTop + 7);
       doc.text(`${(data.totals.gross / 100).toFixed(2)} €`, totalsRightX, rowTop + 7, { width: 85, align: 'right' });
 
       // ---- Notes / Payment Info ----
@@ -251,19 +281,19 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
         doc.text(`${data.settings.postalCode} ${data.settings.city}`, 50, footerTop + 20);
         
         // Column 2: Contact
-        doc.font('Helvetica-Bold').text("Kontakt", 200, footerTop);
+        doc.font('Helvetica-Bold').text(t.contact, 200, footerTop);
         doc.font('Helvetica');
         if (data.settings.email) doc.text(data.settings.email, 200, footerTop + 10);
         if (data.settings.website) doc.text(data.settings.website, 200, footerTop + 20);
         
         // Column 3: Tax
-        doc.font('Helvetica-Bold').text("Steuerdaten", 350, footerTop);
+        doc.font('Helvetica-Bold').text(t.taxData, 350, footerTop);
         doc.font('Helvetica');
-        if (data.settings.vatId) doc.text(`USt-IdNr.: ${data.settings.vatId}`, 350, footerTop + 10);
-        if (data.settings.taxNumber) doc.text(`Steuernummer: ${data.settings.taxNumber}`, 350, footerTop + 20);
+        if (data.settings.vatId) doc.text(`${t.vatId} ${data.settings.vatId}`, 350, footerTop + 10);
+        if (data.settings.taxNumber) doc.text(`${t.taxNo} ${data.settings.taxNumber}`, 350, footerTop + 20);
         
         // Column 4: Bank
-        doc.font('Helvetica-Bold').text("Bankverbindung", 450, footerTop);
+        doc.font('Helvetica-Bold').text(t.bankData, 450, footerTop);
         doc.font('Helvetica');
         if (data.settings.bankName) doc.text(data.settings.bankName, 450, footerTop + 10);
         if (data.settings.iban) doc.text(`IBAN: ${data.settings.iban}`, 450, footerTop + 20);
