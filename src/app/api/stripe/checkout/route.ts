@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe/stripe';
-import { lockExtra } from '@/lib/extras/extrasService';
+import { lockExtra, unlockPendingExtras } from '@/lib/extras/extrasService';
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,6 +14,9 @@ export async function POST(req: NextRequest) {
     if (validExtraTypes.length === 0) {
       return NextResponse.json({ error: 'Invalid extraTypes' }, { status: 400 });
     }
+
+    // Always clear existing pending locks for this reservation when they restart a checkout
+    await unlockPendingExtras(reservationId);
 
     const lineItems = [];
     

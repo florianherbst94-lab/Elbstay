@@ -3,6 +3,16 @@ import prisma from '../prisma';
 export type ExtraType = 'EARLY_CHECKIN' | 'LATE_CHECKOUT';
 
 export async function checkExtrasAvailability(reservationId: string) {
+  // First, cleanup any stale PENDING locks that are older than 15 minutes
+  const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
+  await prisma.reservationExtra.deleteMany({
+    where: {
+      reservationId,
+      status: 'PENDING',
+      lockedAt: { lt: fifteenMinutesAgo }
+    }
+  });
+
   const reservation = await prisma.reservation.findUnique({
     where: { id: reservationId },
     include: { extras: true },
@@ -143,6 +153,16 @@ export async function confirmExtra(reservationId: string, extraType: ExtraType) 
     data: {
       status: 'CONFIRMED',
       lockedAt: null,
+    }
+  });
+}
+
+export async function unlockPendingExtras(reservationId: string) {
+  // If the user goes back or cancels checkout, we unlock anything that is still PENDING
+  return await prisma.reservationExtra.deleteMany({
+    where: {
+      reservationId,
+      status: 'PENDING'
     }
   });
 }
