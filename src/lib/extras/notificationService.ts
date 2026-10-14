@@ -7,7 +7,7 @@ export async function sendExtraNotificationEmail(reservationId: string, extraTyp
   const pass = process.env.SMTP_PASS;
   
   // We send the notification to the admin/cleaning email configured in Make / SMTP
-  const toEmail = 'florian.herbst94@gmail.com'; 
+  const toEmail = 'florian.herbst94@gmail.com, gurdzielmagdalena@gmail.com'; 
   
   if (!host || !user || !pass) {
     console.error('SMTP credentials are not configured. Cannot send extra notification email.');
