@@ -162,6 +162,9 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
   };
 
   const handleDownload = async () => {
+    // Autosave first so the download has the latest data
+    await saveInvoiceData(invoice.id, getSaveData(), items);
+
     setIsGenerating(true);
     try {
       const res = await fetch("/api/invoice/generate", {
@@ -183,19 +186,22 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
   };
 
   const handleSendEmail = async () => {
-    if (!invoice.invoiceEmail) {
+    // Autosave first so the email uses the latest data
+    await saveInvoiceData(invoice.id, getSaveData(), items);
+
+    if (!invoiceEmail) {
       alert("Es ist keine E-Mail-Adresse für diesen Gast hinterlegt.");
       return;
     }
     
-    if (!confirm(`Möchtest du diese Rechnung wirklich an ${invoice.invoiceEmail} senden?`)) return;
+    if (!confirm(`Möchtest du diese Rechnung wirklich an ${invoiceEmail} senden?`)) return;
 
     setIsGenerating(true);
     try {
       const res = await fetch("/api/invoice/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ invoiceId: invoice.id, toEmail: invoice.invoiceEmail })
+        body: JSON.stringify({ invoiceId: invoice.id, toEmail: invoiceEmail })
       });
       
       if (!res.ok) {
@@ -262,8 +268,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
             <div className="flex items-center gap-4 text-muted-foreground">
               <span>ID: <span className="font-mono">{invoice.id}</span></span>
               
-              {!isFinalized && (
-                <div className="flex items-center gap-2 bg-muted/50 px-3 py-1 rounded-full text-sm">
+              <div className="flex items-center gap-2 bg-muted/50 px-3 py-1 rounded-full text-sm">
                   <Globe className="w-4 h-4" />
                   <select 
                     value={language}
@@ -274,7 +279,6 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                     <option value="en">Englisch</option>
                   </select>
                 </div>
-              )}
             </div>
           </div>
           <div className="flex flex-col items-end gap-2">
@@ -308,7 +312,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                   className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
                   value={companyName} 
                   onChange={e => setCompanyName(e.target.value)}
-                  readOnly={isFinalized}
+                  
                 />
               </div>
               <div className="grid grid-cols-2 gap-2">
@@ -319,7 +323,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                     className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
                     value={firstName} 
                     onChange={e => setFirstName(e.target.value)}
-                    readOnly={isFinalized}
+                    
                   />
                 </div>
                 <div>
@@ -329,7 +333,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                     className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
                     value={lastName} 
                     onChange={e => setLastName(e.target.value)}
-                    readOnly={isFinalized}
+                    
                   />
                 </div>
               </div>
@@ -342,7 +346,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                   className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
                   value={street}
                   onChange={e => setStreet(e.target.value)}
-                  readOnly={isFinalized}
+                  
                 />
               </div>
               
@@ -354,7 +358,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                     className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
                     value={postalCode} 
                     onChange={e => setPostalCode(e.target.value)}
-                    readOnly={isFinalized}
+                    
                   />
                 </div>
                 <div className="col-span-2">
@@ -364,7 +368,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                     className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
                     value={city} 
                     onChange={e => setCity(e.target.value)}
-                    readOnly={isFinalized}
+                    
                   />
                 </div>
               </div>
@@ -376,7 +380,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                   className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
                   value={country} 
                   onChange={e => setCountry(e.target.value)}
-                  readOnly={isFinalized}
+                  
                 />
               </div>
 
@@ -387,7 +391,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                   className="w-full bg-background border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" 
                   value={invoiceEmail}
                   onChange={e => setInvoiceEmail(e.target.value)}
-                  readOnly={isFinalized} 
+                   
                 />
               </div>
 
@@ -401,7 +405,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                   onChange={(e) => setInvoiceNote(e.target.value)}
                   placeholder={language === 'en' ? "e.g. Project ABC / Please note..." : "z.B. Projekt ABC / Bitte überweisen Sie den offenen Betrag..."}
                   rows={2}
-                  readOnly={isFinalized}
+                  
                 />
               </div>
               <div className="col-span-2">
@@ -412,34 +416,30 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                   onChange={(e) => setPaymentNote(e.target.value)}
                   placeholder={language === 'en' ? "The invoice amount has already been paid..." : "Der Rechnungsbetrag wurde bereits im Rahmen Ihrer Buchung entrichtet..."}
                   rows={2}
-                  readOnly={isFinalized}
+                  
                 />
                 <p className="text-xs text-muted-foreground mt-1">Dieser Text erscheint unten auf der Rechnung (z.B. wenn jemand noch überweisen muss).</p>
               </div>
             </div>
             
-            {!isFinalized && (
-              <div className="mt-4 flex justify-end">
+            <div className="mt-4 flex justify-end">
                 <Button onClick={handleSave} disabled={isGenerating} size="sm" variant="secondary" className="gap-2">
                   <Save className="w-4 h-4" /> Speichern
                 </Button>
               </div>
-            )}
           </div>
 
           <div className="bg-background border border-border rounded-xl p-6">
              <div className="flex justify-between items-center mb-4">
                <h2 className="text-xl font-bold font-serif">Positionen</h2>
-               {!isFinalized && invoice.reservationCode && (
-                 <Button 
+               {invoice.reservationCode && (<Button 
                     variant="outline" 
                     size="sm" 
                     onClick={handlePullFromHospitable}
                     disabled={isGenerating}
                   >
                     Aus Hospitable laden
-                 </Button>
-               )}
+                 </Button>)}
              </div>
              {items.length === 0 ? (
                <div className="text-center p-6 text-muted-foreground border border-dashed border-border rounded-lg">
@@ -457,7 +457,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                             className="w-full bg-background border border-border rounded-md px-3 py-1.5 text-sm" 
                             value={item.description}
                             onChange={(e) => handleItemChange(item.id, 'description', e.target.value)}
-                            readOnly={isFinalized}
+                            
                           />
                         </div>
                         <div className="flex gap-4">
@@ -468,7 +468,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                               className="w-full bg-background border border-border rounded-md px-3 py-1.5 text-sm" 
                               value={item.quantity}
                               onChange={(e) => handleItemChange(item.id, 'quantity', parseFloat(e.target.value) || 0)}
-                              readOnly={isFinalized}
+                              
                             />
                           </div>
                           <div className="w-32">
@@ -479,7 +479,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                               className="w-full bg-background border border-border rounded-md px-3 py-1.5 text-sm" 
                               value={(item.unitPriceCent / 100).toFixed(2)}
                               onChange={(e) => handleItemChange(item.id, 'unitPriceCent', Math.round((parseFloat(e.target.value) || 0) * 100))}
-                              readOnly={isFinalized}
+                              
                             />
                           </div>
                           <div className="w-24">
@@ -489,7 +489,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                               className="w-full bg-background border border-border rounded-md px-3 py-1.5 text-sm" 
                               value={item.taxRate}
                               onChange={(e) => handleItemChange(item.id, 'taxRate', parseFloat(e.target.value) || 0)}
-                              readOnly={isFinalized}
+                              
                             />
                           </div>
                           <div className="w-24">
@@ -500,21 +500,18 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                           </div>
                         </div>
                       </div>
-                      {!isFinalized && (
-                        <button 
+                      <button 
                           onClick={() => handleRemoveItem(item.id)} 
                           className="mt-6 p-2 text-muted-foreground hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
-                      )}
                    </div>
                  ))}
                </div>
              )}
              
-             {!isFinalized && (
-               <div className="mt-4">
+             <div className="mt-4">
                  <Button onClick={handleAddItem} size="sm" variant="outline" className="gap-2 w-full border-dashed">
                    <Plus className="w-4 h-4" /> Neue Position hinzufügen
                  </Button>
@@ -525,7 +522,6 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                    </Button>
                  </div>
                </div>
-             )}
           </div>
 
         </div>
@@ -557,7 +553,7 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
                   <Button variant="outline" className="w-full justify-start gap-2" onClick={handleDownload} disabled={isGenerating}>
                     <FileText className="w-4 h-4" /> PDF herunterladen
                   </Button>
-                  <Button className="w-full justify-start gap-2" disabled={invoice.status === 'SENT' || isGenerating} onClick={handleSendEmail}>
+                  <Button className="w-full justify-start gap-2" disabled={isGenerating} onClick={handleSendEmail}>
                     <Send className="w-4 h-4" /> Per E-Mail versenden
                   </Button>
                   <div className="pt-4 border-t border-border/50">
