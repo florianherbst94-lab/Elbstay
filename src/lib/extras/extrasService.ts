@@ -1,4 +1,4 @@
-import prisma from '../prisma.js';
+import prisma from '../prisma';
 
 export type ExtraType = 'EARLY_CHECKIN' | 'LATE_CHECKOUT';
 
