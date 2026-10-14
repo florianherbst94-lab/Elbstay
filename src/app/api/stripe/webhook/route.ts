@@ -28,16 +28,31 @@ export async function POST(req: NextRequest) {
     const session = event.data.object as any;
     
     const reservationId = session.metadata?.reservationId;
-    const extraType = session.metadata?.extraType as 'EARLY_CHECKIN' | 'LATE_CHECKOUT';
+    const extraTypesString = session.metadata?.extraTypes;
+    
+    let extraTypes: ('EARLY_CHECKIN' | 'LATE_CHECKOUT')[] = [];
+    
+    try {
+      if (extraTypesString) {
+        extraTypes = JSON.parse(extraTypesString);
+      } else if (session.metadata?.extraType) {
+        // Fallback for older sessions if any exist
+        extraTypes = [session.metadata.extraType as 'EARLY_CHECKIN' | 'LATE_CHECKOUT'];
+      }
+    } catch (e) {
+      console.error('Failed to parse extraTypes from metadata', e);
+    }
 
-    if (reservationId && extraType) {
-      try {
-        await confirmExtra(reservationId, extraType);
-        console.log(`Successfully confirmed ${extraType} for reservation ${reservationId}`);
-        // TODO: Here we will later trigger the email to the cleaning team
-      } catch (error) {
-        console.error(`Failed to confirm extra in database:`, error);
-        // We still return 200 to Stripe so they don't retry, but we might want to alert admin
+    if (reservationId && extraTypes.length > 0) {
+      for (const extraType of extraTypes) {
+        try {
+          await confirmExtra(reservationId, extraType);
+          console.log(`Successfully confirmed ${extraType} for reservation ${reservationId}`);
+          // TODO: Here we will later trigger the email to the cleaning team
+        } catch (error) {
+          console.error(`Failed to confirm extra ${extraType} in database:`, error);
+          // We still return 200 to Stripe so they don't retry, but we might want to alert admin
+        }
       }
     }
   }

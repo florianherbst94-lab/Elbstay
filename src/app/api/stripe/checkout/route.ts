@@ -4,44 +4,45 @@ import { lockExtra } from '@/lib/extras/extrasService';
 
 export async function POST(req: NextRequest) {
   try {
-    const { reservationId, extraType, returnUrl } = await req.json();
+    const { reservationId, extraTypes, returnUrl } = await req.json();
 
-    if (!reservationId || !extraType || !returnUrl) {
+    if (!reservationId || !extraTypes || !Array.isArray(extraTypes) || extraTypes.length === 0 || !returnUrl) {
       return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 });
     }
 
-    if (extraType !== 'EARLY_CHECKIN' && extraType !== 'LATE_CHECKOUT') {
-      return NextResponse.json({ error: 'Invalid extraType' }, { status: 400 });
+    const validExtraTypes = extraTypes.filter(t => t === 'EARLY_CHECKIN' || t === 'LATE_CHECKOUT');
+    if (validExtraTypes.length === 0) {
+      return NextResponse.json({ error: 'Invalid extraTypes' }, { status: 400 });
     }
 
-    // Lock the extra (returns 500/throws if conflict exists or already booked)
-    // We lock it BEFORE generating the payment link, so nobody else can take it while they are paying.
-    // The lock is temporary in our DB (PENDING status). If they don't pay, it stays PENDING until we write a cleanup script later.
-    const lockedExtra = await lockExtra(reservationId, extraType);
-
-    const priceAmount = lockedExtra.priceCent;
+    const lineItems = [];
+    
+    // Lock each extra individually
+    for (const extraType of validExtraTypes) {
+      const lockedExtra = await lockExtra(reservationId, extraType as any);
+      
+      lineItems.push({
+        price_data: {
+          currency: 'eur',
+          product_data: {
+            name: extraType === 'EARLY_CHECKIN' ? 'Early Check-in (13:00 Uhr)' : 'Late Check-out (12:00 Uhr)',
+            description: 'Zusatzleistung für Ihren Aufenthalt',
+          },
+          unit_amount: lockedExtra.priceCent,
+        },
+        quantity: 1,
+      });
+    }
     
     // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          price_data: {
-            currency: 'eur',
-            product_data: {
-              name: extraType === 'EARLY_CHECKIN' ? 'Early Check-in (13:00 Uhr)' : 'Late Check-out (12:00 Uhr)',
-              description: 'Zusatzleistung für Ihren Aufenthalt',
-            },
-            unit_amount: priceAmount,
-          },
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems,
       mode: 'payment',
       success_url: `${returnUrl}?success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${returnUrl}?canceled=true`,
       metadata: {
         reservationId,
-        extraType,
+        extraTypes: JSON.stringify(validExtraTypes), // Store as string array for the webhook
       },
     });
 
