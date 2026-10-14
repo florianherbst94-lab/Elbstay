@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "postinstall": "prisma generate && prisma db push --accept-data-loss",
+    "postinstall": "prisma generate",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -15,6 +15,7 @@
     "@prisma/client": "^7.9.1",
     "@simplewebauthn/browser": "^9.0.1",
     "@simplewebauthn/server": "^9.0.3",
+    "@stripe/stripe-js": "^10.1.0",
     "@types/archiver": "^8.0.0",
     "@vercel/blob": "^2.8.0",
     "archiver": "^8.0.0",
@@ -33,6 +34,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "recharts": "^3.10.1",
+    "stripe": "^23.0.0",
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
