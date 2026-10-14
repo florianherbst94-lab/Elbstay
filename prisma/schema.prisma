@@ -128,6 +128,7 @@ model Reservation {
 
   property            Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   financials          ReservationFinancials?
+  extras              ReservationExtra[]
 
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
@@ -376,4 +377,23 @@ model InvoiceAuditLog {
   timestamp       DateTime @default(now())
   
   invoice         Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
+
+// ==========================================
+// ELBSTAY EXTRAS
+// ==========================================
+
+model ReservationExtra {
+  id              String   @id @default(cuid())
+  reservationId   String
+  extraType       String   // "EARLY_CHECKIN" | "LATE_CHECKOUT"
+  status          String   // "PENDING" | "CONFIRMED" | "CANCELLED"
+  priceCent       Int      @default(5000) // 50 € default
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  lockedAt        DateTime? // To prevent race conditions during payment
+
+  reservation     Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+
+  @@unique([reservationId, extraType])
 }
