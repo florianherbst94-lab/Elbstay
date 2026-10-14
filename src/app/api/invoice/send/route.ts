@@ -43,10 +43,11 @@ export async function POST(req: Request) {
       serviceStartDate: invoice.serviceStartDate,
       serviceEndDate: invoice.serviceEndDate,
       isDraft: false,
+      language: invoice.language,
       invoiceReference: invoice.invoiceReference,
       invoiceNote: invoice.invoiceNote,
       recipient: {
-        name: invoice.companyName || `${invoice.firstName} ${invoice.lastName}`,
+        name: `${invoice.firstName || ''} ${invoice.lastName || ''}`.trim() || invoice.bookingGuestName || "",
         companyName: invoice.companyName,
         street: invoice.street || "",
         postalCode: invoice.postalCode || "",
