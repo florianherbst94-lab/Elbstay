@@ -48,11 +48,27 @@ export async function POST(req: NextRequest) {
         try {
           await confirmExtra(reservationId, extraType);
           console.log(`Successfully confirmed ${extraType} for reservation ${reservationId}`);
-          // TODO: Here we will later trigger the email to the cleaning team
+          
+          // TODO: Send Telegram / Email Notification to cleaning staff here
+          
         } catch (error) {
           console.error(`Failed to confirm extra ${extraType} in database:`, error);
-          // We still return 200 to Stripe so they don't retry, but we might want to alert admin
         }
+      }
+    }
+  } else if (event.type === 'checkout.session.expired') {
+    // If a user abandons the Stripe checkout page, Stripe eventually expires the session.
+    // We should unlock their extras so others can book them.
+    const session = event.data.object as any;
+    const reservationId = session.metadata?.reservationId;
+    
+    if (reservationId) {
+      try {
+        const { unlockPendingExtras } = await import('@/lib/extras/extrasService');
+        await unlockPendingExtras(reservationId);
+        console.log(`Unlocked pending extras for reservation ${reservationId} due to expired session.`);
+      } catch (error) {
+        console.error('Failed to unlock pending extras on session expiry:', error);
       }
     }
   }
