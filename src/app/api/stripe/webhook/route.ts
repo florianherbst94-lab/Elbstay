@@ -49,7 +49,9 @@ export async function POST(req: NextRequest) {
           await confirmExtra(reservationId, extraType);
           console.log(`Successfully confirmed ${extraType} for reservation ${reservationId}`);
           
-          // TODO: Send Telegram / Email Notification to cleaning staff here
+          // Send Email Notification to cleaning staff
+          const { sendExtraNotificationEmail } = await import('@/lib/extras/notificationService');
+          await sendExtraNotificationEmail(reservationId, extraType);
           
         } catch (error) {
           console.error(`Failed to confirm extra ${extraType} in database:`, error);
