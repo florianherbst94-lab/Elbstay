@@ -94,7 +94,7 @@ export const t = {
       "Heizung auf Stern (*) stellen.",
       "Müll in den Tonnen im Außenbereich entsorgen.",
       "Geschirrspüler starten (falls benutzt).",
-      "Schlüssel an die Garderobe im Flur hängen. NICHT im Apartment einschließen oder in die Außenbox legen.",
+      "Schlüssel an die Garderobe im Flur hängen (neben dem Badezimmer), nicht in die Außenbox legen.",
     ],
   },
 
@@ -191,7 +191,7 @@ export const t = {
       "Set the thermostat to the star (*) setting.",
       "Dispose of trash in the bins outside.",
       "Start the dishwasher (if used).",
-      "Hang the key on the coat rack in the hallway. Do NOT lock it inside or leave it in the outdoor box.",
+      "Hang the key on the coat rack in the hallway (next to the bathroom), do not leave it in the outdoor box.",
     ],
   },
 } as const;

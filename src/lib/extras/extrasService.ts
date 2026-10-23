@@ -3,13 +3,13 @@ import prisma from '../prisma';
 export type ExtraType = 'EARLY_CHECKIN' | 'LATE_CHECKOUT';
 
 export async function checkExtrasAvailability(reservationId: string) {
-  // First, cleanup any stale PENDING locks that are older than 15 minutes
-  const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
+  // First, cleanup any stale PENDING locks that are older than 5 minutes
+  const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
   await prisma.reservationExtra.deleteMany({
     where: {
       reservationId,
       status: 'PENDING',
-      lockedAt: { lt: fifteenMinutesAgo }
+      lockedAt: { lt: fiveMinutesAgo }
     }
   });
 
