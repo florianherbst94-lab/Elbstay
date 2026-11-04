@@ -18,7 +18,7 @@ export async function getGalleries(): Promise<GalleriesData> {
       const configBlob = blobs.find(b => b.pathname === CONFIG_FILENAME);
       
       if (configBlob) {
-        const response = await fetch(configBlob.url, { next: { revalidate: 60 } }); // Cache for 60 seconds
+        const response = await fetch(configBlob.url, { next: { tags: ['gallery'], revalidate: 60 } }); // Cache with tag for explicit revalidation
         if (response.ok) {
           const data = await response.json();
           // Ensure we return valid arrays even if data is missing some fields
