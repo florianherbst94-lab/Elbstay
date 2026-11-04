@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import { put } from '@vercel/blob';
 import { getGalleries } from '@/lib/galleryService';
 
@@ -24,7 +24,6 @@ export async function POST(req: Request) {
     
     // Purge the Next.js cache so changes are immediately visible
     revalidatePath('/', 'layout');
-    revalidateTag('gallery');
     
     return NextResponse.json({ success: true, url: blob.url });
   } catch (err) {
