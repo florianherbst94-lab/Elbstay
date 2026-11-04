@@ -199,7 +199,7 @@ export default async function BoutiqueApartment() {
           {/* Calendar replaced by Hospitable widget in sidebar */}
 
           <MapWidget 
-            query="Marienallee 2, 01099 Dresden, Germany"
+            query="Marienallee, 01099 Dresden, Germany"
             description="Das Boutique-Apartment liegt im beliebten Viertel Äußere Neustadt auf dem unteren Ende der Marienallee. Die Elbe und das Stadtzentrum sind schnell erreichbar."
           />
         </div>
