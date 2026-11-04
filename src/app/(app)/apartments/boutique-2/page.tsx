@@ -19,20 +19,20 @@ import { HospitableIframeSync } from "@/components/booking/HospitableIframeSync"
 import { HospitableWidget } from "@/components/booking/HospitableWidget";
 
 export const metadata: Metadata = {
-  title: "ElbStay Boutique Apartment | Stilvoll wohnen in Dresden-Pieschen",
-  description: "Hochwertige 2-Raum-Ferienwohnung in Dresden-Pieschen nahe der Elbe. Altbaucharme, Boxspringbett, Nespresso & Highspeed-WLAN. Jetzt direkt zum Bestpreis buchen!",
+  title: "ElbStay Boutique Apartment | Stilvoll wohnen in der Äußeren Neustadt",
+  description: "Hochwertige 2-Raum-Ferienwohnung in der Äußeren Neustadt. Altbaucharme, Boxspringbett, Nespresso & Highspeed-WLAN. Jetzt direkt zum Bestpreis buchen!",
   keywords: [
-    "Ferienwohnung Dresden Pieschen",
+    "Ferienwohnung Dresden Äußere Neustadt",
     "Boutique Apartment Dresden",
-    "Unterkunft Leipziger Straße Dresden",
+    "Unterkunft Marienallee Dresden",
     "Ferienwohnung Dresden direkt buchen"
   ],
   alternates: {
     canonical: "https://elbstay.de/apartments/boutique",
   },
   openGraph: {
-    title: "ElbStay Boutique Apartment | Stilvoll wohnen in Dresden-Pieschen",
-    description: "Hochwertige 2-Raum-Ferienwohnung in Dresden nahe der Elbe. Direkt buchen & 10% sparen.",
+    title: "ElbStay Boutique Apartment | Stilvoll wohnen in der Äußeren Neustadt",
+    description: "Hochwertige 2-Raum-Ferienwohnung in Dresden. Direkt buchen & 10% sparen.",
     url: "https://elbstay.de/apartments/boutique",
     images: ["/images/boutique/living-room-1.jpg"],
   },
@@ -52,16 +52,16 @@ export default async function BoutiqueApartment() {
     url: "https://elbstay.de/apartments/boutique",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Leipziger Straße",
+      streetAddress: "Marienallee",
       addressLocality: "Dresden",
       addressRegion: "Sachsen",
-      postalCode: "01127",
+      postalCode: "01099",
       addressCountry: "DE"
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: 51.0772,
-      longitude: 13.7226
+      latitude: 51.0695,
+      longitude: 13.7635
     },
     numberOfRooms: 2,
     occupancy: {
@@ -106,7 +106,7 @@ export default async function BoutiqueApartment() {
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-4">ElbStay Boutique-Apartment nahe der Elbe</h1>
           <div className="flex flex-wrap items-center gap-4 text-muted-foreground font-medium text-sm md:text-base">
-            <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" /> Dresden-Pieschen</span>
+            <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" /> Äußere Neustadt</span>
             <span>·</span>
             <span className="flex items-center gap-1.5"><Users className="w-4 h-4" /> 8 Gäste</span>
             <span>·</span>
@@ -129,35 +129,43 @@ export default async function BoutiqueApartment() {
           <div className="lg:w-2/3">
 
           <ApartmentDescription 
-            title="Stilvoll & Zentrumsah"
+            title="Stilvoll & Großzügig"
             previewText={
               <p>
-                Willkommen in unserem frisch renovierten Boutique-Apartment in Dresden-Pieschen. Die hochwertig eingerichtete 2-Raum-Wohnung verbindet Altbaucharme mit warmem Interior und modernem Komfort.
+                Willkommen im ElbStay Boutique Apartment – stilvoll, großzügig und ideal für bis zu 8 Gäste. Dich erwarten 2 separate Schlafzimmer mit hochwertigen Betten und Smart-TV, 2 Badezimmer mit Badewanne und Dusche sowie weitere Schlafmöglichkeiten im Wohnbereich mit zusätzlichem TV.
               </p>
             }
             fullText={
               <>
                 <p>
-                  Das Apartment befindet sich auf der Leipziger Straße in exzellenter Lage, nur wenige Minuten vom Stadtzentrum und der Elbe entfernt. Die perfekte Ausgangsbasis für deinen Dresden-Trip.
+                  Dazu: voll ausgestattete Küche, schnelles WLAN und modernes Boutique-Design. Perfekt für Familien, Freunde und Geschäftsreisende.
                 </p>
                 <p>
-                  Genieße den Komfort von schnellem WLAN, einer voll ausgestatteten Küche und liebevoll ausgewählten Designelementen. Egal, ob du geschäftlich oder privat reist, hier fühlst du dich sofort zu Hause.
+                  Willkommen im ElbStay Boutique Apartment – deinem stilvollen Zuhause auf Zeit in Dresden.
+                  Freu dich auf ein großzügiges Boutique Apartment für bis zu 8 Personen mit modernem Interior, zwei separaten Schlafzimmern, zwei Badezimmern und viel Platz für gemeinsame Zeit und Privatsphäre.
                 </p>
                 <div className="bg-muted/30 p-6 rounded-xl border border-border/50 my-8">
+                  <h4 className="font-bold text-foreground mb-4">✨ Deine Highlights:</h4>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-foreground font-medium list-none p-0 m-0">
-                    <li>✔ Kostenloses Parken in den Seitenstraßen</li>
-                    <li>✔ Smart-TV & Highspeed-WLAN</li>
-                    <li>✔ Perfekte Anbindung an die Innenstadt</li>
-                    <li>✔ Komfortables Boxspringbett</li>
-                    <li>✔ Voll ausgestattete Küche</li>
-                    <li>✔ Eigenständiger, flexibler Check-in</li>
+                    <li>✔ Platz für bis zu 8 Gäste</li>
+                    <li>✔ 2 separate Schlafzimmer mit hochwertigen Betten</li>
+                    <li>✔ Smart-TV in jedem Schlafzimmer</li>
+                    <li>✔ zusätzlicher Smart-TV im Wohnbereich</li>
+                    <li>✔ 2 weitere komfortable Schlafmöglichkeiten im Wohnbereich</li>
+                    <li>✔ 2 Badezimmer – eines mit Badewanne, eines mit Dusche</li>
+                    <li>✔ voll ausgestattete Küche</li>
+                    <li>✔ modernes Boutique-Design</li>
+                    <li>✔ schnelles WLAN</li>
+                    <li>✔ eigenständiger und unkomplizierter Check-in</li>
+                    <li>✔ ideal für Familien, Freunde und Geschäftsreisende</li>
+                    <li>✔ perfekt auch für längere Aufenthalte</li>
                   </ul>
                 </div>
                 <p>
-                  Im großzügigen Wohnbereich erwartet dich ein bequemes Schlafsofa sowie ein großer Smart-TV für entspannte Abende. Der Esstisch bietet ausreichend Platz für gemeinsame Mahlzeiten oder als Arbeitsplatz.
+                  Durch die Aufteilung auf zwei Schlafzimmer und zwei Badezimmer eignet sich das Apartment besonders gut für Familien und gemeinsam reisende Gruppen. Jeder findet seinen eigenen Rückzugsort, während der großzügige Wohnbereich genügend Platz für gemeinsame Abende bietet.
                 </p>
                 <p>
-                  Das separate Schlafzimmer ist mit einem komfortablen Bett ausgestattet und sorgt für erholsamen Schlaf. Das helle Badezimmer verfügt über eine Dusche und alle wichtigen Pflegeprodukte.
+                  Ob Wochenendtrip, Familienurlaub, Geschäftsreise oder längerer Aufenthalt – im ElbStay Boutique Apartment verbindet sich der Komfort einer großzügigen Wohnung mit dem stilvollen Ambiente eines Boutique-Hotels.
                 </p>
                 <div className="mt-8 border-t border-border pt-8 space-y-4">
                   <h4 className="font-bold text-foreground">Zugang für Gäste</h4>
@@ -191,8 +199,8 @@ export default async function BoutiqueApartment() {
           {/* Calendar replaced by Hospitable widget in sidebar */}
 
           <MapWidget 
-            query="Leipziger Str., Dresden, Germany"
-            description="Das Boutique-Apartment liegt im beliebten Viertel Dresden-Pieschen auf der Leipziger Straße. Die Elbe und das Stadtzentrum sind schnell erreichbar."
+            query="Marienallee 2, 01099 Dresden, Germany"
+            description="Das Boutique-Apartment liegt im beliebten Viertel Äußere Neustadt auf dem unteren Ende der Marienallee. Die Elbe und das Stadtzentrum sind schnell erreichbar."
           />
         </div>
 
