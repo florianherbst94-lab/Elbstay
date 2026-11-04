@@ -1,5 +1,6 @@
 import { list } from '@vercel/blob';
 import { ImageCategory } from '@/lib/images';
+import { APARTMENTS, ApartmentData } from '@/lib/data/apartments';
 
 const CONFIG_FILENAME = 'gallery-config.json';
 
@@ -45,4 +46,22 @@ export async function getGalleries(): Promise<GalleriesData> {
     boutiqueGallery: boutiqueGallery || [], 
     boutique2Gallery: boutique2Gallery || []
   };
+}
+
+export async function getDynamicApartments(): Promise<ApartmentData[]> {
+  const galleries = await getGalleries();
+  
+  return APARTMENTS.map(apt => {
+    let gallery = apt.gallery;
+    if (apt.id === 'boutique' && galleries.boutiqueGallery?.length > 0) gallery = galleries.boutiqueGallery;
+    if (apt.id === 'premium-1' && galleries.premiumGallery?.length > 0) gallery = galleries.premiumGallery;
+    if (apt.id === 'urban-1' && galleries.urbanGallery?.length > 0) gallery = galleries.urbanGallery;
+    if (apt.id === 'boutique-2' && galleries.boutique2Gallery?.length > 0) gallery = galleries.boutique2Gallery;
+    
+    return {
+      ...apt,
+      gallery,
+      imageUrl: gallery?.[0]?.images?.[0] || apt.imageUrl
+    };
+  });
 }

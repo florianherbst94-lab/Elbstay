@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getGalleries } from "@/lib/galleryService";
+import { getDynamicApartments } from "@/lib/galleryService";
 import { ApartmentCard } from "@/components/apartment/ApartmentCard";
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ import { APARTMENTS } from "@/lib/data/apartments";
 
 
 export default async function ApartmentsPage() {
-  const { urbanGallery, premiumGallery, boutiqueGallery, boutique2Gallery } = await getGalleries();
+  const dynamicApartments = await getDynamicApartments();
   return (
     <div className="flex-1 bg-background pt-16 pb-24">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
@@ -35,7 +35,7 @@ export default async function ApartmentsPage() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-10">
-          {APARTMENTS.map((apt) => (
+          {dynamicApartments.map((apt) => (
             <ApartmentCard key={apt.id} {...apt} />
           ))}
         </div>
