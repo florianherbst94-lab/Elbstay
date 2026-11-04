@@ -17,6 +17,7 @@ export async function POST(req: Request) {
     const blob = await put(CONFIG_FILENAME, JSON.stringify(data), {
       access: 'public',
       addRandomSuffix: false, // Ensures the filename stays exactly 'gallery-config.json'
+      allowOverwrite: true, // Allows overwriting the existing config file
       contentType: 'application/json'
     });
     
