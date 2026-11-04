@@ -16,6 +16,7 @@ import { ViewItemTracker } from "@/components/layout/GoogleAnalytics";
 import { event as gaEvent } from "@/components/layout/GoogleAnalytics";
 import { premiumReviews } from "@/lib/reviews";
 import { HospitableIframeSync } from "@/components/booking/HospitableIframeSync";
+import { HospitableWidget } from "@/components/booking/HospitableWidget";
 
 export const metadata: Metadata = {
   title: "ElbStay Premium Penthouse | Dachterrasse mit Elbblick in Dresden",
@@ -207,15 +208,7 @@ export default async function PremiumApartment() {
           {/* Right Sidebar - Hospitable Booking Widget */}
           <div className="lg:w-1/3 relative mt-8 lg:mt-0">
             <div className="sticky top-32 z-20 h-fit">
-              <div id="hospitable-widget-container">
-                <script
-                  src="https://cdn.hsptb.com/direct-booking-widget/widget-loader.prod.js"
-                  data-site-uuid="a20a137a-0c7e-42ba-8aa6-9c47accca90f"
-                  data-property-id="2302775"
-                  data-theme="boutique"
-                  async
-                ></script>
-              </div>
+              <HospitableWidget propertyId="2302775" />
             </div>
           </div>
         </div>

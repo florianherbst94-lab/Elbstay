@@ -16,6 +16,7 @@ import { ViewItemTracker } from "@/components/layout/GoogleAnalytics";
 import { event as gaEvent } from "@/components/layout/GoogleAnalytics";
 import { boutiqueReviews } from "@/lib/boutique/reviews";
 import { HospitableIframeSync } from "@/components/booking/HospitableIframeSync";
+import { HospitableWidget } from "@/components/booking/HospitableWidget";
 
 export const metadata: Metadata = {
   title: "ElbStay Boutique Apartment | Stilvoll wohnen in Dresden-Pieschen",
@@ -198,15 +199,7 @@ export default async function BoutiqueApartment() {
           {/* Right Sidebar - Hospitable Booking Widget */}
           <div className="lg:w-1/3 relative mt-8 lg:mt-0">
             <div className="sticky top-32 z-20 h-fit">
-              <div id="hospitable-widget-container">
-                <script
-                  src="https://cdn.hsptb.com/direct-booking-widget/widget-loader.prod.js"
-                  data-site-uuid="a20a137a-0c7e-42ba-8aa6-9c47accca90f"
-                  data-property-id="2504947"
-                  data-theme="boutique"
-                  async
-                ></script>
-              </div>
+              <HospitableWidget propertyId="2504947" />
             </div>
           </div>
         </div>
