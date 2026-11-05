@@ -200,6 +200,7 @@ export default async function BoutiqueApartment() {
 
           <MapWidget 
             query="Marienallee, 01099 Dresden, Germany"
+            mapQuery="51.0706755,13.7655113"
             description="Das Boutique-Apartment liegt im beliebten Viertel Äußere Neustadt auf dem unteren Ende der Marienallee. Die Elbe und das Stadtzentrum sind schnell erreichbar."
           />
         </div>
