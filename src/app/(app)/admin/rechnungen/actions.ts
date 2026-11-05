@@ -63,3 +63,57 @@ export async function saveInvoiceData(invoiceId: string, invoiceData: any, items
     }
   });
 }
+
+export async function duplicateInvoice(invoiceId: string) {
+  // Fetch original invoice with items
+  const original = await prisma.invoice.findUnique({
+    where: { id: invoiceId },
+    include: { items: true }
+  });
+
+  if (!original) {
+    throw new Error("Invoice not found");
+  }
+
+  // Create new invoice with duplicated data
+  const newInvoice = await prisma.invoice.create({
+    data: {
+      status: "OPEN",
+      invoiceType: original.invoiceType,
+      invoiceEmail: original.invoiceEmail,
+      companyName: original.companyName,
+      firstName: original.firstName,
+      lastName: original.lastName,
+      contactPerson: original.contactPerson,
+      street: original.street,
+      postalCode: original.postalCode,
+      city: original.city,
+      country: original.country,
+      vatId: original.vatId,
+      bookingPlatform: original.bookingPlatform,
+      propertyName: original.propertyName,
+      invoiceReference: original.invoiceReference,
+      invoiceNote: original.invoiceNote,
+      paymentNote: original.paymentNote,
+      language: original.language,
+      grossAmountCent: original.grossAmountCent,
+      netAmountCent: original.netAmountCent,
+      taxAmountCent: original.taxAmountCent,
+      taxRate: original.taxRate,
+      items: {
+        create: original.items.map(item => ({
+          description: item.description,
+          quantity: item.quantity,
+          unit: item.unit,
+          unitPriceCent: item.unitPriceCent,
+          taxRate: item.taxRate,
+          totalNetCent: item.totalNetCent,
+          totalTaxCent: item.totalTaxCent,
+          totalGrossCent: item.totalGrossCent
+        }))
+      }
+    }
+  });
+
+  redirect(`/admin/rechnungen/${newInvoice.id}`);
+}

@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import { ExportButton } from "./ExportButton";
 import { DeleteInvoiceButton } from "./DeleteInvoiceButton";
 import { CreateManualInvoiceButton } from "./CreateManualInvoiceButton";
+import { DuplicateInvoiceButton } from "./DuplicateInvoiceButton";
 
 export default async function RechnungenPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
   // // const session = await auth();
@@ -156,6 +157,7 @@ export default async function RechnungenPage({ searchParams }: { searchParams: P
                         <Link href={`/admin/rechnungen/${invoice.id}`}>
                           <Button size="sm" variant="secondary">Ansehen / Bearbeiten</Button>
                         </Link>
+                        <DuplicateInvoiceButton invoiceId={invoice.id} />
                         <DeleteInvoiceButton invoiceId={invoice.id} invoiceNumber={invoice.invoiceNumber} />
                       </div>
                     </td>
