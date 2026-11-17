@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { BarChart, Home, FileText, Settings, User } from "lucide-react"
+import { BarChart, Home, FileText, Settings, User, PieChart } from "lucide-react"
 
 import { LogoutButton } from "@/components/admin/LogoutButton"
 
@@ -30,6 +30,9 @@ export default function RevenueLayout({ children }: { children: React.ReactNode 
           </Link>
           <Link href="/admin/revenue/costs" className="flex items-center gap-2 md:gap-3 px-3 py-2 rounded-lg hover:bg-muted text-sm font-medium whitespace-nowrap">
             <span className="w-4 h-4 md:w-5 md:h-5 flex items-center justify-center font-bold text-primary">€</span> Kosten
+          </Link>
+          <Link href="/admin/revenue/statistics" className="flex items-center gap-2 md:gap-3 px-3 py-2 rounded-lg hover:bg-muted text-sm font-medium whitespace-nowrap">
+            <PieChart className="w-4 h-4 md:w-5 md:h-5 text-primary" /> Statistiken
           </Link>
           <Link href="/admin/revenue/settings" className="flex items-center gap-2 md:gap-3 px-3 py-2 rounded-lg hover:bg-muted text-sm font-medium whitespace-nowrap">
             <Settings className="w-4 h-4 md:w-5 md:h-5 text-primary" /> Einstellungen
