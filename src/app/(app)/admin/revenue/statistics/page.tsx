@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import prisma from "@/lib/prisma"
 import { getMonthYear, splitReservationNightsByMonth } from "@/lib/revenue/calculations"
+import { RevenueChart } from "@/components/admin/revenue/RevenueChart"
 import { FilterSelectors } from "@/components/admin/revenue/FilterSelectors"
 import Link from "next/link"
 
@@ -25,10 +26,26 @@ export default async function StatisticsDashboard(props: {
   })
   
   const propertiesForDropdown = allProperties.map(p => ({ id: p.id, name: p.name }))
+  const activePropertiesCount = allProperties.length
 
   // Date boundaries for the selected year
   const yearStart = new Date(`${requestedYear}-01-01T00:00:00`)
   const yearEnd = new Date(`${requestedYear}-12-31T23:59:59`)
+  
+  // Calculate days in year (considering leap years)
+  const isLeapYear = (Number(requestedYear) % 4 === 0 && Number(requestedYear) % 100 !== 0) || (Number(requestedYear) % 400 === 0)
+  const daysInYear = isLeapYear ? 366 : 365
+
+  // Initialize monthly data for the chart
+  const monthlyData: Record<string, { payoutCent: number, netPayoutCent: number, costsCent: number, netCostsCent: number }> = {}
+  const chartData = []
+  const monthsInYear = Array.from({ length: 12 }, (_, i) => `${requestedYear}-${String(i + 1).padStart(2, '0')}`)
+  
+  for (const month of monthsInYear) {
+    monthlyData[month] = { payoutCent: 0, netPayoutCent: 0, costsCent: 0, netCostsCent: 0 }
+    const monthLabel = new Date(`${month}-01`).toLocaleDateString('de-DE', { month: 'short' })
+    chartData.push({ name: monthLabel, monthKey: month, umsatz: 0, kosten: 0 })
+  }
 
   // Get all reservations that might overlap with this year
   const reservations = await prisma.reservation.findMany({
@@ -53,17 +70,21 @@ export default async function StatisticsDashboard(props: {
   }))
   const propStatsMap = new Map(propertyStats.map(s => [s.id, s]))
 
-  // We need to track checkouts in the selected year to calculate PER_STAY costs
-  const checkoutsPerProperty = new Map<string, number>()
+  // We need to track checkouts in the selected year per month to calculate PER_STAY costs
+  const checkoutsPerMonthProperty = new Map<string, Map<string, number>>()
 
   for (const res of reservations) {
     if (propertyFilter !== 'all' && res.propertyId !== propertyFilter) continue
 
     const checkOutYear = res.checkOut.getFullYear().toString()
+    const checkOutMonth = getMonthYear(res.checkOut)
     
     // Track checkouts for PER_STAY costs
     if (checkOutYear === requestedYear) {
-      checkoutsPerProperty.set(res.propertyId, (checkoutsPerProperty.get(res.propertyId) || 0) + 1)
+      if (!checkoutsPerMonthProperty.has(checkOutMonth)) checkoutsPerMonthProperty.set(checkOutMonth, new Map())
+      const monthMap = checkoutsPerMonthProperty.get(checkOutMonth)!
+      monthMap.set(res.propertyId, (monthMap.get(res.propertyId) || 0) + 1)
+      
       const stats = propStatsMap.get(res.propertyId)
       if (stats) stats.checkouts++
     }
@@ -94,6 +115,12 @@ export default async function StatisticsDashboard(props: {
         const amount = Math.round(res.financials.payoutCent * fraction)
         const netAmount = Math.round(amount / 1.07) // Revenue has 7% VAT
         
+        // Add to historical chart data
+        if (monthlyData[month]) {
+          monthlyData[month].payoutCent += amount
+          monthlyData[month].netPayoutCent += netAmount
+        }
+        
         const stats = propStatsMap.get(res.propertyId)
         if (stats) {
           stats.payoutCent += amount
@@ -115,7 +142,6 @@ export default async function StatisticsDashboard(props: {
   }
 
   // For PER_MONTH costs, we need to add the cost for each month in the selected year where the cost is valid
-  const monthsInYear = Array.from({ length: 12 }, (_, i) => `${requestedYear}-${String(i + 1).padStart(2, '0')}`)
 
   for (const cost of allCosts) {
     if (propertyFilter !== 'all' && cost.propertyId !== propertyFilter) continue
@@ -129,24 +155,49 @@ export default async function StatisticsDashboard(props: {
       for (const month of monthsInYear) {
         if (month >= costStartMonth && month <= costEndMonth) {
           const netCost = getNetCost(cost, cost.amountCent)
+          
+          if (monthlyData[month]) {
+            monthlyData[month].costsCent += cost.amountCent
+            monthlyData[month].netCostsCent += netCost
+          }
+          
           stats.costsCent += cost.amountCent
           stats.netCostsCent += netCost
         }
       }
     } else if (cost.calculationType === 'PER_STAY') {
       // Calculate PER_STAY costs based on checkouts in the selected year
-      // Since cost validity might change mid-year, a proper check would verify checkout date against cost valid dates.
-      // For simplicity in yearly stats, we apply the cost if it's valid for at least some part of the year.
       const costStartYear = costStartMonth.substring(0, 4)
       const costEndYear = costEndMonth.substring(0, 4)
       
       if (requestedYear >= costStartYear && requestedYear <= costEndYear) {
-        const checkoutsForProp = checkoutsPerProperty.get(cost.propertyId) || 0
-        const totalCost = cost.amountCent * checkoutsForProp
-        const netCost = getNetCost(cost, totalCost)
-        stats.costsCent += totalCost
-        stats.netCostsCent += netCost
+        for (const month of monthsInYear) {
+          if (month >= costStartMonth && month <= costEndMonth) {
+            const checkoutsForProp = checkoutsPerMonthProperty.get(month)?.get(cost.propertyId) || 0
+            if (checkoutsForProp > 0) {
+              const totalCost = cost.amountCent * checkoutsForProp
+              const netCost = getNetCost(cost, totalCost)
+              
+              if (monthlyData[month]) {
+                monthlyData[month].costsCent += totalCost
+                monthlyData[month].netCostsCent += netCost
+              }
+              
+              stats.costsCent += totalCost
+              stats.netCostsCent += netCost
+            }
+          }
+        }
       }
+    }
+  }
+
+  // Map historical data back to chartData
+  for (const item of chartData) {
+    if (monthlyData[item.monthKey]) {
+      // Use net values for chart to reflect true profit
+      item.umsatz = monthlyData[item.monthKey].netPayoutCent / 100
+      item.kosten = monthlyData[item.monthKey].netCostsCent / 100
     }
   }
 
@@ -163,6 +214,8 @@ export default async function StatisticsDashboard(props: {
   }
 
   const totalProfit = totalNetPayout - totalNetCosts
+  const totalAvailableNights = (propertyFilter === 'all' ? activePropertiesCount : 1) * daysInYear
+  const occupancyPercentage = totalAvailableNights > 0 ? (totalNights / totalAvailableNights) * 100 : 0
 
   return (
     <div className="space-y-8">
@@ -180,7 +233,7 @@ export default async function StatisticsDashboard(props: {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         <div className="bg-background border border-border p-4 md:p-6 rounded-2xl shadow-sm">
           <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1 md:mb-2">Jahresumsatz (Netto)</h3>
           <p className="text-2xl md:text-4xl font-bold">€ {(totalNetPayout / 100).toFixed(2)}</p>
@@ -205,6 +258,21 @@ export default async function StatisticsDashboard(props: {
           <div className="mt-1 md:mt-2 text-xs md:text-sm text-muted-foreground">
             Nach Abzug aller erfassten Kosten
           </div>
+        </div>
+        
+        <div className="bg-background border border-border p-4 md:p-6 rounded-2xl shadow-sm">
+          <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1 md:mb-2">Auslastung</h3>
+          <p className="text-2xl md:text-4xl font-bold">{occupancyPercentage.toFixed(1)}%</p>
+          <div className="mt-1 md:mt-2 text-xs md:text-sm text-muted-foreground">
+            {totalNights} von {totalAvailableNights} Nächten
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-background border border-border p-6 rounded-2xl shadow-sm min-h-[400px] flex flex-col">
+        <h3 className="text-lg font-bold mb-4">Monatliche Übersicht ({requestedYear})</h3>
+        <div className="flex-1">
+          <RevenueChart data={chartData} />
         </div>
       </div>
 
@@ -240,7 +308,8 @@ export default async function StatisticsDashboard(props: {
                           </Link>
                         </td>
                         <td className="py-3 text-center">
-                          {stat.occupiedNights} Nächte
+                          <div>{stat.occupiedNights} Nächte</div>
+                          <div className="text-xs text-muted-foreground">{(stat.occupiedNights / daysInYear * 100).toFixed(1)}%</div>
                         </td>
                         <td className="py-3 text-right">
                           € {(stat.netPayoutCent / 100).toFixed(2)}
