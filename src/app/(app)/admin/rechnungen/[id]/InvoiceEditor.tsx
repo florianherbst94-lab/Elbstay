@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { ArrowLeft, FileText, Send, Eye, XCircle, Save, Plus, Trash2, Globe } from "lucide-react";
 import { saveInvoiceData } from "../actions";
+import { PaymentStatusToggle } from "../PaymentStatusToggle";
 
 export default function InvoiceEditor({ invoice }: { invoice: any }) {
   const isFinalized = invoice.status === "CREATED" || invoice.status === "SENT";
@@ -282,16 +283,19 @@ export default function InvoiceEditor({ invoice }: { invoice: any }) {
             </div>
           </div>
           <div className="flex flex-col items-end gap-2">
-            <span className={`px-2 py-0.5 text-xs rounded-md ${
-              invoice.status === 'OPEN' ? 'bg-blue-100 text-blue-800' :
-              invoice.status === 'CREATED' ? 'bg-amber-100 text-amber-800' :
-              invoice.status === 'SENT' ? 'bg-green-100 text-green-800' :
-              invoice.status === 'CANCELLED' ? 'bg-red-100 text-red-800' :
-              invoice.status === 'CANCELLATION_INVOICE' ? 'bg-purple-100 text-purple-800' :
-              'bg-gray-100 text-gray-800'
-            }`}>
-              {invoice.status}
-            </span>
+            <div className="flex items-center gap-2">
+              <PaymentStatusToggle invoiceId={invoice.id} currentStatus={invoice.paymentStatus} />
+              <span className={`px-2 py-0.5 text-xs rounded-md ${
+                invoice.status === 'OPEN' ? 'bg-blue-100 text-blue-800' :
+                invoice.status === 'CREATED' ? 'bg-amber-100 text-amber-800' :
+                invoice.status === 'SENT' ? 'bg-green-100 text-green-800' :
+                invoice.status === 'CANCELLED' ? 'bg-red-100 text-red-800' :
+                invoice.status === 'CANCELLATION_INVOICE' ? 'bg-purple-100 text-purple-800' :
+                'bg-gray-100 text-gray-800'
+              }`}>
+                {invoice.status}
+              </span>
+            </div>
             <span className="text-sm text-muted-foreground">
               Erstellt am {format(new Date(invoice.createdAt), 'dd.MM.yyyy HH:mm')}
             </span>

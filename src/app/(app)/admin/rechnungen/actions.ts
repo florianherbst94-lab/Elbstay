@@ -117,3 +117,14 @@ export async function duplicateInvoice(invoiceId: string) {
 
   redirect(`/admin/rechnungen/${newInvoice.id}`);
 }
+
+export async function togglePaymentStatus(invoiceId: string, currentStatus: string | null) {
+  const newStatus = currentStatus === "PAID" ? "UNPAID" : "PAID";
+  
+  await prisma.invoice.update({
+    where: { id: invoiceId },
+    data: {
+      paymentStatus: newStatus
+    }
+  });
+}

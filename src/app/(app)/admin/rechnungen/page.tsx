@@ -11,6 +11,7 @@ import { ExportButton } from "./ExportButton";
 import { DeleteInvoiceButton } from "./DeleteInvoiceButton";
 import { CreateManualInvoiceButton } from "./CreateManualInvoiceButton";
 import { DuplicateInvoiceButton } from "./DuplicateInvoiceButton";
+import { PaymentStatusToggle } from "./PaymentStatusToggle";
 
 export default async function RechnungenPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
   // // const session = await auth();
@@ -121,6 +122,7 @@ export default async function RechnungenPage({ searchParams }: { searchParams: P
                 <th className="p-4 font-medium text-sm text-muted-foreground">Gast/Firma</th>
                 <th className="p-4 font-medium text-sm text-muted-foreground">Betrag</th>
                 <th className="p-4 font-medium text-sm text-muted-foreground">Status</th>
+                <th className="p-4 font-medium text-sm text-muted-foreground">Zahlung</th>
                 <th className="p-4 font-medium text-sm text-muted-foreground">Aktion</th>
               </tr>
             </thead>
@@ -151,6 +153,9 @@ export default async function RechnungenPage({ searchParams }: { searchParams: P
                       }`}>
                         {invoice.status}
                       </span>
+                    </td>
+                    <td className="p-4">
+                      <PaymentStatusToggle invoiceId={invoice.id} currentStatus={invoice.paymentStatus} />
                     </td>
                     <td className="p-4">
                       <div className="flex items-center gap-2">
