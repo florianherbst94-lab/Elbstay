@@ -152,7 +152,7 @@ export async function GET(request: Request) {
     
     const filename = `Finanzreport_Elbstay_${format(new Date(), 'yyyyMMdd')}.xlsx`
 
-    return new NextResponse(buffer, {
+    return new NextResponse(buffer as any, {
       status: 200,
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

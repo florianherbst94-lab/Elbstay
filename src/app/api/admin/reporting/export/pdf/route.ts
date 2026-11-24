@@ -27,7 +27,7 @@ export async function GET(request: Request) {
     
     const filename = `Bankenreport_Elbstay_${format(new Date(), 'yyyyMMdd')}.pdf`
 
-    return new NextResponse(pdfBuffer, {
+    return new NextResponse(pdfBuffer as any, {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',

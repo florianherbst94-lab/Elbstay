@@ -37,7 +37,7 @@ export function ReportingCharts({ data }: { data: PortfolioMonthly[] }) {
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} dy={10} />
               <YAxis axisLine={false} tickLine={false} tickFormatter={formatEuro} tick={{ fontSize: 12, fill: '#6b7280' }} />
               <Tooltip 
-                formatter={(value: number) => [`€ ${value.toLocaleString('de-DE', {minimumFractionDigits: 2})}`, undefined]}
+                formatter={(value: any) => [`€ ${Number(value).toLocaleString('de-DE', {minimumFractionDigits: 2})}`, undefined]}
                 contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
               />
               <Legend wrapperStyle={{ paddingTop: '20px' }} />
@@ -59,9 +59,10 @@ export function ReportingCharts({ data }: { data: PortfolioMonthly[] }) {
               <YAxis yAxisId="left" axisLine={false} tickLine={false} tickFormatter={formatEuro} tick={{ fontSize: 12, fill: '#6b7280' }} />
               <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} tickFormatter={formatPercent} tick={{ fontSize: 12, fill: '#6b7280' }} />
               <Tooltip 
-                formatter={(value: number, name: string) => {
-                  if (name === 'Marge' || name === 'Auslastung') return [`${value.toFixed(1)}%`, name]
-                  return [`€ ${value.toLocaleString('de-DE', {minimumFractionDigits: 2})}`, name]
+                formatter={(value: any, name: string) => {
+                  const numVal = Number(value)
+                  if (name === 'Marge' || name === 'Auslastung') return [`${numVal.toFixed(1)}%`, name]
+                  return [`€ ${numVal.toLocaleString('de-DE', {minimumFractionDigits: 2})}`, name]
                 }}
                 contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
               />
@@ -83,7 +84,7 @@ export function ReportingCharts({ data }: { data: PortfolioMonthly[] }) {
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} dy={10} />
               <YAxis axisLine={false} tickLine={false} tickFormatter={formatPercent} tick={{ fontSize: 12, fill: '#6b7280' }} domain={[0, 100]} />
               <Tooltip 
-                formatter={(value: number) => [`${value.toFixed(1)}%`, undefined]}
+                formatter={(value: any) => [`${Number(value).toFixed(1)}%`, undefined]}
                 contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
               />
               <Legend wrapperStyle={{ paddingTop: '20px' }} />
