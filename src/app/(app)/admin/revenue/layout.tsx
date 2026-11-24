@@ -34,6 +34,9 @@ export default function RevenueLayout({ children }: { children: React.ReactNode 
           <Link href="/admin/revenue/statistics" className="flex items-center gap-2 md:gap-3 px-3 py-2 rounded-lg hover:bg-muted text-sm font-medium whitespace-nowrap">
             <PieChart className="w-4 h-4 md:w-5 md:h-5 text-primary" /> Statistiken
           </Link>
+          <Link href="/admin/revenue/reporting" className="flex items-center gap-2 md:gap-3 px-3 py-2 rounded-lg hover:bg-muted text-sm font-medium whitespace-nowrap">
+            <BarChart className="w-4 h-4 md:w-5 md:h-5 text-primary" /> Finanzreporting
+          </Link>
           <Link href="/admin/revenue/settings" className="flex items-center gap-2 md:gap-3 px-3 py-2 rounded-lg hover:bg-muted text-sm font-medium whitespace-nowrap">
             <Settings className="w-4 h-4 md:w-5 md:h-5 text-primary" /> Einstellungen
           </Link>
