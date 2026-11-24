@@ -143,7 +143,7 @@ export async function GET(request: Request) {
         variable: stat.netVariableCostsCent / 100,
         profit: (stat.netRevenueCent - stat.netFixedCostsCent - stat.netVariableCostsCent) / 100
       })
-    })
+    });
     
     ['revenue', 'fixed', 'variable', 'profit'].forEach(col => costSheet.getColumn(col).numFmt = '#,##0.00 €')
 
