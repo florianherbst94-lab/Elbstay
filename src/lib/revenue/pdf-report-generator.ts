@@ -144,8 +144,8 @@ export function generateBankReportPdf(reportData: any): Promise<Buffer> {
       // ==========================================
       currentY = addPageHeader('Gesamtwirtschaftlichkeit', 'Monatliche Einnahmen, Ausgaben und Gewinne');
 
-      doc.fontSize(9).font('Helvetica-Bold').fillColor('#ffffff');
       doc.rect(50, currentY, 495, 20).fill(primaryColor);
+      doc.fontSize(9).font('Helvetica-Bold').fillColor('#ffffff');
       
       const tableHeaders = ['Monat', 'Umsatz', 'Fixkosten', 'Var.Kosten', 'Gewinn', 'Marge', 'Auslast.'];
       const colWidths = [60, 80, 80, 80, 80, 50, 65];
@@ -191,8 +191,8 @@ export function generateBankReportPdf(reportData: any): Promise<Buffer> {
       // ==========================================
       currentY = addPageHeader('Portfoliovergleich', 'Vergleich sämtlicher Ferienwohnungen');
 
-      doc.fontSize(9).font('Helvetica-Bold').fillColor('#ffffff');
       doc.rect(50, currentY, 495, 20).fill(primaryColor);
+      doc.fontSize(9).font('Helvetica-Bold').fillColor('#ffffff');
       
       const pvHeaders = ['Ferienwohnung', 'Anteil', 'Umsatz', 'Gesamtkosten', 'Gewinn', 'Marge', 'Auslast.'];
       const pvColWidths = [120, 40, 70, 80, 75, 45, 65];
@@ -258,8 +258,8 @@ export function generateBankReportPdf(reportData: any): Promise<Buffer> {
          doc.fontSize(12).font('Helvetica-Bold').fillColor(textColor).text('Monatliche Entwicklung', 50, currentY);
          currentY += 20;
 
-         doc.fontSize(9).font('Helvetica-Bold').fillColor('#ffffff');
          doc.rect(50, currentY, 495, 20).fill(primaryColor);
+         doc.fontSize(9).font('Helvetica-Bold').fillColor('#ffffff');
          
          const eoHeaders = ['Monat', 'Umsatz', 'Kosten', 'Gewinn', 'Auslastung'];
          const eoColWidths = [100, 100, 100, 100, 95];
